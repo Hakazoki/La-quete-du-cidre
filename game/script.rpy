@@ -1,29 +1,93 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
+init python:
+    from python.entites import *
+    from python.dice import *
 
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
 # ex: image eileen heureuse = "eileen_heureuse.png"
-image chat01 = im.Scale("chat01.jpg", 900, 1000)
-image taverne01 = im.Scale("taverne01.jpg", 1920, 1080)
+image chat = im.Scale("chat01.png", 900, 1000)
+image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
+
+default p = None
+default drunk = 0
 
 # Déclarez les personnages utilisés dans le jeu.
-define n = Character('Narrateur', color="#c8ffc8")
-define g = Character('Gromli Fût-Perdu', color="#c8ffc8")
+define g = Character('Gromli Fût-Perdu', color="#ff3434")
 define h = Character('Héro', color="#c8ffc8")
 define t = Character('Tavernier', color="#c8ffc8")
 define v = Character('Voyante louche', color="#c8ffc8")
 define b = Character('Barbare costaud', color="#c8ffc8")
-
+define p = Character("[pc_name]", color="#ffabf1")
 
 # Le jeu commence ici
 label start:
 
-scene taverne01
+scene bg taverne
 
-n "Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain, bien connu du village grimpa sur une table pour attirer l'attention."
+"Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain, bien connu du village grimpa sur une table pour attirer l'attention."
 
-show chat01 at right
+show chat at right
 
 g "Mon trésor ? Je vous le laisse si vous voulez. Trouvez-le ! Je l'ai laissé quelque part dans ce monde !"
 
+hide chat
+
+"Dit-il en s'évanouissant"
+
+$ pc_name = renpy.input("Brave aventurier fils de glorp héritier au throne de glorptopia, Quel est ton valeureux nom ?", length=20).strip() or "Aventurier"
+
+# python:
+#     pc = Joueur(race="Nain", classe="Barbare")
+#     pc.nom = pc_name
+
+$ p = Character(pc_name)
+
+p "J'ai envis d'un bon bolet de cidre"
+
+"Est-tu mineur ou majeur ?"
+
+menu:
+
+    "Je suis mineur":
+        jump mineur
+
+    "je suis majeur":
+        jump majeur
+
+label mineur:
+    "Dorian... c'est une taverne ici, sort d'ici !"
+    jump fin
+
+label majeur:
+    "Salutation [pc_name], que veux-tu ?"
+    jump choix_boire
+
+label majeur_boit:
+    "Ce sera tout ?"
+    jump choix_boire
+
+menu choix_boire:
+
+    "Je veux me rendre dans le donjon !":
+        jump fin
+    "J'ai soif":
+        jump alchool
+
+label alchool:
+    "Boire"
+    $ drunk += 1
+    "[drunk]"
+    if drunk >= 5:
+        jump finalchool
+    else:
+        jump majeur_boit
+
+label finalchool:
+    "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."
+    jump fin
+label fin2:
+    "test"
+label fin:
+    "Merci d'avoir joué."
 return

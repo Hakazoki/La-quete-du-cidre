@@ -1,6 +1,5 @@
 from abc import ABC
-from dice import Dice
-from objets import *
+from .dice import Dice
 
 class Entite(ABC):
     def __init__(self, race):
@@ -26,9 +25,6 @@ class Entite(ABC):
         self.charisme = 3
         self.defense_physique = 0
         self.defense_magique = 0
-        #valeurs combats
-        self.attaque = self.bonus(self.force)
-        self.defense = self.bonus(self.constitution) + self.defense_physique
 
     @property
     def est_vivant(self):
@@ -60,8 +56,11 @@ class Entite(ABC):
     def attaquer(self, other):
         precision = Dice.lancer(1,20)
         if precision[0] >= 10 :
-            attaque = Dice.lancer(1,20) + self.attaque
-            defense = Dice.lancer(1,20) + self.defense
+            if self.arme is None:
+                attaque = Dice.lancer(1,20) + self.bonus(self.force)
+            else:
+                attaque = Dice.lancer(1,20) + self.bonus(self.force) + self.arme.bonus_attaque
+            defense = Dice.lancer(1,20) + self.bonus(other.constitution) + other.defense_physique
             degats = attaque - defense
             if degats < 0:
                 degats = 0
@@ -71,10 +70,9 @@ class Entite(ABC):
 
 
 class Joueur(Entite):
-    def __init__(self, race, classe, nom):
+    def __init__(self, race, classe):
         super.__init__(race)
         self.classe = classe
-        self.nom = nom
         #Inventaire consommables
         self.consommables = []
         #Stats
@@ -102,19 +100,14 @@ class Joueur(Entite):
         pass
 
     def consommer(self, objet):
-        if isinstance(objet, Potion):
-            self.gagner_pv(objet.soin)
-            print(f"Vous gagnez {objet.soin} pv")
-            self.consommables.remove(objet)
-        return
+        pass
 
     def lancer(self, objet, other):
-        if isinstance(objet, ArmeDeLancer):
-            precision = Dice.lancer(1,20)
-            if precision[0] >= 10:
-                other.perte_pv(objet.degat)
-                print(f"L'ennemi perd {objet.degat} pv")
-                self.consommables.remove(objet)
+        precision = Dice.lancer(1,20)
+        if precision[0] >= 10:
+            other.perte_pv(objet.degat)
+            print(f"L'ennemi perd {objet.degat} pv")
+            self.consommables.pop(objet)
         return
 
 class Monstre(Entite):
@@ -124,7 +117,6 @@ class Monstre(Entite):
         drop = []
 
     
-
 
 
 
