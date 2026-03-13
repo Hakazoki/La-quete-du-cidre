@@ -23,6 +23,8 @@ define p = Character("[pc_name]", color="#ffabf1")
 # Le jeu commence ici
 label start:
 
+$ boire_alcool = False
+
 scene bg taverne
 
 "Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain, bien connu du village grimpa sur une table pour attirer l'attention."
@@ -70,20 +72,37 @@ label majeur_boit:
 menu choix_boire:
 
     "Je veux me rendre dans le donjon !":
-        jump fin
+        jump aventure
     "J'ai soif":
-        jump alchool
-
-label alchool:
+        $ boire_alcool = True
+        jump alcool
+    # "Merci, pour la bière, je veux me rendre dans le donjon !" if boire_alcool:
+    #         jump fin
+label alcool:
     "Boire"
     $ drunk += 1
     "[drunk]"
     if drunk >= 5:
-        jump finalchool
+        jump finalcool
     else:
         jump majeur_boit
 
-label finalchool:
+label aventure:
+    "Pourquoi veux-tu te rendre dans le donjon ?"
+
+menu:
+
+    "Pour la gloire":
+        jump fin
+    
+    "Pour l'argent":
+        jump fin
+
+    "Pour l'alcool" if boire_alcool:
+        jump fin2
+
+
+label finalcool:
     "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."
     jump fin
 label fin2:
