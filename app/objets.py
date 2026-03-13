@@ -31,11 +31,17 @@ class Consommable(Objets):
         super().utiliser(entite)
         self.est_consomme = True
 
-
-
-class PotionDeGuerison(Consommable):
-    def __init__(self,nom = "Potion De Guérison",description = "Un flacon de verre contenant un liquide rougeoyant qui referme les plaies et redonne de la vigueur dès la première gorgée."):
+class Potion(Consommable):
+    def __init__(self,nom,description,soin):
         super().__init__(nom,description)
+        self.soin = soin
+    
+    def utiliser(self,entite):
+        super().utiliser(entite)
+
+class PotionDeGuerison(Potion):
+    def __init__(self,nom = "Potion De Guérison",description = "Un flacon de verre contenant un liquide rougeoyant qui referme les plaies et redonne de la vigueur dès la première gorgée.", soin=0):
+        super().__init__(nom,description,soin)
         self.soin = Dice.lancer(2,4)
 
     def utiliser(self,entite):
@@ -60,19 +66,29 @@ class PotionDeGuerisonMajeur(Consommable):
         else:
             entite.vie += self.soin
 
-class Fleche(Consommable):
+class Munition(Consommable):
+    def __init__(self,nom,description):
+        super().__init__(nom,description)
+
+class Fleche(Munition):
     def __init__(self,nom = "Fléche en bois",description = "Un fût de bois poli, léger et nerveux, surmonté d'une pointe en métal noirci. Trois plumes grises assurent son équilibre, fixées par un fil de lin poissé."):
         super().__init__(nom,description)
 
-
+class ArmeDeLancer(Consommable):
+    def __init__(self,nom,description,degat):
+        super().__init__(nom,description)
+        self.degat = degat
+    
+    def lancer(self,entite):
+        self.degat -= entite.pv
+        
 class DagueDeLancer(Consommable):
     def __init__(self,nom = "Dague de Lancer",description = "Cette lame de 15 centimètres d'acier mat ne brille pas à la lumière, évitant ainsi de trahir votre position. Entre vos doigts, elle semble légère, presque vivante. Son équilibre parfait vous garantit que, là où votre regard se posera, la pointe trouvera son chemin."):
         super().__init__(nom,description)
         self.degat = Dice.lancer(1,4)
 
-    def utiliser(self,entite):
-        super().utiliser(entite)
-        entite.vie -= self.degat
+    def lancer(self,entite):
+        super().__init__(self,entite)
 
 
 
@@ -127,11 +143,11 @@ class ArmeAUneMain(Arme):
 class EpeeEnBois(ArmeAUneMain):
     def __init__(self,nom,description,attaque=0):
         super().__init__(nom,description,attaque)
-        self.attaque = Dice.lancer(1,6)
+        self.bonus_attaque = Dice.lancer(1,6)
     
     def equiper(self,entite):
         super().equiper(entite)
-        self.attaque += entite.attaque
+        self.bonus_attaque += entite.bonus_attaque
 
 
 
