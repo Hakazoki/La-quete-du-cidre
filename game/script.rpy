@@ -4,14 +4,15 @@
 # ex: image eileen heureuse = "eileen_heureuse.png"
 
 # Déclarez les personnages utilisés dans le jeu.
-define e = Character('Eileen', color="#c8ffc8")
+define n = Character('Narrateur', color="#c8ffc8")
+define g = Character(' Gromli Fût-Perdu', color="#c8ffc8")
 
 
 # Le jeu commence ici
 label start:
 
-    e "Vous venez de créer un nouveau jeu Ren'Py."
+    n "Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain, bien connu du village grimpa sur une table pour attirer l'attention."
 
-    e "Après avoir ajouté une histoire, des images et de la musique, vous pourrez le présenter au monde entier !"
+    g "Mon trésor ? Je vous le laisse si vous voulez. Trouvez-le ! Je l'ai laissé quelque part dans ce monde !"
 
     return
