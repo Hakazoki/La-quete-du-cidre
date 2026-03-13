@@ -16,6 +16,7 @@ class Objets(ABC):
 
 
 
+
 class Consommable(Objets):
     """
 
@@ -99,10 +100,10 @@ class Equipement(Objets):
         self.est_equiper = False
 
     @abstractmethod
-    def equiper(self,entite):
+    def utiliser(self,entite):
         if self.est_equiper == True:
             raise Exception('Déjà équiper')
-        super().equiper(entite)
+        super().utiliser(entite)
         self.est_equiper = True
 
 class Arme(Equipement):
@@ -110,7 +111,7 @@ class Arme(Equipement):
         super().__init__(nom,description)
         self.bonus_attaque = attaque
 
-    def equiper(self,entite):
+    def utiliser(self,entite):
         super().equiper(entite)
         entite.attaque += self.bonus_attaque
 
@@ -120,7 +121,7 @@ class Armure(Equipement):
         self.defence = defence_physique  
         self.defence_magique = defence_magique
 
-    def equiper(self,entite):
+    def utiliser(self,entite):
         super().equiper(entite)
         self.defence += entite.defence_physique
         self.defence += entite.defence_magique
@@ -134,7 +135,7 @@ class ArmeAUneMain(Arme):
         super().__init__(nom,description,attaque)
 
 class EpeeEnBois(ArmeAUneMain):
-    def __init__(self,nom,description,attaque=0):
+    def __init__(self,nom = "Epée en Bois",description= "Simple Epée en bois",attaque=0):
         super().__init__(nom,description,attaque)
         self.bonus_attaque = Dice.lancer(1,6)
 
@@ -144,7 +145,10 @@ class EpeeEnBois(ArmeAUneMain):
 
 if __name__ == "__main__":
     popo = PotionDeGuerison()
+    arme = EpeeEnBois()
     print(popo.description)
+    print(arme.description)
+
 
 
 
