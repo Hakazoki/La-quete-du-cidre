@@ -53,7 +53,7 @@ class PotionDeGuerison(Potion):
         else:
             entite.vie += self.soin
 
-class PotionDeGuerisonMajeur(Consommable):
+class PotionDeGuerisonMajeur(Potion):
     def __init__(self,nom = "Potion de Guérison Majeur", description = "Une essence cramoisie bouillonnante dont l'éclat pur cicatrice instantanément les pires blessures et restaure la force vitale du héros."):
         super().__init__(nom,description)
         self.soin = Dice.lancer(4, 4)
@@ -82,7 +82,7 @@ class ArmeDeLancer(Consommable):
     def lancer(self,entite):
         self.degat -= entite.pv
         
-class DagueDeLancer(Consommable):
+class DagueDeLancer(ArmeDeLancer):
     def __init__(self,nom = "Dague de Lancer",description = "Cette lame de 15 centimètres d'acier mat ne brille pas à la lumière, évitant ainsi de trahir votre position. Entre vos doigts, elle semble légère, presque vivante. Son équilibre parfait vous garantit que, là où votre regard se posera, la pointe trouvera son chemin."):
         super().__init__(nom,description)
         self.degat = Dice.lancer(1,4)
@@ -108,10 +108,11 @@ class Equipement(Objets):
 class Arme(Equipement):
     def __init__(self,nom,description,attaque=0):
         super().__init__(nom,description)
-        self.attaque = attaque
+        self.bonus_attaque = attaque
 
     def equiper(self,entite):
         super().equiper(entite)
+        entite.attaque += self.bonus_attaque
 
 class Armure(Equipement):
     def __init__(self,nom,description,defence_physique=0,defence_magique=0):
@@ -127,27 +128,15 @@ class Armure(Equipement):
 class ArmeADeuxMain(Arme):
     def __init__(self,nom,description,attaque=0):
         super().__init__(nom,description,attaque)
-    
-    def equiper(self,entite):
-        super().equiper(entite)
-        self.attaque += entite.attaque
 
 class ArmeAUneMain(Arme):
     def __init__(self,nom,description,attaque=0):
         super().__init__(nom,description,attaque)
-    
-    def equiper(self,entite):
-        super().equiper(entite)
-        self.attaque += entite.attaque
 
 class EpeeEnBois(ArmeAUneMain):
     def __init__(self,nom,description,attaque=0):
         super().__init__(nom,description,attaque)
         self.bonus_attaque = Dice.lancer(1,6)
-    
-    def equiper(self,entite):
-        super().equiper(entite)
-        self.bonus_attaque += entite.bonus_attaque
 
 
 
