@@ -1,5 +1,9 @@
 from abc import ABC
-from .dice import Dice
+from dice import Dice
+from objets import *
+from Arme import *
+from Armure import *
+from Potion import *
 
 #Classe abstraite entite ------------------------------------------------------------------------------
 class Entite(ABC):
@@ -149,28 +153,99 @@ class Joueur(Entite):
     def equiper(self, equipement):
         if isinstance(equipement, ArmeAUneMain):
             if self.arme == [] or len(self.arme) < 2 and isinstance(self.arme[0], ArmeAUneMain) == True:
-                self.arme = equipement
+                self.arme.append(equipement)
             else:
                 raise Exception("Vous avez déjà une arme équippée")
+        elif isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance):
+            if self.arme == []:
+                self.arme.append(equipement)
+            else:
+                raise Exception("Vous avez déjà une arme équippée")
+        elif isinstance(equipement, Casque):
+            if self.casque is None:
+                self.casque = equipement
+            else:
+                raise Exception("Vous avez déjà un casque équippé")
+        elif isinstance(equipement, Plastron):
+            if self.plastron is None:
+                self.plastron = equipement
+            else:
+                raise Exception("Vous avez déjà un plastron équippé")
+        elif isinstance(equipement, Gants):
+            if self.gants is None:
+                self.gants = equipement
+            else:
+                raise Exception("Vous avez déjà des gants équippés")
+        elif isinstance(equipement, Jambieres):
+            if self.jambieres is None:
+                self.jambieres = equipement
+            else:
+                raise Exception("Vous avez déjà des jambières équippées")
+        elif isinstance(equipement, Bottes):
+            if self.bottes is None:
+                self.bottes = equipement
+            else:
+                raise Exception("Vous avez déjà des gants équippées")
         return
     
     def desequiper(self, equipement):
         if isinstance(equipement, ArmeAUneMain):
             if self.arme == []:
-                raise Exception("Vous n'avez déjà aucune arme équippée")
+                raise Exception("Vous n'avez aucune arme équippée")
             else:
                 self.arme.remove(equipement)
+        elif isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance):
+            if self.arme == []:
+                raise Exception("Vous n'avez aucune arme équippée")
+            else:
+                self.arme.remove(equipement)   
+        elif isinstance(equipement, Casque):
+            if self.casque is not None:
+                self.casque = None
+            else:
+                raise Exception("Vous n'avez aucun casque équippé")
+        elif isinstance(equipement, Plastron):
+            if self.plastron is not None:
+                self.plastron = None
+            else:
+                raise Exception("Vous n'avez aucun plastron équippé")
+        elif isinstance(equipement, Gants):
+            if self.gants is not None:
+                self.gants = None
+            else:
+                raise Exception("Vous n'avez aucun gant équippé")
+        elif isinstance(equipement, Jambieres):
+            if self.jambieres is not None:
+                self.jambieres = None
+            else:
+                raise Exception("Vous n'avez aucune jambière équippée")
+        elif isinstance(equipement, Bottes):
+            if self.bottes is not None:
+                self.bottes = None
+            else:
+                raise Exception("Vous n'avez aucun gant équippée")
         return
 
     def consommer(self, objet):
-        pass
+        if isinstance(objet, PotionDeMana):
+            self.mana += objet.mana_regen
+            if self.mana > self.mana_max:
+                self.mana = self.mana_max
+            print("Vous récupérez tout votre mana.")
+        elif isinstance(objet, PotionDeGuerison) or isinstance(objet, PotionDeGuerisonMajeur):
+            self.gagner_pv(objet.soin)
+            print(f"Vous gagnez {objet.soin} points de vie !")
+        objet.est_consomme = True
+        self.consommables.remove(objet)
 
     def lancer(self, objet, other):
         precision = Dice.lancer(1,20)
         if precision[0] >= 10:
             other.perte_pv(objet.degat)
             print(f"L'ennemi perd {objet.degat} pv")
-            self.consommables.pop(objet)
+        else:
+            print("Raté !")
+        self.consommables.remove(objet)
         return
 
 #Classes des differentes classes disponibles ------------------------------------------------------------------
@@ -215,7 +290,7 @@ class Tavernier(Joueur):
 class Mage(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         super().__init__(race, nom)
-        self.consommables = []
+        self.consommables = [PotionDeMana, PotionDeMana]
         self.mana = self.mana_max = 60
         self.force -= 2
         self.intelligence += 3
@@ -226,17 +301,21 @@ class Mage(Joueur):
         print("Missiles magiques !")
         for element in Dice.lancer(3,10)[1]:
             if element > 2 :
-                degats = Dice.lancer(1,8) + self.bonus(self.intelligence) - other.defense_magique
+                degats = Dice.lancer(1,8)[0] + self.bonus(self.intelligence) - other.defense_magique
                 other.perte_pv(degats)
+            else:
+                print("Raté !")
         self.mana -= 10
         return
     
     def BouleDeFeu(self, other):
         print("Boule de feu !")
-        if Dice.lancer() > 12:
-            degats = Dice.lancer(1,30) + self.bonus(self.intelligence) - other.defense_magique
+        if Dice.lancer()[0] > 12:
+            degats = Dice.lancer(1,30)[0] + self.bonus(self.intelligence) - other.defense_magique
             other.perte_pv(degats)
             self.mana -= 20
+        else:
+            print("Raté !")
         return
 
 #Classes des monstres -------------------------------------------------------------------------------------
@@ -294,9 +373,19 @@ class CrapeauMagicien(Monstre):
             if element > 5:
                 degats = Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
                 other.perte_pv(degats)
+            else:
+                print("Raté !")
         self.mana -= 10
 
-    
+    def CrachatAcide(self, other):
+        print("Il vous crache dessus ! Attention : corrosif !")
+        if Dice.lancer(1,10)[0] > 6:
+            degats = Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
+            other.perte_pv(degats)
+            self.mana -= 20
+        else:
+            print("Raté !")
+        return
 
 if __name__ == "__main__":
     m = Dummy()
