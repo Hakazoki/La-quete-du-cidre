@@ -1,6 +1,5 @@
 from abc import ABC
-from dice import Dice
-from objets import *
+from .dice import Dice
 
 #Classe abstraite entite ------------------------------------------------------------------------------
 class Entite(ABC):
@@ -164,19 +163,14 @@ class Joueur(Entite):
         return
 
     def consommer(self, objet):
-        if isinstance(objet, Potion):
-            self.gagner_pv(objet.soin)
-            print(f"Vous gagnez {objet.soin} pv")
-            self.consommables.remove(objet)
-        return
+        pass
 
     def lancer(self, objet, other):
-        if isinstance(objet, ArmeDeLancer):
-            precision = Dice.lancer(1,20)
-            if precision[0] >= 10:
-                other.perte_pv(objet.degat)
-                print(f"L'ennemi perd {objet.degat} pv")
-                self.consommables.remove(objet)
+        precision = Dice.lancer(1,20)
+        if precision[0] >= 10:
+            other.perte_pv(objet.degat)
+            print(f"L'ennemi perd {objet.degat} pv")
+            self.consommables.pop(objet)
         return
 
 #Classes des differentes classes disponibles ------------------------------------------------------------------
