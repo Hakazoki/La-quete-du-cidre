@@ -19,24 +19,48 @@ class Casque(Armure):
 class CasqueEnCuire(Casque):
     def __init__(self,nom,description,defence_physique):
         super().__init__(nom,description,defence_physique)
-        defence_physique = 2
+        defence_physique = 1
 
 class CoiffeDerudi(Casque):
     def __init__(self,nom,description,defence_magique):
         super().__init__(nom,description,defence_magique)
-        defence_magique = 2
+        defence_magique = 1
         
 
 class Plastron(Armure):
     def __init__(self,nom,description,defence_physique,defence_magique):
         super().__init__(nom,description,defence_physique,defence_magique)
 
+class ArmureEnCuire(Plastron):
+    def __init__(self,nom,description,defence_physique):
+        super().__init__(nom,description,defence_physique)
+        defence_physique = 2
+
+class RobeDeMagicien(Plastron):
+    def __init__(self,nom,description,defence_magique):
+        super().__init__(nom,description,defence_magique)
+        defence_magique = 2
 class Gants(Armure):
     def __init__(self,nom,description,defence_physique,defence_magique):
         super().__init__(nom,description,defence_physique,defence_magique)
+
+class GantsEnCuire(Gants):
+    def __init__(self,nom,description,defence_physique):
+        super().__init__(nom,description,defence_physique)
+        defence_physique = 1
 class Jambieres(Armure):
     def __init__(self,nom,description,defence_physique,defence_magique):
         super().__init__(nom,description,defence_physique,defence_magique)
+
+class JambieresEnCuire(Jambieres):
+    def __init__(self,nom,description,defence_physique):
+        super().__init__(nom,description,defence_physique)
+        defence_physique = 2
 class Bottes(Armure):
-    def __init__(self,nom,description,defence_physique,defence_magique):
-        super().__init__(nom,description,defence_physique,defence_magique)
+    def __init__(self ,nom ,description ,defence_physique ,defence_magique):
+        super().__init__(nom ,description ,defence_physique ,defence_magique)
+
+class BottesEnCuire(Bottes):
+    def __init__(self, nom, description, defence_physique):
+        super().__init__(nom, description, defence_physique)
+        defence_physique = 1
