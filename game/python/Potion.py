@@ -10,34 +10,29 @@ class Potion(Consommable):
     def utiliser(self,entite):
         super().utiliser(entite)
 
-class PotionDeGuerison(Potion):
+class PotionVie(Potion):
+    def __init__(self, nom, description, soin, mana_regen):
+        super().__init__(nom, description, soin, mana_regen)
+        self.soin = soin
+
+    def utiliser(self, entite):
+        super().utiliser(entite)
+        if entite.race == "Mort_Vivant":
+            entite.vie -= self.soin
+        else:
+            entite.vie += self.soin
+
+class PotionDeGuerison(PotionVie):
     def __init__(self,nom = "Potion De Guérison",description = "Un flacon de verre contenant un liquide rougeoyant qui referme les plaies et redonne de la vigueur dès la première gorgée.", soin=0):
         super().__init__(nom,description,soin)
         self.soin = Dice.lancer(2,4)
 
-    def utiliser(self,entite):
-
-        super().utiliser(entite)
-
-        if entite.race == "Mort_Vivant":
-            entite.vie -= self.soin
-        else:
-            entite.vie += self.soin
-
-class PotionDeGuerisonMajeur(Potion):
-    def __init__(self,nom = "Potion de Guérison Majeur", description = "Une essence cramoisie bouillonnante dont l'éclat pur cicatrice instantanément les pires blessures et restaure la force vitale du héros."):
+class PotionDeGuerisonMajeur(PotionVie):
+    def __init__(self,nom = "Potion de Guérison Majeur", description = "Une essence cramoisie bouillonnante dont l'éclat pur cicatrise instantanément les pires blessures et restaure la force vitale du héros."):
         super().__init__(nom,description)
         self.soin = Dice.lancer(4, 4)
 
-    def utiliser(self,entite):
-        super().utiliser(entite)
-
-        if entite.race == "Mort_Vivant":
-            entite.vie -= self.soin
-        else:
-            entite.vie += self.soin
-
 class PotionDeMana(Potion):
-    def __init__(self, nom, description, mana_regen):
+    def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.", mana_regen = 60):
         super().__init__(nom, description, mana_regen)
-        mana_regen = 60
+        self.mana_regen = mana_regen
