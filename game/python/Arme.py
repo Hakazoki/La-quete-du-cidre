@@ -1,4 +1,4 @@
-from objets import Equipement
+from objets import Equipement, Munition, Fleche
 from dice import Dice
 from entites import Entite, Joueur
 
@@ -48,3 +48,17 @@ class ArmeADistance(Arme):
 class Arc (ArmeADistance):
     def __init__(self,nom = "Arc en bois", description ="Arc taillé en bois", ammo_type = Fleche):
         super().__init__(nom,description, Dice(4, 2), ammo_type)
+
+
+
+if __name__ == "__main__":
+    # popo = PotionDeGuerison()
+    arme = Arc()
+    toto = Joueur("Elfe", "Barbare")
+    toto.equiper(arme)
+    # print(popo.description)
+    print(arme.tirer(toto))
+    print(arme.tirer(toto))
+    print(arme.tirer(toto))
+    print(arme.tirer(toto))
+    print(f"Il me reste {arme.ammo}")

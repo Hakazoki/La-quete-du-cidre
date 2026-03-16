@@ -1,6 +1,5 @@
-from dice import *
 from abc import ABC, abstractmethod
-from entites import Entite, Joueur
+from dice import Dice
 class Objets(ABC):
     """
     Definition de la class abstract de l'objets
