@@ -1,0 +1,50 @@
+from objets import Equipement
+from dice import Dice
+from entites import Entite, Joueur
+
+class Arme(Equipement):
+    def __init__(self,nom,description,attaque : Dice):
+        super().__init__(nom,description)
+        self.attaque = attaque
+
+    def utiliser(self,entite : Entite):
+        entite.equiper(self)
+
+class ArmeADeuxMain(Arme):
+    def __init__(self,nom,description,attaque=0):
+        super().__init__(nom,description,attaque)
+
+class ArmeAUneMain(Arme):
+    def __init__(self,nom,description,attaque=0):
+        super().__init__(nom,description,attaque)
+
+class EpeeEnBois(ArmeAUneMain):
+    def __init__(self,nom = "Epée en Bois",description= "Simple Epée en bois",attaque=0):
+        super().__init__(nom,description,Dice(1,4))
+        
+
+class EpeeEnFer(ArmeAUneMain):
+    def __init__(self,nom = "Epée en Fer",description = "Une lame de fer sombre de 60 cm, brute et fonctionnelle. Sa garde en croix et sa poignée gainée de cuir privilégient l'efficacité au style. C’est une arme équilibrée, forgée pour l'estocade et le combat rapproché.",attaque = 0):
+        super().__init__(nom,description,Dice(1,6))
+
+class ArmeADistance(Arme):
+    def __init__(self,nom,description,attaque,ammo_type :type[Munition],max_ammo=30):
+        super().__init__(nom,description,attaque)
+        self.ammo_type = ammo_type
+        self.max_ammo = ammo_type.max_ammo
+        self.ammo = max_ammo
+    
+    def tirer(self,entite) -> int | None:
+        """
+        Utiliser l'arme.
+        Retourne les dégats de l'arme.
+        None si l'attaque n'est pas possible
+        """
+        if  self.ammo >= 0:
+            self.ammo -= 1
+            return self.attaque.jeter()
+        return None 
+
+class Arc (ArmeADistance):
+    def __init__(self,nom = "Arc en bois", description ="Arc taillé en bois", ammo_type = Fleche):
+        super().__init__(nom,description, Dice(4, 2), ammo_type)

@@ -1,6 +1,21 @@
 from random import randint
 
 class Dice:
+    def __init__(self, nb_faces = 6, nb_dices  =1, additionnal_bonus = 0):
+        """
+        Exemple : Epée courte 2D4 + 1 sera appelé Dice(4, 2, 1)
+        """
+        self.nb_faces = nb_faces
+        self.nb_dices = nb_dices
+        self.additionnal_bonus = additionnal_bonus
+
+    def jeter(self) -> int:
+        """ Simple jet de dé. Retourne le total"""
+        total = self.additionnal_bonus
+        for _ in range(self.nb_dices):
+            total += randint(1, self.nb_faces)
+        return total
+    
     @staticmethod
     def lancer(nb, montant):
         """
