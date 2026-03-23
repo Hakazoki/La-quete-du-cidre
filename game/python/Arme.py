@@ -1,13 +1,14 @@
 from objets import Equipement,Munition,Fleche
 from dice import Dice
-from entites import Entite, Joueur
+
+
 
 class Arme(Equipement):
     def __init__(self,nom,description,attaque : Dice):
         super().__init__(nom,description)
         self.bonus_attaque = attaque
 
-    def utiliser(self,entite : Entite):
+    def utiliser(self,entite : "Entite"):
         entite.equiper(self)
 
 class ArmeADeuxMain(Arme):
@@ -19,9 +20,9 @@ class ArmeAUneMain(Arme):
         super().__init__(nom,description,attaque)
 
 class EpeeEnBois(ArmeAUneMain):
-    def __init__(self,nom = "Epée en Bois",description= "Simple Epée en bois",attaque=0):
+    def __init__(self,nom = "Epée en Bois",description= "Simple Epée en bois"):
         super().__init__(nom,description,Dice(4,1))
-        print(self.attaque)
+        
         
 
 class EpeeEnFer(ArmeAUneMain):
@@ -29,8 +30,8 @@ class EpeeEnFer(ArmeAUneMain):
         super().__init__(nom,description,Dice(6,1))
 
 class Zweihander(ArmeADeuxMain):
-    def __init__(self, nom = "Zweihander", description = "Une grand epee a deux mains", attaque=0):
-        super().__init__(nom, description, Dice(6,1))
+    def __init__(self, nom = "Zweihander", description = "Une grand epee a deux mains"):
+        super().__init__(nom, description, Dice(10,1))
 
 class ArmeADistance(Arme):
     def __init__(self,nom,description,attaque,ammo_type :type[Munition]):

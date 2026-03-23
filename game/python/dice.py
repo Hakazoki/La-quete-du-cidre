@@ -9,7 +9,7 @@ class Dice:
         self.nb_dices = nb_dices
         self.additionnal_bonus = additionnal_bonus
 
-    @staticmethod
+
     def jeter(self) -> int:
         """ Simple jet de dé. Retourne le total"""
         total = self.additionnal_bonus

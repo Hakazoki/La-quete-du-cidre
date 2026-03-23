@@ -1,8 +1,6 @@
 from abc import ABC
 from dice import Dice
 from objets import *
-from Arme import *
-from Armure import *
 from Potion import *
 
 #Classe abstraite entite ------------------------------------------------------------------------------
@@ -151,6 +149,8 @@ class Joueur(Entite):
             """)
 
     def equiper(self, equipement):
+        from Arme import ArmeAUneMain, ArmeADistance, ArmeADeuxMain
+        from Armure import Casque, Plastron, Gants, Jambieres, Bottes
         if isinstance(equipement, ArmeAUneMain):
             if self.arme == [] or len(self.arme) < 2 and isinstance(self.arme[0], ArmeAUneMain) == True:
                 self.arme.append(equipement)
@@ -189,6 +189,8 @@ class Joueur(Entite):
         return
     
     def desequiper(self, equipement):
+        from Arme import ArmeADeuxMain, ArmeADistance, ArmeAUneMain
+        from Armure import Casque, Plastron, Gants, Jambieres, Bottes
         if isinstance(equipement, ArmeAUneMain):
             if self.arme == []:
                 raise Exception("Vous n'avez aucune arme équippée")
@@ -386,12 +388,3 @@ class CrapeauMagicien(Monstre):
         else:
             print("Raté !")
         return
-
-if __name__ == "__main__":
-    m = Dummy()
-    j = Joueur()
-    j.stats()
-    j.info(m)
-    for i in range(10):
-        j.attaquer(m)
-        print(m)
