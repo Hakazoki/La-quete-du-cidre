@@ -317,7 +317,7 @@ class Mage(Joueur):
         self.sagesse += 2
         self.defense_magique = 2
 
-    def MissilesMagiques(self, other):
+    def missiles_magiques(self, other):
         import dice
         print("Missiles magiques !")
         for element in dice.Dice.lancer(3,10)[1]:
@@ -329,7 +329,7 @@ class Mage(Joueur):
         self.mana -= 10
         return
 
-    def BouleDeFeu(self, other):
+    def boule_de_feu(self, other):
         import dice
         print("Boule de feu !")
         if dice.Dice.lancer()[0] > 12:
@@ -389,7 +389,8 @@ class CrapeauMagicien(Monstre):
         self.charisme = 13
         self.defense_magique = 3
 
-    def PluieDeGrenouille(self, other):
+    def pluie_de_grenouille(self, other):
+        import dice
         print("Des grenouilles tombent sur vous !")
         for element in dice.Dice.lancer(10,10)[1]:
             if element > 5:
@@ -399,8 +400,7 @@ class CrapeauMagicien(Monstre):
                 print("Raté !")
         self.mana -= 10
 
-    def CrachatAcide(self, other):
-        # def crachat_acide stp !!!
+    def crachat_acide(self, other):
         import dice
         print("Il vous crache dessus ! Attention : corrosif !")
         if dice.Dice.lancer(1,10)[0] > 6:
