@@ -66,17 +66,6 @@ class Equipement(Objets):
         self.est_equiper = True
 
 
-if __name__ == "__main__":
-    # popo = PotionDeGuerison()
-    arme = Arc()
-    toto = Joueur("Elfe", "Barbare", "Trouduc")
-    toto.equiper(arme)
-    # print(popo.description)
-    print(arme.tirer(toto))
-    print(arme.tirer(toto))
-    print(arme.tirer(toto))
-    print(arme.tirer(toto))
-    print(f"Il me reste {arme.ammo}")
 
 
 
