@@ -1,10 +1,7 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
 init python:
+    from python.entites import *
     from python.dice import *
-    # from python.objets import *
-    # from python.entites import *
-    # from python.objets import *
-    # from python.Arme import *
 
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
@@ -41,8 +38,7 @@ $ boire_alcool = False
 $ tavernier_taverne = True
 $ voyante_taverne = True
 $ barbare_taverne = True
-$ picross_taverne = True
-$ picrossfini_taverne = False
+$ glorp = True
 # Fin Switch
 
 # Création du personnage
@@ -330,13 +326,13 @@ menu q22:
     "On vous enferme par erreur dans une pièce noire comme de l'encre!Que faîtes-vous?"
     "a)Je pleure.":
         $ pts_mage += 1
-        jump q25  
+        jump q23  
     "b)J'enfonce la porte.":
         $ pts_barbare += 1
-        jump q25
+        jump q23
     "c)Je fais une sieste.":
         $ pts_voleur += 1
-        jump q25
+        jump q23
 
 menu q25:
     "Vous gagnez le jackpot au WiNainMax!Que faîtes-vous de l'argent?"
@@ -354,10 +350,13 @@ menu q26:
     "L'empereur des Nains Grobiff XIVII est face à vous, comment lui parlez-vous?"
     "a)Calmement. ":
         $ pts_voleur += 1
+        jump q27
     "b)ON S'EN FICHE!!!":
         $ pts_barbare += 1
+        jump q27
     "c)Nerveusement.":
         $ pts_mage += 1
+        jump q27
 
 # Fin Création
 
@@ -452,25 +451,21 @@ label dialogue_tavernier:
 
 menu choix_taverne: 
     "Parler au tavernier" if tavernier_taverne:
-        $ tavernier_taverne = False
+        $ tavernier = False
         jump choix_tavernier
     "Parler à une voyante" if voyante_taverne:
-        $ voyante_taverne = False
+        $ voyante = False
         jump choix_voyante
     "Parler à un barbare" if barbare_taverne:
-        $ barbare_taverne = False
+        $ barbare = False
         jump choix_barbare
-    "Jouer aux runes avec le nain du coin" if picross_taverne:
-        $ picross_taverne = False
-        $ picrossfini_taverne = True
+    "Jouer aux runes avec le nain du coin" if glorp:
+        $ glorp = False
         p "Hé l'ami, on se fait une partie de runes ?"
         "Le nain sort une grille de 10x10. C'est un puzzle 'Tête de Monstre'."
-        call screen picross(EXAMPLE_5X5_PICROSS_PUZZLE)
+        call screen picross(PUZZLE_CRANE)
         p "Haha ! J'ai résolu ton énigme !"
-        "Le nain grogne et te donne quelques pièces d'or." #TODO:Rajouter les pièces d'or
-        jump choix_taverne
-    "Jouer aux runes avec le nain du coin" if picrossfini_taverne:
-        "casse toi !"
+        "Le nain grogne et te donne quelques pièces d'or."
         jump choix_taverne
     "Sortir de la taverne":
         jump sortie_taverne
