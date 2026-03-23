@@ -1,8 +1,10 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
-# init python:
-#     from python.dice import *
-#     from python.objets import *
-#     from python.entites import *
+init python:
+    from python.dice import *
+    # from python.objets import *
+    # from python.entites import *
+    # from python.objets import *
+    # from python.Arme import *
 
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
@@ -23,6 +25,11 @@ define t = Character('Tavernier', color="#c8ffc8")
 define v = Character('Voyante louche', color="#c8ffc8")
 define b = Character('Barbare costaud', color="#c8ffc8")
 define p = Character("[pc_name]", color="#ffabf1")
+define boss = Character('M. Grondin (Manager)', color="#ff0000")
+define coll = Character('Kévin du Marketing', color="#00fbff")
+
+# Déclarez des transitions
+define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
 # Le jeu commence ici
 label start:
@@ -378,8 +385,6 @@ stop music
 
 $ p = Character(pc_name)
 
-p "J'ai envis d'un bon bolet de cidre"
-
 "Es-tu mineur ou majeur ?"
 
 menu:
@@ -430,14 +435,14 @@ menu:
         jump taverne
 
     "Pour l'alcool" if boire_alcool:
-        jump sortietaverne
+        jump dialogue_tavernier
 
 label taverne:
     t "Laisse tomber, le donjon est un endroit trop dangeureux pour un nain comme toi"
     p "J'ai pas peur ! Dis moi comment aller à la taverne"
-    jump sortietaverne
+    jump dialogue_tavernier
 
-label sortietaverne:
+label dialogue_tavernier:
     t "HAHAHA, t'es un marrant toi !"
     t "Tiens, voici une carte pour aller dans le donjon."
     p "Merci chef !"
@@ -468,7 +473,7 @@ menu choix_taverne:
         "casse toi !"
         jump choix_taverne
     "Sortir de la taverne":
-        jump fin
+        jump sortie_taverne
     "Que voulez-vous faire maintenant ?"
 
 
@@ -479,10 +484,10 @@ menu choix_tavernier:
         jump information_tavernier
     t "Encore toi ? Tu veux quoi ?"
 label alcool_tavernier:
-    t "Tiens, une bière"
+    t "Tiens, une bière."
     jump choix_taverne
 label information_tavernier:
-    t "J'en sais rien, bon courage"
+    t "J'en sais rien, bon courage."
     jump choix_taverne
 
 menu choix_voyante:
@@ -490,31 +495,126 @@ menu choix_voyante:
         jump enerve_voyante
     "D'accord !":
         jump avenir_voyante
-    "Je ne crois pas en la voyance":
+    "Je ne crois pas en la voyance.":
         jump choix_taverne
     v "Bonjour, petit nain, veux-tu lire ton avenir ?"
 label enerve_voyante:
-    v "Non bien sur, tu es un nain de taille de nain"
-    p "QUOI ? T'ES MECHANTE, JE ME CASSE"
+    v "Non bien sur, tu es un nain de taille de nain."
+    p "QUOI ? T'ES MECHANTE, JE ME CASSE !"
     jump choix_taverne
 label avenir_voyante:
-    v "Bien, quelle est ta date de naissance"
-    p "J'sais pas"
+    v "Bien, quelle est ta date de naissance ?"
+    p "J'sais pas."
     v "mmh, je vois ..."
     p "tu vois quoi ?"
     v "Ton avenir est curieux, ta destiné sera rempli d'embuche, mais si tu restes courageux, tu atteindra ton but."
-    p "ok"
+    p "ok."
     jump choix_taverne
     
-# menu choix_barbare:
-#     "test"
+menu choix_barbare:
+    "Vous le prennez par le col":
+        jump finbarbare
+    "Vous vous escusez et continuez votre chemin":
+        jump choix_taverne
+    # "Vous vous faites une poignée de main" if barbare:
+    "Un barbare passe à côté de vous et vous bouscule, comment réagissez vous ?"
+
+
+label sortie_taverne:
+    "Après de longues heures à vous amuser à la taverne vous décidez d'enfin sortir de la taverne et vous approchez de la porte."
+    
+menu choix_sortie_taverne:
+    "Changer d'avis et retourner dans la taverne":
+        jump fin_taverne
+    "Ouvrir la porte et débuter votre aventure":
+        $ dice_isekai = Dice.lancer(1, 100)[0]
+        if dice_isekai == 1:
+            jump truck_kun
+        else:
+            jump exterieur_taverne
 
 
 label finalcool:
     "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."
     jump fin
-label fin2:
-    "test"
+label finbarbare:
+    "Vous essayez d'attrapper le col de barbare qui est torse nue, vous échouez"
+    "Le barbare soulève une table et vous fracasse le crâne, vous mourrez sur le coup"
+label fintaverne:
+    "Vous avez décidé de rester vivre dans la taverne, et depuis ce jour, entre les chopes débordantes, les chants graves des mineurs et la chaleur du grand foyer de pierre, vous vous sentez plus nain que jamais, trouvant enfin un foyer aussi solide qu'un roc et aussi chaleureux qu’un banquet nain."
+    jump fin
 label fin:
     "Merci d'avoir joué."
 return
+
+label truck_kun:
+    stop music fadeout 1.0
+    scene white with flash # Un flash blanc aveuglant
+    
+    play sound "sfx_truck_horn.opus" # Un énorme coup de klaxon
+    "POUÊÊÊÊÊÊÊÊÊÊÊT !!!"
+    
+    play sound "sfx_crash.opus"
+    with HPunch # Secousse de l'écran
+    
+    "Un bruit de métal froissé déchire l'air. Vous n'avez même pas eu le temps de voir la plaque d'immatriculation."
+    
+    scene black with dissolve
+    "Tout devient noir..."
+    "Puis..."
+    
+    play sound "sfx_office_ambiance.opus" # Bruit de claviers, téléphones, imprimantes
+    
+    "Bip... Bip... Bip..."
+    
+    scene bg_open_space with fade # Imagine un fond d'écran de bureau triste
+    
+    show coll at right
+    coll "Hé, [pc_name] ! Ohé, tu m'écoutes ?"
+    
+    p "Hein ? Quoi ? Par les barbes d'Ulfar, où est ma hache ?! Et c'est quoi cette armure en tissu gris qui me gratte les jambes ?"
+    
+    coll "Ta hache ? Tu veux dire ton coupe-papier ? Arrête de déconner, on a la réunion sur les KPI du troisième trimestre dans cinq minutes."
+    
+    p "KPI ? Est-ce une nouvelle forme de magie noire ? Et d'où vient cette lumière blafarde qui tombe du plafond ?"
+    
+    coll "C'est des néons, mec. T'as encore trop forcé sur l'hydromel artisanal hier soir, c'est ça ?"
+    
+    show boss at left with moveinleft
+    boss "[pc_name] ! Pourquoi vous n'êtes pas devant votre tableur Excel ? Le donjon des dossiers clients ne va pas se vider tout seul !"
+    
+    p "Un... un tableur ? Est-ce un artefact ancien ?"
+    
+    boss "C'est un artefact qui s'appelle 'Productivité'. Et si vous ne remplissez pas les cellules avant midi, votre prime de fin d'année va s'évaporer comme un sort de niveau 1."
+    
+    menu:
+        "Tenter de lancer un sort de boule de feu sur la photocopieuse":
+            p "KRAK-KA-BOUM ! Brûle, machine infernale !"
+            "Vous jetez votre café brûlant sur la machine. Elle fait quelques étincelles avant d'afficher 'Erreur 404'."
+            boss "C'est ça... On va déduire les réparations de votre salaire. Allez en salle de pause."
+            jump fin_bureau
+            
+        "Chercher une taverne dans les couloirs":
+            p "Tavernier ! Apporte-moi une pinte de la meilleure bière, et vite !"
+            coll "La machine à café est en panne, il reste juste du thé à la camomille dégueulasse."
+            p "Quelle malédiction est-ce donc ?"
+            jump fin_bureau
+            
+        "Accepter son destin de salarié":
+            p "Très bien... Montrez-moi ce 'Excel'. S'il faut combattre des chiffres pour l'honneur de ma lignée, soit !"
+            boss "C'est l'esprit. Et mettez une cravate, on dirait que vous sortez d'une grotte."
+            jump fin_bureau
+
+label fin_bureau:
+    scene bg_office_night with fade
+    "Huit heures plus tard..."
+    
+    "Vous n'avez terrassé aucun dragon, mais vous avez survécu à trois réunions Zoom."
+    "Le seul trésor que vous avez trouvé est un ticket restaurant de 9 euros."
+    
+    p "C'est donc ça... l'enfer des humains ? Pas de gloire, pas de chants... juste le bruit de la clim."
+    
+    "FÉLICITATIONS : Vous avez débloqué la fin secrète 'Burn-out Isekai'."
+    "Peut-être qu'en traversant la route demain matin, vous aurez plus de chance ?"
+    
+    jump fin
