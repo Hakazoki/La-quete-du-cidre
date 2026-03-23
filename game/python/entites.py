@@ -1,7 +1,4 @@
 from abc import ABC
-from dice import Dice
-from objets import *
-from Potion import *
 
 #Classe abstraite entite ------------------------------------------------------------------------------
 class Entite(ABC):
@@ -34,12 +31,15 @@ class Entite(ABC):
 
     @property
     def attaque(self)-> int:
+        from Arme import ArmeADistance
         degats = self.bonus(self.force)
         if self.arme == []:
             return degats
+        elif isinstance(self.arme[0], ArmeADistance):
+            degats = self.bonus(self.dexterite) + self.arme[0].tirer()
         else:
             for element in self.arme:
-                degats += element.attaque.jeter()
+                degats += element.bonus_attaque.jeter()
             return degats
 
     @property
@@ -83,11 +83,12 @@ class Entite(ABC):
         1 lancer pour la defense
         Difference entre l'attaque et la defense -> degats subis
         """
-        precision = Dice.lancer()
+        import dice
+        precision = dice.Dice.lancer()
         if precision[0] >= 10 :
             print("Vous touchez")
-            attaque = Dice.lancer()[0] + self.attaque
-            defense = Dice.lancer()[0] + other.defense
+            attaque = dice.Dice.lancer()[0] + self.attaque
+            defense = dice.Dice.lancer()[0] + other.defense
             if attaque - self.attaque == 20:
                 attaque = attaque * 2
                 print("Reussite critique !")
@@ -115,18 +116,19 @@ class Entite(ABC):
 #Classe du joueur ----------------------------------------------------------------------------------
 class Joueur(Entite):
     def __init__(self, race = "Nain", nom = "Gimli"):
+        import dice
         super().__init__(race)
         self.nom = nom
         self.bourse = 1
         #Inventaire consommables
         self.consommables = []
         #Stats
-        self.force = Dice.lancer()[0]
-        self.dexterite = Dice.lancer()[0]
-        self.constitution = Dice.lancer()[0]
-        self.intelligence = Dice.lancer()[0]
-        self.sagesse = Dice.lancer()[0]
-        self.charisme = Dice.lancer()[0]
+        self.force = dice.Dice.lancer()[0]
+        self.dexterite = dice.Dice.lancer()[0]
+        self.constitution = dice.Dice.lancer()[0]
+        self.intelligence = dice.Dice.lancer()[0]
+        self.sagesse = dice.Dice.lancer()[0]
+        self.charisme = dice.Dice.lancer()[0]
         self.defense_physique = 0
         self.defense_magique = 0
 
@@ -140,7 +142,7 @@ class Joueur(Entite):
             sagesse = {self.sagesse}
             charisme = {self.charisme}
             """)
-        
+
     def info(self, other):
         print(f"""\
             Info ennemi :
@@ -194,7 +196,7 @@ class Joueur(Entite):
             else:
                 raise Exception("Vous avez déjà des gants équippées")
         return
-    
+
     def desequiper(self, equipement):
         from Arme import ArmeADeuxMain, ArmeADistance, ArmeAUneMain
         from Armure import Casque, Plastron, Gants, Jambieres, Bottes
@@ -207,7 +209,7 @@ class Joueur(Entite):
             if self.arme == []:
                 raise Exception("Vous n'avez aucune arme équippée")
             else:
-                self.arme.remove(equipement)   
+                self.arme.remove(equipement)
         elif isinstance(equipement, Casque):
             if self.casque is not None:
                 self.casque = None
@@ -236,6 +238,10 @@ class Joueur(Entite):
         return
 
     def consommer(self, objet):
+        from Potion import PotionDeGuerison, PotionDeMana, PotionDeGuerisonMajeur
+        # Après, ici la logique devrait plutot être dans l'objet lui-même.
+        # Genre objet.consommer(self)
+        # Et dans les objets une méthode consommer(cible)
         if isinstance(objet, PotionDeMana):
             self.mana += objet.mana_regen
             if self.mana > self.mana_max:
@@ -248,7 +254,8 @@ class Joueur(Entite):
         self.consommables.remove(objet)
 
     def lancer(self, objet, other):
-        precision = Dice.lancer(1,20)
+        import dice
+        precision = dice.Dice.lancer(1,20)
         if precision[0] >= 10:
             other.perte_pv(objet.degat)
             print(f"L'ennemi perd {objet.degat} pv")
@@ -298,6 +305,7 @@ class Tavernier(Joueur):
 
 class Mage(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
+        from Potion import PotionDeMana
         super().__init__(race, nom)
         mana1 = PotionDeMana(60)
         mana2 = PotionDeMana(60)
@@ -307,23 +315,25 @@ class Mage(Joueur):
         self.force -= 2
         self.intelligence += 3
         self.sagesse += 2
-        self.defense_magique = 2 
-    
+        self.defense_magique = 2
+
     def MissilesMagiques(self, other):
+        import dice
         print("Missiles magiques !")
-        for element in Dice.lancer(3,10)[1]:
+        for element in dice.Dice.lancer(3,10)[1]:
             if element > 2 :
-                degats = Dice.lancer(1,8)[0] + self.bonus(self.intelligence) - other.defense_magique
+                degats = dice.Dice.lancer(1,8)[0] + self.bonus(self.intelligence) - other.defense_magique
                 other.perte_pv(degats)
             else:
                 print("Raté !")
         self.mana -= 10
         return
-    
+
     def BouleDeFeu(self, other):
+        import dice
         print("Boule de feu !")
-        if Dice.lancer()[0] > 12:
-            degats = Dice.lancer(1,30)[0] + self.bonus(self.intelligence) - other.defense_magique
+        if dice.Dice.lancer()[0] > 12:
+            degats = dice.Dice.lancer(1,30)[0] + self.bonus(self.intelligence) - other.defense_magique
             other.perte_pv(degats)
             self.mana -= 20
         else:
@@ -381,18 +391,20 @@ class CrapeauMagicien(Monstre):
 
     def PluieDeGrenouille(self, other):
         print("Des grenouilles tombent sur vous !")
-        for element in Dice.lancer(10,10)[1]:
+        for element in dice.Dice.lancer(10,10)[1]:
             if element > 5:
-                degats = Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
+                degats = dice.Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
                 other.perte_pv(degats)
             else:
                 print("Raté !")
         self.mana -= 10
 
     def CrachatAcide(self, other):
+        # def crachat_acide stp !!!
+        import dice
         print("Il vous crache dessus ! Attention : corrosif !")
-        if Dice.lancer(1,10)[0] > 6:
-            degats = Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
+        if dice.Dice.lancer(1,10)[0] > 6:
+            degats = dice.Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
             other.perte_pv(degats)
             self.mana -= 20
         else:
