@@ -544,13 +544,13 @@ return
 
 label truck_kun:
     stop music fadeout 1.0
-    scene white with flash # Un flash blanc aveuglant
+    scene white with flash
     
-    play sound "sfx_truck_horn.opus" # Un énorme coup de klaxon
+    play sound "sfx_truck_horn.opus"
     "POUÊÊÊÊÊÊÊÊÊÊÊT !!!"
     
     play sound "sfx_crash.opus"
-    with HPunch # Secousse de l'écran
+    with HPunch
     
     "Un bruit de métal froissé déchire l'air. Vous n'avez même pas eu le temps de voir la plaque d'immatriculation."
     
@@ -558,11 +558,11 @@ label truck_kun:
     "Tout devient noir..."
     "Puis..."
     
-    play sound "sfx_office_ambiance.opus" # Bruit de claviers, téléphones, imprimantes
+    play sound "sfx_office_ambiance.opus"
     
     "Bip... Bip... Bip..."
     
-    scene bg_open_space with fade # Imagine un fond d'écran de bureau triste
+    scene bg_open_space with fade
     
     show coll at right
     coll "Hé, [pc_name] ! Ohé, tu m'écoutes ?"
