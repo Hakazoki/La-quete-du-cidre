@@ -54,8 +54,3 @@ class ArmeADistance(Arme):
 class Arc (ArmeADistance):
     def __init__(self,nom = "Arc en bois", description ="Arc taillé en bois", ammo_type = Fleche):
         super().__init__(nom,description, Dice(4, 2), ammo_type)
-
-
-
-
-

@@ -34,7 +34,13 @@ class Entite(ABC):
 
     @property
     def attaque(self)-> int:
-        return self.bonus(self.force)
+        degats = self.bonus(self.force)
+        if self.arme == []:
+            return degats
+        else:
+            for element in self.arme:
+                degats += element.attaque.jeter()
+            return degats
 
     @property
     def defense(self)-> int:
@@ -111,6 +117,7 @@ class Joueur(Entite):
     def __init__(self, race = "Nain", nom = "Gimli"):
         super().__init__(race)
         self.nom = nom
+        self.bourse = 1
         #Inventaire consommables
         self.consommables = []
         #Stats
@@ -292,8 +299,11 @@ class Tavernier(Joueur):
 class Mage(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         super().__init__(race, nom)
-        self.consommables = [PotionDeMana, PotionDeMana]
-        self.mana = self.mana_max = 60
+        mana1 = PotionDeMana(60)
+        mana2 = PotionDeMana(60)
+        self.consommables = [mana1, mana2]
+        self.mana = 0
+        self.mana_max = 60
         self.force -= 2
         self.intelligence += 3
         self.sagesse += 2
