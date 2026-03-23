@@ -31,12 +31,15 @@ class Entite(ABC):
 
     @property
     def attaque(self)-> int:
+        from Arme import ArmeADistance
         degats = self.bonus(self.force)
         if self.arme == []:
             return degats
+        elif isinstance(self.arme[0], ArmeADistance):
+            degats = self.bonus(self.dexterite) + self.arme[0].tirer()
         else:
             for element in self.arme:
-                degats += element.attaque.jeter()
+                degats += element.bonus_attaque.jeter()
             return degats
 
     @property
