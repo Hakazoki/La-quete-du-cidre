@@ -48,7 +48,7 @@ class ArmeDeLancer(Consommable):
 class DagueALancer(ArmeDeLancer):
     def __init__(self,nom = "Dague de Lancer",description = "Cette lame de 15 centimètres d'acier mat ne brille pas à la lumière, évitant ainsi de trahir votre position. Entre vos doigts, elle semble légère, presque vivante. Son équilibre parfait vous garantit que, là où votre regard se posera, la pointe trouvera son chemin."):
         super().__init__(nom,description)
-        self.degat = Dice.lancer(1,4)
+        self.degat = Dice.lancer(4,1)
 
     def lancer(self,entite):
         entite.vie -= self.degat
@@ -64,12 +64,3 @@ class Equipement(Objets):
             raise Exception('Déjà équiper')
         super().utiliser(entite)
         self.est_equiper = True
-
-
-
-
-
-
-
-
-
