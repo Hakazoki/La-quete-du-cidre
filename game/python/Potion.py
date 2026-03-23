@@ -2,7 +2,7 @@ from objets import Consommable
 from dice import *
 
 class Potion(Consommable):
-    def __init__(self,nom,description,soin,mana_regen):
+    def __init__(self,nom,description,soin : Dice,mana_regen):
         super().__init__(nom,description)
         self.soin = soin
         self.mana_regen = mana_regen
@@ -34,5 +34,5 @@ class PotionDeGuerisonMajeur(PotionVie):
 
 class PotionDeMana(Potion):
     def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.", mana_regen = 60):
-        super().__init__(nom, description, mana_regen)
+        super().__init__(nom, description, mana_regen=60)
         self.mana_regen = mana_regen
