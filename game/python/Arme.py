@@ -1,4 +1,4 @@
-from objets import Equipement,Munition,Fleche
+from .objets import Equipement,Munition,Fleche
 from .dice import Dice
 from .entites import Entite, Joueur
 
