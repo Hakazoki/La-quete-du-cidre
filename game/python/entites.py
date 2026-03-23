@@ -1,6 +1,6 @@
 from abc import ABC
 from .dice import Dice
-from .objets import *
+from .objets import Objets, Consommable
 from .Arme import *
 from .Armure import *
 from .Potion import *
