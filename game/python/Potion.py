@@ -1,5 +1,5 @@
-from python.objets import Consommable
-from .dice import *
+from objets import Consommable
+from dice import *
 
 class Potion(Consommable):
     def __init__(self,nom,description,soin : Dice,mana_regen):
