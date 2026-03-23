@@ -1,13 +1,14 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
 init python:
-    from python.entites import *
-    from python.dice import *
+    from python.dice import Dice
 
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
 # ex: image eileen heureuse = "eileen_heureuse.png"
 image chat = im.Scale("chat01.png", 900, 1000)
 image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
+image bg_open_space = Solid("#cccccc")
+image bg_office_night = Solid("#1a1a1a")
 
 default p = None
 default drunk = 0
@@ -24,6 +25,7 @@ define b = Character('Barbare costaud', color="#c8ffc8")
 define p = Character("[pc_name]", color="#ffabf1")
 define boss = Character('M. Grondin (Manager)', color="#ff0000")
 define coll = Character('Kévin du Marketing', color="#00fbff")
+define truck = Character('Truck-kun', color="#f098ca")
 
 # Déclarez des transitions
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -326,13 +328,13 @@ menu q22:
     "On vous enferme par erreur dans une pièce noire comme de l'encre!Que faîtes-vous?"
     "a)Je pleure.":
         $ pts_mage += 1
-        jump q23  
+        jump q25  
     "b)J'enfonce la porte.":
         $ pts_barbare += 1
-        jump q23
+        jump q25
     "c)Je fais une sieste.":
         $ pts_voleur += 1
-        jump q23
+        jump q25
 
 menu q25:
     "Vous gagnez le jackpot au WiNainMax!Que faîtes-vous de l'argent?"
@@ -350,13 +352,10 @@ menu q26:
     "L'empereur des Nains Grobiff XIVII est face à vous, comment lui parlez-vous?"
     "a)Calmement. ":
         $ pts_voleur += 1
-        jump q27
     "b)ON S'EN FICHE!!!":
         $ pts_barbare += 1
-        jump q27
     "c)Nerveusement.":
         $ pts_mage += 1
-        jump q27
 
 # Fin Création
 
@@ -511,7 +510,47 @@ menu choix_barbare:
         jump finbarbare
     "Vous vous escusez et continuez votre chemin":
         jump choix_taverne
-    # "Vous vous faites une poignée de main" if barbare:
+    "Vous vous faites une poignée de main": #todo rajouter un if barbare
+        image handshake:
+            "frame_01.jpg"
+            0.5
+            "frame_02.jpg"
+            0.5
+            "frame_03.jpg"
+            0.5
+            "frame_04.jpg"
+            0.5
+            "frame_05.jpg"
+            0.5
+            "frame_06.jpg"
+            0.5
+            "frame_07.jpg"
+            0.5
+            "frame_08.jpg"
+            0.5
+            "frame_09.jpg"
+            0.5
+            "frame_10.jpg"
+            0.5
+            "frame_11.jpg"
+            0.5
+            "frame_12.jpg"
+            0.5
+            "frame_13.jpg"
+            0.5
+            "frame_14.jpg"
+            0.5
+            "frame_15.jpg"
+            0.5
+            "frame_16.jpg"
+            0.5
+            "frame_17.jpg"
+            0.5
+            "frame_18.jpg"
+            0.5
+            repeat
+        "MY MAN"
+        jump choix_taverne 
     "Un barbare passe à côté de vous et vous bouscule, comment réagissez vous ?"
 
 
@@ -523,7 +562,7 @@ menu choix_sortie_taverne:
         jump fin_taverne
     "Ouvrir la porte et débuter votre aventure":
         $ dice_isekai = Dice.lancer(1, 100)[0]
-        if dice_isekai == 1:
+        if dice_isekai >= 1:
             jump truck_kun
         else:
             jump exterieur_taverne
@@ -544,21 +583,26 @@ return
 
 label truck_kun:
     stop music fadeout 1.0
-    scene white with flash
-    
-    play sound "sfx_truck_horn.opus"
-    "POUÊÊÊÊÊÊÊÊÊÊÊT !!!"
-    
-    play sound "sfx_crash.opus"
-    with HPunch
-    
-    "Un bruit de métal froissé déchire l'air. Vous n'avez même pas eu le temps de voir la plaque d'immatriculation."
-    
+
+    play music "Truck_klaxon.mp3"
+
+    scene truck_kun with flash
+
+    truck "POUÊÊÊÊÊÊÊÊÊÊÊT !!!"
+
+    pause 0.2
+    stop music
+    play music "Truck_accident.mp3"
+    with hpunch
+
+    pause 0.2
+    stop music
     scene black with dissolve
+    "..."
     "Tout devient noir..."
     "Puis..."
     
-    play sound "sfx_office_ambiance.opus"
+    play sound "Office_ambiance.mp3"
     
     "Bip... Bip... Bip..."
     
