@@ -1,4 +1,4 @@
-from .objets import Consommable
+from python.objets import Consommable
 from .dice import *
 
 class Potion(Consommable):

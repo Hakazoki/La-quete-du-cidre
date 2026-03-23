@@ -1,6 +1,6 @@
 from abc import ABC
 from dice import Dice
-from objets import *
+from python.objets import *
 from Potion import *
 
 #Classe abstraite entite ------------------------------------------------------------------------------
