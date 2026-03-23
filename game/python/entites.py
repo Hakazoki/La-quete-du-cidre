@@ -1,6 +1,6 @@
 from abc import ABC
 from dice import Dice
-from python.objets import *
+from objets import *
 from Potion import *
 
 #Classe abstraite entite ------------------------------------------------------------------------------
@@ -31,16 +31,21 @@ class Entite(ABC):
         #bonus lies aux armures
         self.defense_physique = 0
         self.defense_magique = 0
+        #autre
+        self.degats_totaux = 0
 
     @property
     def attaque(self)-> int:
+        from Arme import ArmeADistance
         degats = self.bonus(self.force)
         if self.arme == []:
             return degats
+        elif isinstance(self.arme[0], ArmeADistance):
+            degats = self.bonus(self.dexterite) + self.arme[0].tirer()
         else:
             for element in self.arme:
-                degats += element.attaque.jeter()
-            return degats
+                degats += element.bonus_attaque.jeter()
+        return degats
 
     @property
     def defense(self)-> int:
@@ -104,6 +109,7 @@ class Entite(ABC):
             degats = attaque - defense
             if degats < 0:
                 degats = 0
+            self.degats_totaux = degats
             other.perte_pv(degats)
         else:
             print("Vous ratez")
