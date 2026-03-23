@@ -1,6 +1,8 @@
 from objets import Equipement,Munition,Fleche
 from dice import Dice
 
+
+
 class Arme(Equipement):
     def __init__(self,nom,description,attaque : Dice):
         super().__init__(nom,description)

@@ -7,4 +7,3 @@ arme = EpeeEnBois()
 
 j.equiper(arme)
 print(j.arme)
-j.attaquer(m)
