@@ -20,12 +20,17 @@ class ArmeAUneMain(Arme):
 
 class EpeeEnBois(ArmeAUneMain):
     def __init__(self,nom = "Epée en Bois",description= "Simple Epée en bois",attaque=0):
-        super().__init__(nom,description,Dice(1,4))
+        super().__init__(nom,description,Dice(4,1))
+        print(self.attaque)
         
 
 class EpeeEnFer(ArmeAUneMain):
     def __init__(self,nom = "Epée en Fer",description = "Une lame de fer sombre de 60 cm, brute et fonctionnelle. Sa garde en croix et sa poignée gainée de cuir privilégient l'efficacité au style. C’est une arme équilibrée, forgée pour l'estocade et le combat rapproché.",attaque = 0):
-        super().__init__(nom,description,Dice(1,6))
+        super().__init__(nom,description,Dice(6,1))
+
+class Zweihander(ArmeADeuxMain):
+    def __init__(self, nom = "Zweihander", description = "Une grand epee a deux mains", attaque=0):
+        super().__init__(nom, description, Dice(6,1))
 
 class ArmeADistance(Arme):
     def __init__(self,nom,description,attaque,ammo_type :type[Munition],max_ammo=30):
