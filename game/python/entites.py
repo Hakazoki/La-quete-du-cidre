@@ -117,9 +117,16 @@ class Entite(ABC):
 class Joueur(Entite):
     def __init__(self, race = "Nain", nom = "Gimli"):
         import dice
+        import Armure
         super().__init__(race)
         self.nom = nom
         self.bourse = 1
+        #Armures
+        self.casque = Armure.CasqueEnCuire()
+        self.plastron = Armure.ArmureEnCuire()
+        self.gants = Armure.GantsEnCuire()
+        self.jambieres = Armure.JambieresEnCuire()
+        self.bottes = Armure.BottesEnCuire()
         #Inventaire consommables
         self.consommables = []
         #Stats
@@ -267,15 +274,19 @@ class Joueur(Entite):
 #Classes des differentes classes disponibles ------------------------------------------------------------------
 class Voleur(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
+        import Arme
         super().__init__(race, nom)
+        self.arme = [Arme.Arc]
         self.dexterite += 3
         self.charisme += 2
         self.charisme -= 2
         self.defense_physique = 1
 
-class Guerrier(Joueur):
+class Barbare(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
+        import Arme
         super().__init__(race, nom)
+        self.arme = [Arme.Hache, Arme.Hache]
         self.force += 3
         self.constitution += 2
         self.intelligence -= 2
@@ -283,7 +294,9 @@ class Guerrier(Joueur):
 
 class EluDeMoradin(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
+        import Arme
         super().__init__(race, nom)
+        self.arme = [Arme.MarteauDeMoradin]
         self.force += 3
         self.dexterite += 3
         self.constitution += 3
@@ -295,7 +308,9 @@ class EluDeMoradin(Joueur):
 
 class Tavernier(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
+        import Arme
         super().__init__(race, nom)
+        self.arme = [Arme.EpeeEnBois]
         self.force -= 1
         self.dexterite -= 1
         self.constitution -= 1
@@ -306,7 +321,12 @@ class Tavernier(Joueur):
 class Mage(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         from Potion import PotionDeMana
+        import Arme
+        import Armure
         super().__init__(race, nom)
+        self.arme = [Arme.BatonDeSorcier()]
+        self.casque = Armure.CoiffeDerudi()
+        self.plastron = Armure.RobeDeMagicien()
         mana1 = PotionDeMana(60)
         mana2 = PotionDeMana(60)
         self.consommables = [mana1, mana2]
@@ -322,7 +342,7 @@ class Mage(Joueur):
         print("Missiles magiques !")
         for element in dice.Dice.lancer(3,10)[1]:
             if element > 2 :
-                degats = dice.Dice.lancer(1,8)[0] + self.bonus(self.intelligence) - other.defense_magique
+                degats = dice.Dice.lancer(1,8)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
                 other.perte_pv(degats)
             else:
                 print("Raté !")
@@ -333,7 +353,7 @@ class Mage(Joueur):
         import dice
         print("Boule de feu !")
         if dice.Dice.lancer()[0] > 12:
-            degats = dice.Dice.lancer(1,30)[0] + self.bonus(self.intelligence) - other.defense_magique
+            degats = dice.Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
             other.perte_pv(degats)
             self.mana -= 20
         else:
