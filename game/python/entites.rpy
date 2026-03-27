@@ -133,21 +133,16 @@ init -7 python :
             #Armes
             self.arme = []
             #Armures
-            self.tete = armure.CasqueEnCuire()
-            self.torse = armure.ArmureEnCuire()
-            self.mains = armure.GantsEnCuire()
-            self.jambes = armure.JambieresEnCuire()
-            self.pieds = armure.BottesEnCuire()
+            self.tete = Armure.CasqueEnCuire()
+            self.torse = Armure.ArmureEnCuire()
+            self.mains = Armure.GantsEnCuire()
+            self.jambes = Armure.JambieresEnCuire()
+            self.pieds = Armure.BottesEnCuire()
             self.tete.utiliser(self)
             self.torse.utiliser(self)
             self.mains.utiliser(self)
             self.jambes.utiliser(self)
             self.pieds.utiliser(self)
-            self.casque = None
-            self.plastron = None
-            self.gants = None
-            self.jambieres = None
-            self.bottes = None
             #Inventaire consommables
             self.consommables = []
             #Stats
@@ -309,8 +304,8 @@ init -7 python :
     class Barbare(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
-            h1 = arme.Hache()
-            h2 = arme.Hache()
+            h1 = Arme.Hache()
+            h2 = Arme.Hache()
             self.arme = [h1, h2]
             self.force += 3
             self.constitution += 2
@@ -320,7 +315,7 @@ init -7 python :
     class EluDeMoradin(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
-            marto = arme.MarteauDeMoradin()
+            marto = Arme.MarteauDeMoradin()
             self.arme = [marto]
             self.force += 3
             self.dexterite += 3
@@ -334,7 +329,7 @@ init -7 python :
     class Tavernier(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
-            ptitepee = arme.EpeeEnBois()
+            ptitepee = Arme.EpeeEnBois()
             self.arme = [ptitepee]
             self.force -= 1
             self.dexterite -= 1
@@ -347,10 +342,10 @@ init -7 python :
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
             self.type_degat = "magique"
-            self.baton = arme.BatonDeSorcier()
+            self.baton = Arme.BatonDeSorcier()
             self.baton.utiliser(self)
-            self.tete = armure.CoiffeDerudi()
-            self.torse = armure.RobeDeMagicien()
+            self.tete = Armure.CoiffeDerudi()
+            self.torse = Armure.RobeDeMagicien()
             self.tete.utiliser(self)
             self.torse.utiliser(self)
             self.mains.utiliser(self)
