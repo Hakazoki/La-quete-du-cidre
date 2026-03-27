@@ -346,6 +346,8 @@ init -7 python :
             self.baton.utiliser(self)
             self.tete = CoiffeDerudi()
             self.torse = RobeDeMagicien()
+            self.desequiper(self.casque)
+            self.desequiper(self.plastron)
             self.tete.utiliser(self)
             self.torse.utiliser(self)
             self.mains.utiliser(self)
