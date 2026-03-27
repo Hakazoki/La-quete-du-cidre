@@ -1,4 +1,4 @@
-init python:
+init -8 python:
         
     from objets import Equipement,Munition,Fleche
     from dice import Dice
