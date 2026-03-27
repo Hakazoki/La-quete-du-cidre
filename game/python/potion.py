@@ -33,6 +33,6 @@ class PotionDeGuerisonMajeur(PotionVie):
         self.soin = Dice.lancer(4, 4)
 
 class PotionDeMana(Potion):
-    def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.", mana_regen = 60):
-        super().__init__(nom, description, mana_regen=60)
+    def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.",soin=0,mana_regen = 60):
+        super().__init__(nom, description,soin,mana_regen=60)
         self.mana_regen = mana_regen
