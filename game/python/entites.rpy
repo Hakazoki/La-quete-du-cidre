@@ -1,6 +1,7 @@
 init python :
 
     from abc import ABC
+    from random import randint
 
     #Classe abstraite entite ------------------------------------------------------------------------------
     class Entite(ABC):
@@ -86,30 +87,39 @@ init python :
             Difference entre l'attaque et la defense -> degats subis
             """
             import dice
-            precision = dice.Dice.lancer()
-            if precision[0] >= 10 :
-                print("Vous touchez")
-                attaque = dice.Dice.lancer()[0] + self.attaque
-                defense = dice.Dice.lancer()[0] + other.defense
-                if attaque - self.attaque == 20:
-                    attaque = attaque * 2
-                    print("Reussite critique !")
-                elif attaque - self.attaque == 1:
-                    attaque = attaque/2
-                    print("Echec critique !")
-                if defense - other.defense == 20:
-                    attaque = attaque / 2
-                    print("Reussite critique !")
-                elif defense - other.defense == 1:
-                    attaque = attaque * 2
-                    print("Echec critique !")
-                print(f"Attaque de {attaque} VS defense de {defense}")
-                degats = attaque - defense
-                if degats < 0:
-                    degats = 0
-                other.perte_pv(degats)
-            else:
-                print("Vous ratez")
+            if self.type_degat == "physique":
+                precision = dice.Dice.lancer()
+                if precision[0] >= 10 :
+                    print("Vous touchez")
+                    attaque = dice.Dice.lancer()[0] + self.attaque
+                    defense = dice.Dice.lancer()[0] + other.defense
+                    if attaque - self.attaque == 20:
+                        attaque = attaque * 2
+                        print("Reussite critique !")
+                    elif attaque - self.attaque == 1:
+                        attaque = attaque/2
+                        print("Echec critique !")
+                    if defense - other.defense == 20:
+                        attaque = attaque / 2
+                        print("Reussite critique !")
+                    elif defense - other.defense == 1:
+                        attaque = attaque * 2
+                        print("Echec critique !")
+                    print(f"Attaque de {attaque} VS defense de {defense}")
+                    degats = attaque - defense
+                    if degats < 0:
+                        degats = 0
+                    other.perte_pv(degats)
+                else:
+                    print("Vous ratez")
+            else :
+                aleatoire = randint(1,2)
+                match aleatoire:
+                    case 1:
+                        attaque = self.sort1(other)
+                    case 2:
+                        attaque = self.sort2(other)
+                other.perte_pv(attaque)
             return
 
         def __str__(self):
@@ -121,6 +131,7 @@ init python :
             import dice
             import armure
             super().__init__(race)
+            self.type_degat = "physique"
             self.nom = nom
             self.bourse = 1
             #Armes
@@ -352,6 +363,7 @@ init python :
             import arme
             import armure
             super().__init__(race, nom)
+            self.type_degat = "magique"
             self.baton = arme.BatonDeSorcier()
             self.baton.utiliser(self)
             self.tete = armure.CoiffeDerudi()
@@ -371,7 +383,7 @@ init python :
             self.sagesse += 2
             self.defense_magique = 2
 
-        def missiles_magiques(self, other):
+        def sort1(self, other):
             import dice
             print("Missiles magiques !")
             for element in dice.Dice.lancer(3,10)[1]:
@@ -383,7 +395,7 @@ init python :
             self.mana -= 10
             return degats
 
-        def boule_de_feu(self, other):
+        def sort2(self, other):
             import dice
             print("Boule de feu !")
             if dice.Dice.lancer()[0] > 12:
@@ -398,6 +410,7 @@ init python :
     class Monstre(Entite):
         def __init__(self, race):
             super().__init__(race)
+            self.type_degat = "physique"
             gain_exp = 0
             drop = []
 
@@ -433,6 +446,7 @@ init python :
     class CrapeauMagicien(Monstre):
         def __init__(self, race = "Crapeau"):
             super().__init__(race)
+            self.type_degat = "magique"
             self.vie = self.pv_max = 60
             self.mana = self.mana_max = 60
             self.force = 6
@@ -443,7 +457,7 @@ init python :
             self.charisme = 13
             self.defense_magique = 3
 
-        def pluie_de_grenouille(self, other):
+        def sort1(self, other):
             import dice
             print("Des grenouilles tombent sur vous !")
             for element in dice.Dice.lancer(10,10)[1]:
@@ -454,7 +468,7 @@ init python :
                     print("Raté !")
             self.mana -= 10
 
-        def crachat_acide(self, other):
+        def sort2(self, other):
             import dice
             print("Il vous crache dessus ! Attention : corrosif !")
             if dice.Dice.lancer(1,10)[0] > 6:
