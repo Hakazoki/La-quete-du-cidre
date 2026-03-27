@@ -1,5 +1,4 @@
-from entites import Joueur,Dummy,Mage
-from arme import EpeeEnBois
+from entites import Dummy,Mage
 
 m= Dummy()
 j = Mage()

@@ -124,16 +124,16 @@ class Joueur(Entite):
         #Armes
         self.arme = []
         #Armures
-        tete = armure.CasqueEnCuire()
-        torse = armure.ArmureEnCuire()
-        mains = armure.GantsEnCuire()
-        jambes = armure.JambieresEnCuire()
-        pieds = armure.BottesEnCuire()
-        tete.utiliser(self)
-        torse.utiliser(self)
-        mains.utiliser(self)
-        jambes.utiliser(self)
-        pieds.utiliser(self)
+        self.tete = armure.CasqueEnCuire()
+        self.torse = armure.ArmureEnCuire()
+        self.mains = armure.GantsEnCuire()
+        self.jambes = armure.JambieresEnCuire()
+        self.pieds = armure.BottesEnCuire()
+        self.tete.utiliser(self)
+        self.torse.utiliser(self)
+        self.mains.utiliser(self)
+        self.jambes.utiliser(self)
+        self.pieds.utiliser(self)
         self.casque = None
         self.plastron = None
         self.gants = None
@@ -266,7 +266,7 @@ class Joueur(Entite):
         return
 
     def consommer(self, objet):
-        from Potion import PotionDeGuerison, PotionDeMana, PotionDeGuerisonMajeur
+        from potion import PotionDeGuerison, PotionDeMana, PotionDeGuerisonMajeur
         # Après, ici la logique devrait plutot être dans l'objet lui-même.
         # Genre objet.consommer(self)
         # Et dans les objets une méthode consommer(cible)
@@ -297,7 +297,8 @@ class Voleur(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         import arme
         super().__init__(race, nom)
-        self.arme = [arme.Arc]
+        arc = arme.Arc()
+        self.arme = [arc]
         self.dexterite += 3
         self.charisme += 2
         self.charisme -= 2
@@ -307,7 +308,9 @@ class Barbare(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         import arme
         super().__init__(race, nom)
-        self.arme = [arme.Hache, arme.Hache]
+        h1 = arme.Hache()
+        h2 = arme.Hache()
+        self.arme = [h1, h2]
         self.force += 3
         self.constitution += 2
         self.intelligence -= 2
@@ -317,7 +320,8 @@ class EluDeMoradin(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         import arme
         super().__init__(race, nom)
-        self.arme = [arme.MarteauDeMoradin]
+        marto = arme.MarteauDeMoradin()
+        self.arme = [marto]
         self.force += 3
         self.dexterite += 3
         self.constitution += 3
@@ -331,7 +335,8 @@ class Tavernier(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         import arme
         super().__init__(race, nom)
-        self.arme = [arme.EpeeEnBois]
+        ptitepee = arme.EpeeEnBois()
+        self.arme = [ptitepee]
         self.force -= 1
         self.dexterite -= 1
         self.constitution -= 1
@@ -341,18 +346,19 @@ class Tavernier(Joueur):
 
 class Mage(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
-        from Potion import PotionDeMana
+        from potion import PotionDeMana
         import arme
         import armure
         super().__init__(race, nom)
-        baton = arme.BatonDeSorcier()
-        baton.utiliser(self)
-        self.desequiper(self.casque)
-        self.desequiper(self.plastron)
-        tete = armure.CoiffeDerudi()
-        torse = armure.RobeDeMagicien()
-        tete.utiliser(self)
-        torse.utiliser(self)
+        self.baton = arme.BatonDeSorcier()
+        self.baton.utiliser(self)
+        self.tete = armure.CoiffeDerudi()
+        self.torse = armure.RobeDeMagicien()
+        self.tete.utiliser(self)
+        self.torse.utiliser(self)
+        self.mains.utiliser(self)
+        self.jambes.utiliser(self)
+        self.pieds.utiliser(self)
         mana1 = PotionDeMana(60)
         mana2 = PotionDeMana(60)
         self.consommables = [mana1, mana2]

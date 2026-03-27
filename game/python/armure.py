@@ -26,7 +26,6 @@ class CoiffeDerudi(Casque):
         super().__init__(nom,description,defence_physique,defence_magique)
         defence_magique = 1
         
-
 class Plastron(Armure):
     def __init__(self,nom,description,defence_physique,defence_magique):
         super().__init__(nom,description,defence_physique,defence_magique)
@@ -40,6 +39,7 @@ class RobeDeMagicien(Plastron):
     def __init__(self,nom="Robe de magicien",description="Un habit de haute couture que seul les mages les plus agguerris peuvent espérer se voir offrir en guise de récompense",defence_physique=0,defence_magique=2):
         super().__init__(nom,description,defence_physique,defence_magique)
         defence_magique = 2
+
 class Gants(Armure):
     def __init__(self,nom,description,defence_physique,defence_magique):
         super().__init__(nom,description,defence_physique,defence_magique)
@@ -48,6 +48,7 @@ class GantsEnCuire(Gants):
     def __init__(self,nom="Gants de protection en cuir",description="Gants de protection pouvant servir aux aventuriers préoccupés par leurs doigts fragiles comme aux gros forgerons bien virils",defence_physique=1, defence_magique=0):
         super().__init__(nom,description,defence_physique, defence_magique)
         defence_physique = 1
+
 class Jambieres(Armure):
     def __init__(self,nom,description,defence_physique,defence_magique):
         super().__init__(nom,description,defence_physique,defence_magique)
@@ -56,6 +57,7 @@ class JambieresEnCuire(Jambieres):
     def __init__(self,nom="Jambières en cuir",description="Jambières en cuir tanné qui vous assureront un charisme et une présence impressionnante lors de vos aventures et autres voyages vers des cultures étrangères.",defence_physique=2, defence_magique=0):
         super().__init__(nom,description,defence_physique, defence_magique)
         defence_physique = 2
+
 class Bottes(Armure):
     def __init__(self ,nom ,description ,defence_physique ,defence_magique):
         super().__init__(nom ,description ,defence_physique ,defence_magique)
