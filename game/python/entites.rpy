@@ -85,7 +85,6 @@ init -7 python :
             1 lancer pour la defense
             Difference entre l'attaque et la defense -> degats subis
             """
-            import dice
             if self.type_degat == "physique":
                 precision = dice.Dice.lancer()
                 if precision[0] >= 10 :
@@ -368,7 +367,6 @@ init -7 python :
             self.defense_magique = 2
 
         def sort1(self, other):
-            import dice
             print("Missiles magiques !")
             for element in dice.Dice.lancer(3,10)[1]:
                 if element > 2 :
@@ -380,7 +378,6 @@ init -7 python :
             return degats
 
         def sort2(self, other):
-            import dice
             print("Boule de feu !")
             if dice.Dice.lancer()[0] > 12:
                 degats = dice.Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
@@ -442,7 +439,6 @@ init -7 python :
             self.defense_magique = 3
 
         def sort1(self, other):
-            import dice
             print("Des grenouilles tombent sur vous !")
             for element in dice.Dice.lancer(10,10)[1]:
                 if element > 5:
@@ -453,7 +449,6 @@ init -7 python :
             self.mana -= 10
 
         def sort2(self, other):
-            import dice
             print("Il vous crache dessus ! Attention : corrosif !")
             if dice.Dice.lancer(1,10)[0] > 6:
                 degats = dice.Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
