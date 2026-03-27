@@ -420,7 +420,7 @@ menu q26:
 # Instanciation Joueur
 
 python:
-    pc = Voleur()
+    pc = Mage()
 
 # Fin Instanciation Joueur
 
@@ -508,7 +508,6 @@ label dialogue_tavernier:
     t "Tiens, voici une carte pour aller dans le donjon."
     p "Merci chef !"
     jump choix_taverne
-
     "Que voulez-vous faire maintenant ?"
 
 menu choix_taverne: 
