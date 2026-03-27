@@ -1,7 +1,6 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
 init python:
-    from python.dice import Dice
-    from python.entites import *
+    blorp = 0
 
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
@@ -420,8 +419,8 @@ menu q26:
 
 # Instanciation Joueur
 
-# python:
-#     pc = Voleur()
+python:
+    pc = Voleur()
 
 # Fin Instanciation Joueur
 
@@ -602,7 +601,7 @@ label exterieur_taverne:
 menu:        
     "Vous décidez de la parcourir jusqu'à ce que vous trouviez le donjon.":
         jump devant_donjon
-    "Vous criez très fort pour débuté votre aventure":
+    "Vous criez très fort pour débuter votre aventure":
         jump crier_fort   
     "Vous vous retrouvez devant une plaine magnifique. Vous éprouvez une légère nostalgie en la regardant."
 
@@ -610,12 +609,35 @@ label crier_fort:
     "Les passants vous regardent, ils vous prennent juste pour un guignol"
     jump devant_donjon
 
-label devant_donjon:
-    
+label devant_donjon:    
     "glorp"
     
 
     
+
+# menu entree_donjon:
+# scene dungeon_entrance.jpeg
+#     "Vous entrez dans le donjon"
+#         jump debut_donjon
+#     "Vous admirez l'entrée"
+#         jump admire_entree
+#     "Vous voila devant le donjon, que faites-vous ?"
+
+# label debut_donjon:
+#     scene je_sais_pas
+#         "Un crapaud, je les hais de tout mon être"
+#             jump combat_crapaud_magicien
+
+# label admire_entree:
+#     "C'est un beau donjon"
+#     jump entree_donjon
+
+
+
+
+
+
+
 
 
 

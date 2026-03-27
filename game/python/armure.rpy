@@ -1,6 +1,5 @@
-init python :
+init -8 python :
 
-    from objets import Equipement
 
     class Armure(Equipement):
         def __init__(self,nom,description,defence_physique,defence_magique):

@@ -1,9 +1,4 @@
-init python:
-        
-    from objets import Equipement,Munition,Fleche
-    from dice import Dice
-
-
+init -8 python:
 
     class Arme(Equipement):
         def __init__(self,nom,description,attaque : Dice):

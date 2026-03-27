@@ -1,7 +1,6 @@
-init python :
+init -9 python :
 
     from abc import ABC, abstractmethod
-    from dice import Dice
 
     class Objets(ABC):
         """
