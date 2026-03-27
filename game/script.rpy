@@ -9,6 +9,26 @@ image chat = im.Scale("chat01.png", 900, 1000)
 image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
 image bg_open_space = Solid("#cccccc")
 image bg_office_night = Solid("#1a1a1a")
+image frame_01 = im.Scale("frame-01.jpg", 900, 1000)
+image frame_02 = im.Scale("frame-02.jpg", 900, 1000)
+image frame_03 = im.Scale("frame-03.jpg", 900, 1000)
+image frame_04 = im.Scale("frame-04.jpg", 900, 1000)
+image frame_05 = im.Scale("frame-05.jpg", 900, 1000)
+image frame_06 = im.Scale("frame-06.jpg", 900, 1000)
+image frame_07 = im.Scale("frame-07.jpg", 900, 1000)
+image frame_08 = im.Scale("frame-08.jpg", 900, 1000)
+image frame_09 = im.Scale("frame-09.jpg", 900, 1000)
+image frame_10 = im.Scale("frame-10.jpg", 900, 1000)
+image frame_11 = im.Scale("frame-11.jpg", 900, 1000)
+image frame_12 = im.Scale("frame-12.jpg", 900, 1000)
+image frame_13 = im.Scale("frame-13.jpg", 900, 1000)
+image frame_14 = im.Scale("frame-14.jpg", 900, 1000)
+image frame_15 = im.Scale("frame-15.jpg", 900, 1000)
+image frame_16 = im.Scale("frame-16.jpg", 900, 1000)
+image frame_17 = im.Scale("frame-17.jpg", 900, 1000)
+image frame_18 = im.Scale("frame-18.jpg", 900, 1000)
+image plaine = im.Scale("Plaine.jpg", 1920, 1080)
+image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
 
 default p = None
 default drunk = 0
@@ -512,41 +532,41 @@ menu choix_barbare:
         jump choix_taverne
     "Vous vous faites une poignée de main": #todo rajouter un if barbare
         image handshake:
-            "frame_01.jpg"
+            "frame_01"
             0.5
-            "frame_02.jpg"
+            "frame_02"
             0.5
-            "frame_03.jpg"
+            "frame_03"
             0.5
-            "frame_04.jpg"
+            "frame_04"
             0.5
-            "frame_05.jpg"
+            "frame_05"
             0.5
-            "frame_06.jpg"
+            "frame_06"
             0.5
-            "frame_07.jpg"
+            "frame_07"
             0.5
-            "frame_08.jpg"
+            "frame_08"
             0.5
-            "frame_09.jpg"
+            "frame_09"
             0.5
-            "frame_10.jpg"
+            "frame_10"
             0.5
-            "frame_11.jpg"
+            "frame_11"
             0.5
-            "frame_12.jpg"
+            "frame_12"
             0.5
-            "frame_13.jpg"
+            "frame_13"
             0.5
-            "frame_14.jpg"
+            "frame_14"
             0.5
-            "frame_15.jpg"
+            "frame_15"
             0.5
-            "frame_16.jpg"
+            "frame_16"
             0.5
-            "frame_17.jpg"
+            "frame_17"
             0.5
-            "frame_18.jpg"
+            "frame_18"
             0.5
             repeat
         "MY MAN"
@@ -567,6 +587,11 @@ menu choix_sortie_taverne:
         else:
             jump exterieur_taverne
 
+label exterieur_taverne:
+    scene plaine
+
+
+
 
 label finalcool:
     "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."
@@ -582,27 +607,26 @@ label fin:
 return
 
 label truck_kun:
-    stop music fadeout 1.0
 
-    play music "Truck_klaxon.mp3"
+    play sound "Truck_klaxon.mp3" volume 0.5
 
     scene truck_kun with flash
 
     truck "POUÊÊÊÊÊÊÊÊÊÊÊT !!!"
 
     pause 0.2
-    stop music
-    play music "Truck_accident.mp3"
+    stop sound
+    play sound "Truck_accident.mp3" volume 0.5
     with hpunch
 
     pause 0.2
-    stop music
+    stop sound
     scene black with dissolve
     "..."
     "Tout devient noir..."
     "Puis..."
     
-    play sound "Office_ambiance.mp3"
+    play music "Office_ambiance.mp3"
     
     "Bip... Bip... Bip..."
     
@@ -652,8 +676,10 @@ label fin_bureau:
     "Le seul trésor que vous avez trouvé est un ticket restaurant de 9 euros."
     
     p "C'est donc ça... l'enfer des humains ? Pas de gloire, pas de chants... juste le bruit de la clim."
+    stop music
     
     "FÉLICITATIONS : Vous avez débloqué la fin secrète 'Burn-out Isekai'."
+    
     "Peut-être qu'en traversant la route demain matin, vous aurez plus de chance ?"
     
     jump fin

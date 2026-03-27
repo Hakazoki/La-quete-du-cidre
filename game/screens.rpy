@@ -309,6 +309,8 @@ screen navigation():
 
         textbutton _("Charger") action ShowMenu("load")
 
+        textbutton _("Succés") action ShowMenu("bobcachievements")
+
         textbutton _("Préférences") action ShowMenu("preferences")
 
         if _in_replay:
