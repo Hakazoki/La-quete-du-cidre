@@ -1,6 +1,6 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
 init python:
-    from python.dice import Dice
+    blorp = 0
 
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
@@ -9,26 +9,64 @@ image chat = im.Scale("chat01.png", 900, 1000)
 image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
 image bg_open_space = Solid("#cccccc")
 image bg_office_night = Solid("#1a1a1a")
-image frame_01 = im.Scale("frame-01.jpg", 900, 1000)
-image frame_02 = im.Scale("frame-02.jpg", 900, 1000)
-image frame_03 = im.Scale("frame-03.jpg", 900, 1000)
-image frame_04 = im.Scale("frame-04.jpg", 900, 1000)
-image frame_05 = im.Scale("frame-05.jpg", 900, 1000)
-image frame_06 = im.Scale("frame-06.jpg", 900, 1000)
-image frame_07 = im.Scale("frame-07.jpg", 900, 1000)
-image frame_08 = im.Scale("frame-08.jpg", 900, 1000)
-image frame_09 = im.Scale("frame-09.jpg", 900, 1000)
-image frame_10 = im.Scale("frame-10.jpg", 900, 1000)
-image frame_11 = im.Scale("frame-11.jpg", 900, 1000)
-image frame_12 = im.Scale("frame-12.jpg", 900, 1000)
-image frame_13 = im.Scale("frame-13.jpg", 900, 1000)
-image frame_14 = im.Scale("frame-14.jpg", 900, 1000)
-image frame_15 = im.Scale("frame-15.jpg", 900, 1000)
-image frame_16 = im.Scale("frame-16.jpg", 900, 1000)
-image frame_17 = im.Scale("frame-17.jpg", 900, 1000)
-image frame_18 = im.Scale("frame-18.jpg", 900, 1000)
+image frame_01 = im.Scale("bloggif_frames_gif/frame-01.jpg", 750, 750)
+image frame_02 = im.Scale("bloggif_frames_gif/frame-02.jpg", 750, 750)
+image frame_03 = im.Scale("bloggif_frames_gif/frame-03.jpg", 750, 750)
+image frame_04 = im.Scale("bloggif_frames_gif/frame-04.jpg", 750, 750)
+image frame_05 = im.Scale("bloggif_frames_gif/frame-05.jpg", 750, 750)
+image frame_06 = im.Scale("bloggif_frames_gif/frame-06.jpg", 750, 750)
+image frame_07 = im.Scale("bloggif_frames_gif/frame-07.jpg", 750, 750)
+image frame_08 = im.Scale("bloggif_frames_gif/frame-08.jpg", 750, 750)
+image frame_09 = im.Scale("bloggif_frames_gif/frame-09.jpg", 750, 750)
+image frame_10 = im.Scale("bloggif_frames_gif/frame-10.jpg", 750, 750)
+image frame_11 = im.Scale("bloggif_frames_gif/frame-11.jpg", 750, 750)
+image frame_12 = im.Scale("bloggif_frames_gif/frame-12.jpg", 750, 750)
+image frame_13 = im.Scale("bloggif_frames_gif/frame-13.jpg", 750, 750)
+image frame_14 = im.Scale("bloggif_frames_gif/frame-14.jpg", 750, 750)
+image frame_15 = im.Scale("bloggif_frames_gif/frame-15.jpg", 750, 750)
+image frame_16 = im.Scale("bloggif_frames_gif/frame-16.jpg", 750, 750)
+image frame_17 = im.Scale("bloggif_frames_gif/frame-17.jpg", 750, 750)
+image frame_18 = im.Scale("bloggif_frames_gif/frame-18.jpg", 750, 750)
 image plaine = im.Scale("Plaine.jpg", 1920, 1080)
 image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
+image handshake:
+            "frame_01"
+            0.1
+            "frame_02"
+            0.1
+            "frame_03"
+            0.1
+            "frame_04"
+            0.1
+            "frame_05"
+            0.1
+            "frame_06"
+            0.1
+            "frame_07"
+            0.1
+            "frame_08"
+            0.1
+            "frame_09"
+            0.1
+            "frame_10"
+            0.1
+            "frame_11"
+            0.1
+            "frame_12"
+            0.1
+            "frame_13"
+            0.1
+            "frame_14"
+            0.1
+            "frame_15"
+            0.1
+            "frame_16"
+            0.1
+            "frame_17"
+            0.1
+            "frame_18"
+            0.1
+            repeat
 
 default p = None
 default drunk = 0
@@ -379,6 +417,14 @@ menu q26:
 
 # Fin Création
 
+# Instanciation Joueur
+
+python:
+    pc = Voleur()
+
+# Fin Instanciation Joueur
+
+
 scene bg taverne
 
 "Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain, bien connu du village grimpa sur une table pour attirer l'attention."
@@ -396,14 +442,10 @@ play music "elevator-music.mp3"
 $ pc_name = renpy.input("Brave aventurier fils de glorp héritier au throne de glorptopia, Quel est ton valeureux nom ?", length=20).strip() or "Aventurier"
 
 stop music
-
-# python:
-#     pc = Joueur(race="Nain", classe="Barbare")
 #     pc.nom = pc_name
 
 $ p = Character(pc_name)
 
-"Es-tu mineur ou majeur ?"
 
 menu:
 
@@ -412,6 +454,7 @@ menu:
 
     "je suis majeur":
         jump majeur
+    "Es-tu mineur ou majeur ?"
 
 label mineur:
     "Dorian... c'est une taverne ici, sort d'ici !"
@@ -531,45 +574,10 @@ menu choix_barbare:
     "Vous vous escusez et continuez votre chemin":
         jump choix_taverne
     "Vous vous faites une poignée de main": #todo rajouter un if barbare
-        image handshake:
-            "frame_01"
-            0.5
-            "frame_02"
-            0.5
-            "frame_03"
-            0.5
-            "frame_04"
-            0.5
-            "frame_05"
-            0.5
-            "frame_06"
-            0.5
-            "frame_07"
-            0.5
-            "frame_08"
-            0.5
-            "frame_09"
-            0.5
-            "frame_10"
-            0.5
-            "frame_11"
-            0.5
-            "frame_12"
-            0.5
-            "frame_13"
-            0.5
-            "frame_14"
-            0.5
-            "frame_15"
-            0.5
-            "frame_16"
-            0.5
-            "frame_17"
-            0.5
-            "frame_18"
-            0.5
-            repeat
+        show handshake:
+            align (.50, .10)
         "MY MAN"
+        hide handshake
         jump choix_taverne 
     "Un barbare passe à côté de vous et vous bouscule, comment réagissez vous ?"
 
@@ -582,13 +590,54 @@ menu choix_sortie_taverne:
         jump fin_taverne
     "Ouvrir la porte et débuter votre aventure":
         $ dice_isekai = Dice.lancer(1, 100)[0]
-        if dice_isekai >= 1:
+        if dice_isekai >= 50:
             jump truck_kun
         else:
             jump exterieur_taverne
 
 label exterieur_taverne:
     scene plaine
+
+menu:        
+    "Vous décidez de la parcourir jusqu'à ce que vous trouviez le donjon.":
+        jump devant_donjon
+    "Vous criez très fort pour débuter votre aventure":
+        jump crier_fort   
+    "Vous vous retrouvez devant une plaine magnifique. Vous éprouvez une légère nostalgie en la regardant."
+
+label crier_fort:
+    "Les passants vous regardent, ils vous prennent juste pour un guignol"
+    jump devant_donjon
+
+label devant_donjon:    
+    "glorp"
+    
+
+    
+
+# menu entree_donjon:
+# scene dungeon_entrance.jpeg
+#     "Vous entrez dans le donjon"
+#         jump debut_donjon
+#     "Vous admirez l'entrée"
+#         jump admire_entree
+#     "Vous voila devant le donjon, que faites-vous ?"
+
+# label debut_donjon:
+#     scene je_sais_pas
+#         "Un crapaud, je les hais de tout mon être"
+#             jump combat_crapaud_magicien
+
+# label admire_entree:
+#     "C'est un beau donjon"
+#     jump entree_donjon
+
+
+
+
+
+
+
 
 
 
@@ -620,13 +669,13 @@ label truck_kun:
     with hpunch
 
     pause 0.2
-    stop sound
     scene black with dissolve
     "..."
+    stop sound
     "Tout devient noir..."
     "Puis..."
     
-    play music "Office_ambiance.mp3"
+    play music "Office_ambiance.mp3" volume 1
     
     "Bip... Bip... Bip..."
     

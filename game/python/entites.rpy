@@ -1,4 +1,4 @@
-init python :
+init -7 python :
 
     from abc import ABC
     from random import randint
@@ -34,7 +34,6 @@ init python :
 
         @property
         def attaque(self)-> int:
-            from arme import ArmeADistance
             degats = self.bonus(self.force)
             if self.arme == []:
                 return degats
@@ -128,8 +127,6 @@ init python :
     #Classe du joueur ----------------------------------------------------------------------------------
     class Joueur(Entite):
         def __init__(self, race = "Nain", nom = "Gimli"):
-            import dice
-            import armure
             super().__init__(race)
             self.type_degat = "physique"
             self.nom = nom
@@ -199,8 +196,6 @@ init python :
                 """)
 
         def equiper(self, equipement):
-            from arme import ArmeAUneMain, ArmeADistance, ArmeADeuxMain
-            from armure import Casque, Plastron, Gants, Jambieres, Bottes
             if isinstance(equipement, ArmeAUneMain):
                 if self.arme == [] or len(self.arme) < 2 and isinstance(self.arme[0], ArmeAUneMain) == True:
                     self.arme.append(equipement)
@@ -239,8 +234,6 @@ init python :
             return
 
         def desequiper(self, equipement):
-            from arme import ArmeADeuxMain, ArmeADistance, ArmeAUneMain
-            from armure import Casque, Plastron, Gants, Jambieres, Bottes
             if isinstance(equipement, ArmeAUneMain):
                 if self.arme == []:
                     raise Exception("Vous n'avez aucune arme équippée")
@@ -279,7 +272,6 @@ init python :
             return
 
         def consommer(self, objet):
-            from potion import PotionDeGuerison, PotionDeMana, PotionDeGuerisonMajeur
             # Après, ici la logique devrait plutot être dans l'objet lui-même.
             # Genre objet.consommer(self)
             # Et dans les objets une méthode consommer(cible)
@@ -295,7 +287,6 @@ init python :
             self.consommables.remove(objet)
 
         def lancer(self, objet, other):
-            import dice
             precision = dice.Dice.lancer(1,20)
             if precision[0] >= 10:
                 other.perte_pv(objet.degat)
@@ -308,7 +299,6 @@ init python :
     #Classes des differentes classes disponibles ------------------------------------------------------------------
     class Voleur(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
-            import arme
             super().__init__(race, nom)
             arc = arme.Arc()
             self.arme = [arc]
@@ -319,7 +309,6 @@ init python :
 
     class Barbare(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
-            import arme
             super().__init__(race, nom)
             h1 = arme.Hache()
             h2 = arme.Hache()
@@ -331,7 +320,6 @@ init python :
 
     class EluDeMoradin(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
-            import arme
             super().__init__(race, nom)
             marto = arme.MarteauDeMoradin()
             self.arme = [marto]
@@ -346,7 +334,6 @@ init python :
 
     class Tavernier(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
-            import arme
             super().__init__(race, nom)
             ptitepee = arme.EpeeEnBois()
             self.arme = [ptitepee]
@@ -359,9 +346,6 @@ init python :
 
     class Mage(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
-            from potion import PotionDeMana
-            import arme
-            import armure
             super().__init__(race, nom)
             self.type_degat = "magique"
             self.baton = arme.BatonDeSorcier()
