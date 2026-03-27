@@ -1,7 +1,7 @@
-init python :
+# init python :
 
 
-    m= Dummy()
-    j = Mage()
+    # m= Dummy()
+    # j = Mage()
 
-    print(j.stats())
+    # print(j.stats())
