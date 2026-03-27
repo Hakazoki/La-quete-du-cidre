@@ -133,11 +133,11 @@ init -7 python :
             #Armes
             self.arme = []
             #Armures
-            self.tete = Armure.CasqueEnCuire()
-            self.torse = Armure.ArmureEnCuire()
-            self.mains = Armure.GantsEnCuire()
-            self.jambes = Armure.JambieresEnCuire()
-            self.pieds = Armure.BottesEnCuire()
+            self.tete = CasqueEnCuire()
+            self.torse = ArmureEnCuire()
+            self.mains = GantsEnCuire()
+            self.jambes = JambieresEnCuire()
+            self.pieds = BottesEnCuire()
             self.tete.utiliser(self)
             self.torse.utiliser(self)
             self.mains.utiliser(self)
@@ -146,12 +146,12 @@ init -7 python :
             #Inventaire consommables
             self.consommables = []
             #Stats
-            self.force = dice.Dice.lancer()[0]
-            self.dexterite = dice.Dice.lancer()[0]
-            self.constitution = dice.Dice.lancer()[0]
-            self.intelligence = dice.Dice.lancer()[0]
-            self.sagesse = dice.Dice.lancer()[0]
-            self.charisme = dice.Dice.lancer()[0]
+            self.force = Dice.lancer()[0]
+            self.dexterite = Dice.lancer()[0]
+            self.constitution = Dice.lancer()[0]
+            self.intelligence = Dice.lancer()[0]
+            self.sagesse = Dice.lancer()[0]
+            self.charisme = Dice.lancer()[0]
             self.defense_physique = 0
             self.defense_magique = 0
 
@@ -281,7 +281,7 @@ init -7 python :
             self.consommables.remove(objet)
 
         def lancer(self, objet, other):
-            precision = dice.Dice.lancer(1,20)
+            precision = Dice.lancer(1,20)
             if precision[0] >= 10:
                 other.perte_pv(objet.degat)
                 print(f"L'ennemi perd {objet.degat} pv")
@@ -294,7 +294,7 @@ init -7 python :
     class Voleur(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
-            arc = arme.Arc()
+            arc = Arc()
             self.arme = [arc]
             self.dexterite += 3
             self.charisme += 2
@@ -304,8 +304,8 @@ init -7 python :
     class Barbare(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
-            h1 = Arme.Hache()
-            h2 = Arme.Hache()
+            h1 = Hache()
+            h2 = Hache()
             self.arme = [h1, h2]
             self.force += 3
             self.constitution += 2
@@ -315,7 +315,7 @@ init -7 python :
     class EluDeMoradin(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
-            marto = Arme.MarteauDeMoradin()
+            marto = MarteauDeMoradin()
             self.arme = [marto]
             self.force += 3
             self.dexterite += 3
@@ -329,7 +329,7 @@ init -7 python :
     class Tavernier(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
-            ptitepee = Arme.EpeeEnBois()
+            ptitepee = EpeeEnBois()
             self.arme = [ptitepee]
             self.force -= 1
             self.dexterite -= 1
@@ -342,10 +342,10 @@ init -7 python :
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
             self.type_degat = "magique"
-            self.baton = Arme.BatonDeSorcier()
+            self.baton = BatonDeSorcier()
             self.baton.utiliser(self)
-            self.tete = Armure.CoiffeDerudi()
-            self.torse = Armure.RobeDeMagicien()
+            self.tete = CoiffeDerudi()
+            self.torse = RobeDeMagicien()
             self.tete.utiliser(self)
             self.torse.utiliser(self)
             self.mains.utiliser(self)
@@ -363,9 +363,9 @@ init -7 python :
 
         def sort1(self, other):
             print("Missiles magiques !")
-            for element in dice.Dice.lancer(3,10)[1]:
+            for element in Dice.lancer(3,10)[1]:
                 if element > 2 :
-                    degats = dice.Dice.lancer(1,8)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
+                    degats = Dice.lancer(1,8)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
                 else:
                     print("Raté !")
                     degats = 0
@@ -375,7 +375,7 @@ init -7 python :
         def sort2(self, other):
             print("Boule de feu !")
             if dice.Dice.lancer()[0] > 12:
-                degats = dice.Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
+                degats = Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
                 self.mana -= 20
             else:
                 print("Raté !")
@@ -435,9 +435,9 @@ init -7 python :
 
         def sort1(self, other):
             print("Des grenouilles tombent sur vous !")
-            for element in dice.Dice.lancer(10,10)[1]:
+            for element in Dice.lancer(10,10)[1]:
                 if element > 5:
-                    degats = dice.Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
+                    degats = Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
                     other.perte_pv(degats)
                 else:
                     print("Raté !")
@@ -445,8 +445,8 @@ init -7 python :
 
         def sort2(self, other):
             print("Il vous crache dessus ! Attention : corrosif !")
-            if dice.Dice.lancer(1,10)[0] > 6:
-                degats = dice.Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
+            if Dice.lancer(1,10)[0] > 6:
+                degats = Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
                 other.perte_pv(degats)
                 self.mana -= 20
             else:
