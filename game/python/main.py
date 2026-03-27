@@ -1,9 +1,7 @@
-from entites import Joueur,Dummy
+from entites import Joueur,Dummy,Mage
 from Arme import EpeeEnBois
 
 m= Dummy()
-j = Joueur()
-arme = EpeeEnBois()
+j = Mage()
 
-j.equiper(arme)
-print(j.arme)
+print(j.stats())

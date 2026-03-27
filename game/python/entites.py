@@ -121,12 +121,24 @@ class Joueur(Entite):
         super().__init__(race)
         self.nom = nom
         self.bourse = 1
+        #Armes
+        self.arme = []
         #Armures
-        self.casque = Armure.CasqueEnCuire()
-        self.plastron = Armure.ArmureEnCuire()
-        self.gants = Armure.GantsEnCuire()
-        self.jambieres = Armure.JambieresEnCuire()
-        self.bottes = Armure.BottesEnCuire()
+        tete = Armure.CasqueEnCuire()
+        torse = Armure.ArmureEnCuire()
+        mains = Armure.GantsEnCuire()
+        jambes = Armure.JambieresEnCuire()
+        pieds = Armure.BottesEnCuire()
+        tete.utiliser(self)
+        torse.utiliser(self)
+        mains.utiliser(self)
+        jambes.utiliser(self)
+        pieds.utiliser(self)
+        self.casque = None
+        self.plastron = None
+        self.gants = None
+        self.jambieres = None
+        self.bottes = None
         #Inventaire consommables
         self.consommables = []
         #Stats
@@ -148,6 +160,14 @@ class Joueur(Entite):
             intelligence = {self.intelligence}
             sagesse = {self.sagesse}
             charisme = {self.charisme}
+
+            Equipement :
+            armes => {self.arme[0].nom}
+            casque => {self.casque.nom}
+            plastron => {self.plastron.nom}
+            gants => {self.gants.nom}
+            jambières => {self.jambieres.nom}
+            bottes => {self.bottes.nom}
             """)
 
     def info(self, other):
@@ -156,6 +176,7 @@ class Joueur(Entite):
             nom = {other.__class__.__name__}
             race = {other.race}
             vie = {other.pv_max}
+            armes = {other.armes}
             force = {other.force}
             dextérité = {other.dexterite}
             constitution = {other.constitution}
@@ -303,8 +324,8 @@ class EluDeMoradin(Joueur):
         self.intelligence += 3
         self.sagesse += 3
         self.charisme += 3
-        self.defense_magique = 2
-        self.defense_physique = 2
+        self.defense_magique = 5
+        self.defense_physique = 5
 
 class Tavernier(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
@@ -324,9 +345,14 @@ class Mage(Joueur):
         import Arme
         import Armure
         super().__init__(race, nom)
-        self.arme = [Arme.BatonDeSorcier()]
-        self.casque = Armure.CoiffeDerudi()
-        self.plastron = Armure.RobeDeMagicien()
+        baton = Arme.BatonDeSorcier()
+        baton.utiliser(self)
+        self.desequiper(self.casque)
+        self.desequiper(self.plastron)
+        tete = Armure.CoiffeDerudi()
+        torse = Armure.RobeDeMagicien()
+        tete.utiliser(self)
+        torse.utiliser(self)
         mana1 = PotionDeMana(60)
         mana2 = PotionDeMana(60)
         self.consommables = [mana1, mana2]
