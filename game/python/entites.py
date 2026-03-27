@@ -31,7 +31,7 @@ class Entite(ABC):
 
     @property
     def attaque(self)-> int:
-        from Arme import ArmeADistance
+        from arme import ArmeADistance
         degats = self.bonus(self.force)
         if self.arme == []:
             return degats
@@ -117,18 +117,18 @@ class Entite(ABC):
 class Joueur(Entite):
     def __init__(self, race = "Nain", nom = "Gimli"):
         import dice
-        import Armure
+        import armure
         super().__init__(race)
         self.nom = nom
         self.bourse = 1
         #Armes
         self.arme = []
         #Armures
-        tete = Armure.CasqueEnCuire()
-        torse = Armure.ArmureEnCuire()
-        mains = Armure.GantsEnCuire()
-        jambes = Armure.JambieresEnCuire()
-        pieds = Armure.BottesEnCuire()
+        tete = armure.CasqueEnCuire()
+        torse = armure.ArmureEnCuire()
+        mains = armure.GantsEnCuire()
+        jambes = armure.JambieresEnCuire()
+        pieds = armure.BottesEnCuire()
         tete.utiliser(self)
         torse.utiliser(self)
         mains.utiliser(self)
@@ -186,8 +186,8 @@ class Joueur(Entite):
             """)
 
     def equiper(self, equipement):
-        from Arme import ArmeAUneMain, ArmeADistance, ArmeADeuxMain
-        from Armure import Casque, Plastron, Gants, Jambieres, Bottes
+        from arme import ArmeAUneMain, ArmeADistance, ArmeADeuxMain
+        from armure import Casque, Plastron, Gants, Jambieres, Bottes
         if isinstance(equipement, ArmeAUneMain):
             if self.arme == [] or len(self.arme) < 2 and isinstance(self.arme[0], ArmeAUneMain) == True:
                 self.arme.append(equipement)
@@ -226,8 +226,8 @@ class Joueur(Entite):
         return
 
     def desequiper(self, equipement):
-        from Arme import ArmeADeuxMain, ArmeADistance, ArmeAUneMain
-        from Armure import Casque, Plastron, Gants, Jambieres, Bottes
+        from arme import ArmeADeuxMain, ArmeADistance, ArmeAUneMain
+        from armure import Casque, Plastron, Gants, Jambieres, Bottes
         if isinstance(equipement, ArmeAUneMain):
             if self.arme == []:
                 raise Exception("Vous n'avez aucune arme équippée")
@@ -295,9 +295,9 @@ class Joueur(Entite):
 #Classes des differentes classes disponibles ------------------------------------------------------------------
 class Voleur(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
-        import Arme
+        import arme
         super().__init__(race, nom)
-        self.arme = [Arme.Arc]
+        self.arme = [arme.Arc]
         self.dexterite += 3
         self.charisme += 2
         self.charisme -= 2
@@ -305,9 +305,9 @@ class Voleur(Joueur):
 
 class Barbare(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
-        import Arme
+        import arme
         super().__init__(race, nom)
-        self.arme = [Arme.Hache, Arme.Hache]
+        self.arme = [arme.Hache, arme.Hache]
         self.force += 3
         self.constitution += 2
         self.intelligence -= 2
@@ -315,9 +315,9 @@ class Barbare(Joueur):
 
 class EluDeMoradin(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
-        import Arme
+        import arme
         super().__init__(race, nom)
-        self.arme = [Arme.MarteauDeMoradin]
+        self.arme = [arme.MarteauDeMoradin]
         self.force += 3
         self.dexterite += 3
         self.constitution += 3
@@ -329,9 +329,9 @@ class EluDeMoradin(Joueur):
 
 class Tavernier(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
-        import Arme
+        import arme
         super().__init__(race, nom)
-        self.arme = [Arme.EpeeEnBois]
+        self.arme = [arme.EpeeEnBois]
         self.force -= 1
         self.dexterite -= 1
         self.constitution -= 1
@@ -342,15 +342,15 @@ class Tavernier(Joueur):
 class Mage(Joueur):
     def __init__(self, race="Nain", nom="Gimli"):
         from Potion import PotionDeMana
-        import Arme
-        import Armure
+        import arme
+        import armure
         super().__init__(race, nom)
-        baton = Arme.BatonDeSorcier()
+        baton = arme.BatonDeSorcier()
         baton.utiliser(self)
         self.desequiper(self.casque)
         self.desequiper(self.plastron)
-        tete = Armure.CoiffeDerudi()
-        torse = Armure.RobeDeMagicien()
+        tete = armure.CoiffeDerudi()
+        torse = armure.RobeDeMagicien()
         tete.utiliser(self)
         torse.utiliser(self)
         mana1 = PotionDeMana(60)
