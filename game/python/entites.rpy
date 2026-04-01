@@ -156,7 +156,7 @@ init -7 python :
             self.defense_magique = 0
 
         def stats(self):
-            print(f"""\
+            return f"""\
                 Statistiques :
                 force = {self.force}
                 dextérité = {self.dexterite}
@@ -172,10 +172,10 @@ init -7 python :
                 gants => {self.gants.nom}
                 jambières => {self.jambieres.nom}
                 bottes => {self.bottes.nom}
-                """)
+                """
 
         def info(self, other):
-            print(f"""\
+            return f"""\
                 Info ennemi :
                 nom = {other.__class__.__name__}
                 race = {other.race}
@@ -187,82 +187,51 @@ init -7 python :
                 intelligence = {other.intelligence}
                 sagesse = {other.sagesse}
                 charisme = {other.charisme}
-                """)
+                """
 
         def equiper(self, equipement):
             if isinstance(equipement, ArmeAUneMain):
                 if self.arme == [] or len(self.arme) < 2 and isinstance(self.arme[0], ArmeAUneMain) == True:
                     self.arme.append(equipement)
-                else:
-                    raise Exception("Vous avez déjà une arme équippée")
             elif isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance):
                 if self.arme == []:
                     self.arme.append(equipement)
-                else:
-                    raise Exception("Vous avez déjà une arme équippée")
             elif isinstance(equipement, Casque):
                 if self.casque is None:
                     self.casque = equipement
-                else:
-                    raise Exception("Vous avez déjà un casque équippé")
             elif isinstance(equipement, Plastron):
                 if self.plastron is None:
                     self.plastron = equipement
-                else:
-                    raise Exception("Vous avez déjà un plastron équippé")
             elif isinstance(equipement, Gants):
                 if self.gants is None:
                     self.gants = equipement
-                else:
-                    raise Exception("Vous avez déjà des gants équippés")
             elif isinstance(equipement, Jambieres):
                 if self.jambieres is None:
                     self.jambieres = equipement
-                else:
-                    raise Exception("Vous avez déjà des jambières équippées")
             elif isinstance(equipement, Bottes):
                 if self.bottes is None:
                     self.bottes = equipement
-                else:
-                    raise Exception("Vous avez déjà des gants équippées")
             return
 
         def desequiper(self, equipement):
-            if isinstance(equipement, ArmeAUneMain):
-                if self.arme == []:
-                    raise Exception("Vous n'avez aucune arme équippée")
-                else:
-                    self.arme.remove(equipement)
-            elif isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance):
-                if self.arme == []:
-                    raise Exception("Vous n'avez aucune arme équippée")
-                else:
+            if isinstance(equipement, ArmeAUneMain) or isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance) :
+                if self.arme != []:
                     self.arme.remove(equipement)
             elif isinstance(equipement, Casque):
                 if self.casque is not None:
                     self.casque = None
-                else:
-                    raise Exception("Vous n'avez aucun casque équippé")
             elif isinstance(equipement, Plastron):
                 if self.plastron is not None:
                     self.plastron = None
-                else:
-                    raise Exception("Vous n'avez aucun plastron équippé")
             elif isinstance(equipement, Gants):
                 if self.gants is not None:
                     self.gants = None
-                else:
-                    raise Exception("Vous n'avez aucun gant équippé")
             elif isinstance(equipement, Jambieres):
                 if self.jambieres is not None:
                     self.jambieres = None
-                else:
-                    raise Exception("Vous n'avez aucune jambière équippée")
             elif isinstance(equipement, Bottes):
                 if self.bottes is not None:
                     self.bottes = None
-                else:
-                    raise Exception("Vous n'avez aucun gant équippée")
             return
 
         def consommer(self, objet):
