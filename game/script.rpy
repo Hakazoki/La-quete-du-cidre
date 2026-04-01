@@ -1,11 +1,13 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
 init python:
     blorp = 0
+    
 
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
 # ex: image eileen heureuse = "eileen_heureuse.png"
 image chat = im.Scale("chat01.png", 900, 1000)
+image poster_chat = im.Scale("wanted-poster", 900, 1000)
 image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
 image bg_open_space = Solid("#cccccc")
 image bg_office_night = Solid("#1a1a1a")
@@ -28,6 +30,12 @@ image frame_16 = im.Scale("bloggif_frames_gif/frame-16.jpg", 750, 750)
 image frame_17 = im.Scale("bloggif_frames_gif/frame-17.jpg", 750, 750)
 image frame_18 = im.Scale("bloggif_frames_gif/frame-18.jpg", 750, 750)
 image plaine = im.Scale("Plaine.jpg", 1920, 1080)
+image dungeon_entrance = im.Scale("dungeon_entrance.jpeg", 1920, 1080)
+image salle_labyrinthe_porte_droite = im.Scale("Salle_Labyrinthe_Porte_Droite.png", 1920, 1080)
+image salle_labyrinthe_porte_gauche = im.Scale("Salle_Labyrinthe_Porte_Gauche.png", 1920, 1080)
+image salle_labyrinthe_trois_porte = im.Scale("Salle_Labyrinthe_Trois_Porte.jpg", 1920, 1080)
+image salle_labyrinthe_porte_droite_centre = im.Scale("Salle_Labyrinthe_Porte_Droite_Centre.png", 1920, 1080)
+image salle_labyrinthe_porte_gauche_centre = im.Scale("Salle_Labyrinthe_Porte_Gauche_Centre.png", 1920, 1080)
 image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
 image handshake:
             "frame_01"
@@ -68,14 +76,176 @@ image handshake:
             0.1
             repeat
 
+# Ecran des statistiques
+
+screen bouton_stats():
+    if pc is not None:
+        textbutton "Statistiques":
+            xalign 0.98 yalign 0.02 # Position Bouton
+            action ToggleScreen("ecran_stats")
+
+screen ecran_stats():
+    modal True
+    zorder 100
+
+    frame:
+        xalign 0.5 yalign 0.5
+        padding (20,20)
+
+        vbox:
+            spacing 15
+
+            if pc is not None:
+                text "Statistiques de [pc.nom]" size 28 bold True xalign 0.5
+                
+                grid 2 13:
+                    spacing 20
+
+                    null height 10
+                    null height 10
+                    
+                    text "Niveau :" bold True
+                    text "[pc.lvl]"
+
+                    text "PV :" bold True
+                    text "[pc.vie]"
+
+                    text "Mana :" bold True
+                    text "[pc.mana]"
+
+                    text "Exp :" bold True
+                    text "[pc.exp]"
+
+                    # Une cassure dans la grille
+                    null height 10
+                    null height 10
+
+                    text "Classe : [pc.__class__.__name__]" bold True
+                    null height 10
+
+                    text "Constitution :" bold True
+                    text "[pc.constitution]"
+
+                    text "Force :" bold True
+                    text "[pc.force]"
+
+                    text "Dexterité :" bold True
+                    text "[pc.dexterite]"
+
+                    text "Intelligence :" bold True
+                    text "[pc.intelligence]"
+
+                    text "Sagesse :" bold True
+                    text "[pc.sagesse]"
+
+                    text "Charisme :" bold True
+                    text "[pc.charisme]"
+            
+            else:
+                text "Personnage pas encore initialisé." color "#ff0000" xalign 0.5
+            
+            null height 10
+
+            textbutton "Fermer":
+                xalign 0.5
+                action Hide("ecran_stats")
+
+# Fin ecran stats
+
+# Inventaire
+
+screen bouton_inventaire():
+    if pc is not None:
+        textbutton "Inventaire":
+            xalign 0.98 yalign 0.06 # Position bouton
+            action ToggleScreen("Inventaire")
+
+screen Inventaire():
+    modal True
+    zorder 100
+    
+    default tooltip_objet = None
+
+    frame:
+        xalign 0.5 yalign 0.5
+        padding (20, 20)
+        xysize (650, 450) 
+
+        vbox:
+            spacing 15
+
+            if pc is not None:
+                text "Inventaire" size 28 bold True xalign 0.5
+                
+                hbox:
+                    spacing 20
+                    
+                    
+                    vpgrid:
+                        cols 4
+                        spacing 5 
+                        mousewheel True
+                        scrollbars "vertical"
+                        allow_underfull True
+                        xysize (340, 300) 
+                        
+                        if pc.consommables:
+                            for item in pc.consommables:
+                                
+                                frame:
+                                    xysize (80, 80)
+                                    padding (5, 5)
+                                    background Solid("#333333")
+                                    
+                                    
+                                    imagebutton:
+                                        
+                                        idle item.icone 
+                                        hover item.icone
+                                        action NullAction() 
+                                        hovered SetScreenVariable("tooltip_objet", item)
+                                        unhovered SetScreenVariable("tooltip_objet", None)
+                                        align (0.5, 0.5)
+
+                    
+                    frame:
+                        xysize (250, 300)
+                        padding (15, 15)
+                        background Solid("#222222")
+                        
+                        if tooltip_objet is not None:
+                            vbox:
+                                spacing 10
+                                text "[tooltip_objet.nom]" bold True size 22
+                                text "[tooltip_objet.description]" size 14
+                                text "Effet : [tooltip_objet.effet]" size 16 color "#42f554"
+                        else:
+                            text "Survolez un objet pour afficher ses propriétés." size 14 align (0.5, 0.5) text_align 0.5
+
+            else:
+                text "Pas encore d'inventaire." color "#ff0000" xalign 0.5
+    
+            null height 10
+
+            textbutton "Fermer":
+                xalign 0.5
+                action Hide("Inventaire")
+
+# Fin inventaire
+
+
+#
+
 default p = None
 default drunk = 0
 default pts_voleur = 0
 default pts_barbare = 0
 default pts_mage = 0
+default pc = None
 
 # Déclarez les personnages utilisés dans le jeu.
 define g = Character('Gromli Fût-Perdu', color="#ff3434")
+define s = Character('La Serrure qui parle', color="#ff3434")
 define h = Character('Héro', color="#c8ffc8")
 define t = Character('Tavernier', color="#c8ffc8")
 define v = Character('Voyante louche', color="#c8ffc8")
@@ -90,6 +260,9 @@ define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
 # Le jeu commence ici
 label start:
+    show screen bouton_stats
+    show screen bouton_inventaire
+
     
 
 
@@ -420,7 +593,22 @@ menu q26:
 # Instanciation Joueur
 
 python:
-    pc = Mage()
+    scores_classes = {"Barbare": pts_barbare, "Voleur": pts_voleur, "Mage": pts_mage}
+    score_max = max(scores_classes.values())
+    vainqueurs = [classe for classe, score in scores_classes.items() if score == score_max]
+    
+    if len(vainqueurs) > 1:
+        classe_joueur = renpy.random.choice(vainqueurs)
+    else:
+        classe_joueur = vainqueurs[0]
+    
+    match classe_joueur:
+        case "Barbare":
+            pc = Barbare()
+        case "Voleur":
+            pc = Voleur()
+        case "Mage":
+            pc = Mage()
 
 # Fin Instanciation Joueur
 
@@ -442,8 +630,9 @@ play music "elevator-music.mp3"
 $ pc_name = renpy.input("Brave aventurier fils de glorp héritier au throne de glorptopia, Quel est ton valeureux nom ?", length=20).strip() or "Aventurier"
 
 stop music
-#     pc.nom = pc_name
 
+
+$ pc.nom = Character(pc_name)
 $ p = Character(pc_name)
 
 
@@ -457,6 +646,7 @@ menu:
     "Es-tu mineur ou majeur ?"
 
 label mineur:
+    $ pc.stats()
     "Dorian... c'est une taverne ici, sort d'ici !"
     jump fin
 
@@ -589,7 +779,7 @@ menu choix_sortie_taverne:
         jump fin_taverne
     "Ouvrir la porte et débuter votre aventure":
         $ dice_isekai = Dice.lancer(1, 100)[0]
-        if dice_isekai >= 50:
+        if dice_isekai >= 1:
             jump truck_kun
         else:
             jump exterieur_taverne
@@ -611,41 +801,167 @@ label crier_fort:
 label devant_donjon:    
     "glorp"
     
+label entree_donjon:
+    scene dungeon_entrance
 
-    
+menu:
+    "Vous entrez dans le donjon":
+        jump debut_donjon
 
-# menu entree_donjon:
-# scene dungeon_entrance.jpeg
-#     "Vous entrez dans le donjon"
-#         jump debut_donjon
-#     "Vous admirez l'entrée"
-#         jump admire_entree
-#     "Vous voila devant le donjon, que faites-vous ?"
+    "Vous admirez l'entrée":
+        jump admire_entree
+    "Vous voila devant le donjon, que faites-vous ?"
 
-# label debut_donjon:
-#     scene je_sais_pas
-#         "Un crapaud, je les hais de tout mon être"
-#             jump combat_crapaud_magicien
+label debut_donjon:
+    scene je_sais_pas
+    "Un crapaud, je les hais de tout mon être"
+    jump combat_crapaud_magicien
 
-# label admire_entree:
-#     "C'est un beau donjon"
-#     jump entree_donjon
+label admire_entree:
+    "C'est un beau donjon"
+    jump entree_donjon
 
-
-
-
-
-
-
-
-
-
+#label entre_labyrinthe
+#   scene labyrinthe_porte
+#
+#menu:
+#   "Vous évaluez la solidité de la porte avec vos pectoraux saillants." if isinstance(pc,Barbare):
+#       $ d20 = Dice.lancer(1,20)[0]
+#       jump voie_du_barbare
+#
+#   "Vous sortiz vos outils en espérant que vos mains tremblent dans le bon sens." if isinstance(pc,Voleur):
+#       $ d20 = Dice.lancer(1,20)[0]
+#       jump voie_du_voleur
+#
+#   "Vous utilisez votre élocution pour convaincre la porte que sa fonction de fermeture est obsolète." if isinstance(pc,Mage):
+#       $ d20 = Dice.lancer(1,20)[0]
+#       jump voie_du_mage
+#
+#   "Vous décider de rebrousser chemin parce que a quoi bon de toute façon cette aventure devais bien ce terminer quelque part":
+#       jump autre_chemin
+#       
+#label voie_du_barbare:      
+#        if d20 == 20:
+#           "Vous fixer la porte avec un mépris souverain et la traversez sans l'ouvrir : le concept de 'porte' est purement subjectif pour vous":
+#           jump labyrinthe_salle01   
+#       elif d20 >= 10:
+#           "Vous donnez un grand coup d'épaule. Dans un craquement sinistre, le bois cède. Vous passez.":
+#           jump labyrinthe_salle01
+#       elif d20 > 1:
+#           "Vous chargez la porte, mais vous rebondissez dessus lamentablement. Votre épaule vous fait mal.":
+#           jump entre_labyrinthe
+#       else:
+#           "Vous tentez de défoncer la porte avec votre tête. la porte n'a rien, mais vous vous assommez tout seul pour les dix prochaine minute.":
+#           jump entre_labyrinthe
+#
+#label voie_du_voleur:
+#       if d20 == 20:
+#           "Vous trébuchez sur vos propres lacets, puis tombez la tête la première contre la porte qui s'ouvre par miracle. Quel talent.":
+#           jump labyrinthe_salle01
+#       elif d20 >= 10:
+#           "Quelques secondes de manipulation avec vos outils et le verrou finit par céder dans un clic satisfaisant.":
+#           jump labyrinthe_salle01
+#       elif d20 > 1:
+#           "La serrure est plus complexe que prévu. Vous n'arrivez qu'à coincer un bout de métal à l'intérieur.":
+#           jump entre_labyrinthe  
+#       else:
+#           "Votre outil de crochetage casse net dans la serrure. En prime, vous vous pincez les doigts si fort que vous poussez un cri de souris.":
+#           jump entré_labyrinthe
+#
+#label voie_du_mage:
+#       if d20 == 20:
+#           "Vous convainquez la serrure que, d'un point de vue métaphysique, son état naturel devrait être 'déverrouillé'. Elle s'exécute par pur respect intellectuel.":
+#           jump labyrinthe_salle01
+#       elif d20 >= 10:
+#           "Votre argumentation est implacable. Le verrou, intimidé par votre logique, finit par lâcher prise dans un soupir métallique.":
+#           jump labyrinthe_salle01
+#       elif d20 > 1:
+#           "La porte est têtue. Elle refuse d'écouter vos arguments et semble même se verrouiller un peu plus fort par pur esprit de contradiction.":
+#           jump entre_labyrinthe_salle01
+#       else:
+#           "À force de vouloir paraître trop savant, vous vous emmêlez dans vos syllabes et lancez accidentellement un sort de 'Mutisme' sur vous-même. Vous ne pouvez plus dire un mot, et la porte semble se moquer de vous en silence.":
+#           jump entre_labyrinthe_salle01
+#
+#label labyrinthe_salle01:
+#   scene salle_labyrinthe_trois_porte
+#
+#menu:
+#   
+#   "Vous décidez de prendre la porte à droite":
+#       jump labyrinthe_salle03
+#
+#   "Vous décidez de prendre la porte à gauche":
+#       if isinstance(pc,Barbare):
+#           jump salle02_enigme_barbare
+#
+#       if isinstance(pc,Voleur):
+#           jump salle02_enigme_voleur
+#
+#       if isinstance(pc,Mage):
+#           jump salle02_enigme_mage
+#       
+#
+#   "Vous décidez de prendre la porte au centre":
+#       jump labyrinthe_salle_central
+#
+#   "L'odeur d'humidité et de poussière ancienne chatouille vos narines, mais c'est surtout le silence oppressant de la salle qui vous donne envie de frapper quelque chose, juste pour vérifier si l'écho est aussi intimidant qu'il en a l'air." if isinstance(pc,Barbare)
+#   "Vous vous glissez dans la pièce en restant près des murs, remarquant immédiatement que le sol est étrangement propre... beaucoup trop propre pour un donjon abandonné. Soit quelqu'un passe le balai, soit le sol mange tout ce qui traîne." if isinstance(pc,Voleur)
+#   "Vos sens magiques picotent : cette salle baigne dans un résidu d'énergie arcanique si instable qu'elle pourrait transformer vos bottes en canards en plastique si vous aviez le malheur d'éternuer trop fort." if isinstance(pc,Mage)
+#
+#label salle02_enigme_barbare
+#   scene salle_labyrinthe_porte_droite_centre
+#   
+#   menu:
+#       "Insérer votre hache dans l'encoche du premier guerrier.":
+#           "Rien ne se passe, à part un bruit de métal contre la pierre"
+#           jump salle02_enigme_barbare
+#
+#       "Fapper un coup de poing démesuré sur le centre de la fresque.":
+#           "Bing ! Le mécanisme reconnaît la force pure. La port tremble et s'efface."
+#           jump labyrinthe_salle04
+#
+#       "Chercher un bouton caché derrière le bouclier du roi.":
+#           show poster_chat
+#           "Vous trouvé une étrange image qui vous semble famillière"
+#           hide poster_chat
+#           jump salle02_enigme_barbare
+#   
+#   "La fresque reprèsente quatre guerriers. Le dernier n'a pas d'arme, son poing est levé vers le ciel."
+#
+#label salle02_enigme_voleur
+#   scene salle_labyrinthe_porte_droite_centre
+#   "La serrure de la porte centrale vous regarde avec mépris. Elle semble attendre quelque chose."
+#
+#   menu:
+#       "Lui raconter une blague sur les barbare."
+#       
+#
+#       "Lui glissez un pot-de-vin":
+#           p "Tien j'ai dix balle tu veux"
+#           s "Dix balles ? Seulement ? Vous savez les temps son dure en ce moment j'ai une femme, deux enfant..."
+#           p "Douze balles. C'est mon dernier mot, je n'ai plus que des jetons de lave-linge après ça, j'ai même plus de quoi payez la bonne Josianne"
+#           s "Josianne ? La Josianne qui fait les poussières dans l'aile Est ? Oh, ne m'en parlez pas, elle a un plumeau qui gratte, c'est un enfer pour mes finitions en cuivre."
+#           p "Oh, croyez-moi, entre son plumeau qui gratte et sa façon de polir le manche... elle sait comment faire briller les bijoux de famille, même les plus rouillés."
+#           s "(Un petit silence métallique gêné, puis un cliquetis de gorge)"
+#           s "Ah... Je vois le genre. Elle fait dans la 'rénovation complète' de l'équipement, c'est ça ? Je comprends mieux pourquoi le levier de la herse a l'air si... vigoureux ces temps-ci."
+#           p "Exactement. Alors, ces douze balles ? C'est ça ou je vous laisse avec la poussière et les acariens magiques."
+#           s "Bon... D'accord. Mais vous rajoutez un jeton de lave-linge. Le petit dernier a avalé un bouton de manchette et il fait un bruit de grelot quand il court, faut que je le passe à l'essorage."
+#           p "Vendu. Douze balles et un jeton de lavage. On est bons ?"
+#           s "On est bons. Allez, glissez ça dans la fente, et doucement hein ! Je suis pas une de ces serrures de taverne que tout le monde peut forcer avec un bout de fil de fer."
+#           "CLING. CLANG. SCHLIP."
+#           "La serrure gobe le tout avec un petit frisson de métal."
+#           s "Ah... Ça glisse tout seul. Allez, passez vite avant que la femme du verrou de gauche ne me surprenne à faire des affaires avec vous !"
+#           jump labyrinthe_salle04
+#
+#
+#   s "Écoutez mon petit pote, je m'ennuie à mourir dans ce couloir. Si vous voulez que je tourne, il me faut une info croustillante ou un truc qui brille. Alors ?"
+#   
 
 label finalcool:
     "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."
     jump fin
 label finbarbare:
-    "Vous essayez d'attrapper le col de barbare qui est torse nue, vous échouez"
+    "Vous essayez d'attrapper le col de barbare qui est torse nu, vous échouez"
     "Le barbare soulève une table et vous fracasse le crâne, vous mourrez sur le coup"
 label fintaverne:
     "Vous avez décidé de rester vivre dans la taverne, et depuis ce jour, entre les chopes débordantes, les chants graves des mineurs et la chaleur du grand foyer de pierre, vous vous sentez plus nain que jamais, trouvant enfin un foyer aussi solide qu'un roc et aussi chaleureux qu’un banquet nain."
