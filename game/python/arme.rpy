@@ -1,8 +1,7 @@
 init -8 python:
 
     class Arme(Equipement):
-        def __init__(self,nom,description,attaque : Dice,icone="../images/items/default_icone.png")
-        def __init__(self,nom,description,attaque):
+        def __init__(self,nom,description,attaque : Dice,icone="../images/items/default_icone.png"):
             super().__init__(nom,description,attaque)
 
     class ArmeAUneMain(Arme):
