@@ -203,7 +203,7 @@ screen Inventaire():
                                 if hasattr(tooltip_objet, 'mana_regen') and tooltip_objet.mana_regen > 0:
                                     text "Regen Mana : [tooltip_objet.mana_regen]" size 16 color "#42a4f5"
                                     
-                                if hasattr(tooltip_objet, 'soin') and tooltip_objet.soin > 0:
+                                if hasattr(tooltip_objet, 'soin') and tooltip_objet.soin is not None:
                                     text "Soin : [tooltip_objet.soin.nb_dices]D[tooltip_objet.soin.nb_faces]" size 16 color "#f54242"
                                     
                         else:
@@ -219,18 +219,17 @@ screen Inventaire():
                         
                         if pc.consommables:
                             for item in pc.consommables:
-                                
                                 frame:
                                     xysize (80, 80)
                                     padding (5, 5)
                                     background Solid("#333333")
                                     
-                                    
                                     imagebutton:
-                                        
                                         idle item.icone 
                                         hover item.icone
-                                        action NullAction() 
+
+                                        # Utilisation des consommables
+                                        action Function(pc.consommer, item) 
                                         hovered SetScreenVariable("tooltip_objet", item)
                                         unhovered SetScreenVariable("tooltip_objet", None)
                                         align (0.5, 0.5)
@@ -245,6 +244,47 @@ screen Inventaire():
 
 # Fin inventaire
 
+# Stats Combat Crapo
+
+screen Combat_Crapo():
+    zorder 80 
+
+    
+    frame:
+        xalign 0.02 yalign 0.2
+        padding (15, 15)
+        xysize (350, 150)
+        
+        vbox:
+            spacing 5
+            text "[pc.nom]" size 24 bold True
+
+            hbox:
+                text "PV:" min_width 50
+                bar value AnimatedValue(pc.vie, pc.pv_max) xysize (200, 20) left_bar "#2ecc71"
+                text " [pc.vie]/[pc.pv_max]" size 14
+                
+            if pc.mana_max > 0:
+                hbox:
+                    text "PM:" min_width 50
+                    bar value AnimatedValue(pc.mana, pc.mana_max) xysize (200, 20) left_bar "#3498db"
+                    text " [pc.mana]/[pc.mana_max]" size 14
+
+    frame:
+        xalign 0.98 yalign 0.2
+        padding (15, 15)
+        xysize (350, 120)
+        
+        vbox:
+            spacing 5
+            text "Albert le [crapomagicien.race]" size 24 bold True color "#e74c3c"
+            
+            hbox:
+                text "PV:" min_width 50
+                bar value AnimatedValue(crapomagicien.vie, crapomagicien.pv_max) xysize (200, 20) left_bar "#e74c3c"
+                text " [crapomagicien.vie]/[crapomagicien.pv_max]" size 14
+
+    # Fin Stats Combat Crapo
 
 #
 
@@ -281,7 +321,6 @@ define sfx_item_get = "game/audio/item_get.mp3"
 label start:
     show screen bouton_stats
     show screen bouton_inventaire
-
     
 
 
@@ -853,32 +892,52 @@ menu:
         jump admire_entree
     "Vous voila devant le donjon, que faites-vous ?"
 
+label admire_entree:
+    "C'est un beau donjon"
+    jump entree_donjon
+
 label debut_donjon:
+
+#------------------------------------- COMBAT CRAPAUD MAGICIEN -------------------------------------
+
     scene labyrinthe_porte
     "Un crapaud, je les hais de tout mon être"
     $ crapomagicien = CrapeauMagicien()
-    while pc.vie > 0 and crapomagicien.vie > 0:
+    show screen Combat_Crapo
+    label boucle_combat_crapo:
+        if pc.vie <= 0:
+            jump defaite_crapo
+        if crapomagicien.vie <= 0:
+            jump victoire_crapo
+
         menu:
-            #Combat contre le crapaud magicien
+            
             "Vous utilisez votre [pc.arme[0].nom] pour attaquer le crapaud magicien!" if isinstance(pc, Barbare) or isinstance(pc, Voleur):
                 $ pc.attaquer(crapomagicien)
                 "Le crapaud magicien subit  points de dommage. Il lui reste [crapomagicien.vie] points de vie."
-                "Le crapaud magicien attaque en retour!"
-                $ crapomagicien.attaquer(pc)
-                "Vous subissez  points de dommage. Il vous reste  points de vie."
 
             "Vous canalisez votre magie pour attaquer le crapaud magicien!" if isinstance(pc, Mage):
                 $ pc.attaquer(crapomagicien)
                 "Le crapaud magicien subit  points de dommage. Il lui reste [crapomagicien.vie] points de vie."
-                "Le crapaud magicien attaque en retour!"
-                $ crapomagicien.attaquer(pc)
-                "Vous subissez  points de dommage. Il vous reste  points de vie."
 
+        "Le crapaud magicien attaque en retour!"
+        $ crapomagicien.attaquer(pc)
+        "Vous subissez  points de dommage. Il vous reste  points de vie."
+
+        jump boucle_combat_crapo
+
+label defaite_crapo:
+    hide screen Combat_Crapo
+    "Le terrifiant crapaud magicien viens à bout de votre piètre vie de nain, vous n'étiez tout simplement pas à la hauteur d'une telle créature."
+    jump fin
+
+label victoire_crapo:
+    hide screen Combat_Crapo
+    "Vous avez vaincu le terrible crapaud magicien !"
     jump entre_labyrinthe
 
-label admire_entree:
-    "C'est un beau donjon"
-    jump entree_donjon
+#------------------------------------- FIN COMBAT CRAPAUD MAGICIEN -------------------------------------
+
 
 label entre_labyrinthe:
     scene labyrinthe_porte
