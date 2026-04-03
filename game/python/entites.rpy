@@ -411,6 +411,7 @@ init -7 python :
 
         def sort1(self, other):
             print("Des grenouilles tombent sur vous !")
+            degats = 0
             for element in Dice.lancer(10,10)[1]:
                 if element > 5:
                     degats = Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
@@ -421,6 +422,7 @@ init -7 python :
 
         def sort2(self, other):
             print("Il vous crache dessus ! Attention : corrosif !")
+            degats = 0
             if Dice.lancer(1,10)[0] > 6:
                 degats = Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
                 self.mana -= 20
