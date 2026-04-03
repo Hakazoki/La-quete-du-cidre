@@ -259,15 +259,23 @@ init -7 python :
             self.consommables.remove(objet)
             return
 
+        def stat_cap(self, stat, bonus):
+            stat += bonus
+            if stat > 20:
+                stat = 20
+            elif stat < 1:
+                stat = 1
+            return
+
     #Classes des differentes classes disponibles ------------------------------------------------------------------
     class Voleur(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
             arc = Arc()
             self.arme = [arc]
-            self.dexterite += 3
-            self.charisme += 2
-            self.charisme -= 2
+            self.stat_cap(self.dexterite,3)
+            self.stat_cap(self.intelligence,1)
+            self.stat_cap(self.charisme,-2)
             self.defense_physique = 1
 
     class Barbare(Joueur):
@@ -276,9 +284,9 @@ init -7 python :
             h1 = Hache()
             h2 = Hache()
             self.arme = [h1, h2]
-            self.force += 3
-            self.constitution += 2
-            self.intelligence -= 2
+            self.stat_cap(self.force, 3)
+            self.stat_cap(self.constitution, 2)
+            self.stat_cap(self.intelligence, -2)
             self.defense_physique = 2
 
     class EluDeMoradin(Joueur):
@@ -286,12 +294,12 @@ init -7 python :
             super().__init__(race, nom)
             marto = MarteauDeMoradin()
             self.arme = [marto]
-            self.force += 3
-            self.dexterite += 3
-            self.constitution += 3
-            self.intelligence += 3
-            self.sagesse += 3
-            self.charisme += 3
+            self.stat_cap(self.force,3)
+            self.stat_cap(self.constitution,3)
+            self.stat_cap(self.dexterite,3)
+            self.stat_cap(self.intelligence,3)
+            self.stat_cap(self.sagesse,3)
+            self.stat_cap(self.charisme,3)
             self.defense_magique = 5
             self.defense_physique = 5
 
@@ -300,12 +308,12 @@ init -7 python :
             super().__init__(race, nom)
             ptitepee = EpeeEnBois()
             self.arme = [ptitepee]
-            self.force -= 1
-            self.dexterite -= 1
-            self.constitution -= 1
-            self.intelligence -= 1
-            self.sagesse -= 1
-            self.charisme -= 1
+            self.stat_cap(self.force, -1)
+            self.stat_cap(self.constitution, -1)
+            self.stat_cap(self.dexterite, -1)
+            self.stat_cap(self.intelligence, -1)
+            self.stat_cap(self.sagesse, -1)
+            self.stat_cap(self.charisme, -1)
 
     class Mage(Joueur):
         def __init__(self, race="Nain", nom="Gimli"):
@@ -324,9 +332,9 @@ init -7 python :
             self.consommables = [mana1, mana2]
             self.mana = 0
             self.mana_max = 60
-            self.force -= 2
-            self.intelligence += 3
-            self.sagesse += 2
+            self.stat_cap(self.force, -2)
+            self.stat_cap(self.intelligence, 3)
+            self.stat_cap(self.sagesse, 2)
             self.defense_magique = 2
 
         def sort1(self, other):
