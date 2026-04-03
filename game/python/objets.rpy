@@ -21,8 +21,7 @@ init -9 python :
 
         """
         def __init__(self,nom,description,icone="../images/items/default_icone.png"):
-            super().utiliser(entite)
-            self.est_consomme = True
+            super().__init__(self,nom,description,icone)
 
     class Munition(Consommable):
         max_ammo = 30
