@@ -329,8 +329,7 @@ init -7 python :
             self.torse.utiliser(self)
             mana1 = PotionDeMana()
             mana2 = PotionDeMana()
-            popo1 = PotionDeGuerisonMajeur()
-            self.consommables = [mana1, mana2, popo1]
+            self.consommables = [mana1, mana2]
             self.mana = 0
             self.mana_max = 60
             self.stat_cap(self.force, -2)
@@ -351,7 +350,7 @@ init -7 python :
 
         def sort2(self, other):
             print("Boule de feu !")
-            if dice.Dice.lancer()[0] > 12:
+            if Dice.lancer()[0] > 12:
                 degats = Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].tirer() - other.defense_magique
                 self.mana -= 20
             else:

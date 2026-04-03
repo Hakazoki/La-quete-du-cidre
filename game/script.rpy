@@ -268,12 +268,14 @@ define se = Character("Oracle de Maintenance blazé")
 define boss = Character('M. Grondin (Manager)', color="#ff0000")
 define coll = Character('Kévin du Marketing', color="#00fbff")
 define truck = Character('Truck-kun', color="#f098ca")
+define crapo = Character('Albert Le Crapo Magicien De Lécole De La Bave', color="#77f242")
 
 # Déclarez des transitions
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
 #Déclarez des sfx
 define sfx_get_class = "audio/get_class.mp3"
+define sfx_item_get = "audio/item_get.mp3"
 
 # Le jeu commence ici
 label start:
@@ -854,6 +856,19 @@ menu:
 label debut_donjon:
     scene labyrinthe_porte
     "Un crapaud, je les hais de tout mon être"
+    $ crapomagicien = CrapeauMagicien()
+    while pc.vie > 0 or crapomagicien.vie > 0:
+        menu:
+            #Combat contre le crapaud magicien
+            # "Vous utilisez votre {pc.arme} pour attaquer le crapaud magicien!" if isinstance(pc, Barbare, Voleur):
+
+            "Vous canalisez votre magie pour attaquer le crapaud magicien!" if isinstance(pc, Mage):
+                $ pc.attaquer(crapomagicien)
+                "Le crapaud magicien subit {pc.attaquer(crapomagicien)} points de dommage. Il lui reste {crapomagicien.hp} points de vie."
+                "Le crapaud magicien attaque en retour!"
+                $ crapomagicien.attaquer(pc)
+                "Vous subissez {crapomagicien.attaquer(pc)} points de dommage. Il vous reste {pc.hp} points de vie."
+
     jump entre_labyrinthe
 
 label admire_entree:
@@ -950,7 +965,11 @@ label labyrinthe_salle01:
                 jump salle02_enigme_mage
 
         "Vous décidez de prendre la porte au centre":
-            jump labyrinthe_salle_central
+            "Vous vous dirigez vers la porte située au centre de la pièce. En tentant de l'ouvrir, vous réalisez qu'elle est verrouillée de l'intérieur. Vous décidez alors de frapper poliment."
+            "Une voix agacée s'élève derrière le bois :"
+            "C'est occupé ! Revenez plus tard, quand j'aurai fini !"
+            "Alors que la voix se tait, une odeur particulièrement âcre et indéfinissable s'échappe de l'interstice de la porte. Vous reculez instinctivement d'un pas, comprenant soudainement pourquoi cette pièce était fermée."
+            jump labyrinthe_salle01
 
     
 label salle02_enigme_barbare:
@@ -1095,6 +1114,7 @@ label labyrinthe_salle04:
             elif isinstance(pc, Mage):
                 "D'un geste de la main, vous déverrouillez le coffre. Une odeur de plantes séchées s'en échappe."
 
+            play sfx "sfx_item_get"
             $ pc.consommables.append(item1)
             $ pc.consommables.append(item2)
             
