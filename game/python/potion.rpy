@@ -2,7 +2,7 @@ init -8 python :
 
 
     class Potion(Consommable):
-        def __init__(self,nom,description,soin : Dice,mana_regen):
+        def __init__(self,nom,description,soin : Dice,mana_regen,icone="../images/items/default_icone.png"):
             super().__init__(nom,description)
             self.soin = soin
             self.mana_regen = mana_regen
@@ -11,7 +11,7 @@ init -8 python :
             super().utiliser(entite)
 
     class PotionVie(Potion):
-        def __init__(self, nom, description, soin, mana_regen):
+        def __init__(self, nom, description, soin, mana_regen,icone="../images/items/default_icone.png"):
             super().__init__(nom, description, soin, mana_regen)
             self.soin = soin
 
@@ -23,16 +23,16 @@ init -8 python :
                 entite.vie += self.soin
 
     class PotionDeGuerison(PotionVie):
-        def __init__(self,nom = "Potion De Guérison",description = "Un flacon de verre contenant un liquide rougeoyant qui referme les plaies et redonne de la vigueur dès la première gorgée.", soin=0):
+        def __init__(self,nom = "Potion De Guérison",description = "Un flacon de verre contenant un liquide rougeoyant qui referme les plaies et redonne de la vigueur dès la première gorgée.", soin=0,icone="../images/items/fc267.png"):
             super().__init__(nom,description,soin)
             self.soin = Dice.lancer(2,4)
 
     class PotionDeGuerisonMajeur(PotionVie):
-        def __init__(self,nom = "Potion de Guérison Majeur", description = "Une essence cramoisie bouillonnante dont l'éclat pur cicatrise instantanément les pires blessures et restaure la force vitale du héros."):
+        def __init__(self,nom = "Potion de Guérison Majeur", description = "Une essence cramoisie bouillonnante dont l'éclat pur cicatrise instantanément les pires blessures et restaure la force vitale du héros.",soin=0,icone="../images/items/fc272.png"):
             super().__init__(nom,description)
             self.soin = Dice.lancer(4, 4)
 
     class PotionDeMana(Potion):
-        def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.",soin=0,mana_regen = 60):
+        def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.",soin=0,mana_regen = 60,icone="../images/items/mana_potion.png"):
             super().__init__(nom, description,soin,mana_regen=60)
             self.mana_regen = mana_regen
