@@ -414,17 +414,16 @@ init -7 python :
             for element in Dice.lancer(10,10)[1]:
                 if element > 5:
                     degats = Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
-                    other.perte_pv(degats)
                 else:
                     print("Raté !")
             self.mana -= 10
+            return degats
 
         def sort2(self, other):
             print("Il vous crache dessus ! Attention : corrosif !")
             if Dice.lancer(1,10)[0] > 6:
                 degats = Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
-                other.perte_pv(degats)
                 self.mana -= 20
             else:
                 print("Raté !")
-            return
+            return degats
