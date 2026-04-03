@@ -9,6 +9,7 @@ init -9 python :
         def __init__(self,nom,description,icone):
             self.nom = nom
             self.description = description
+            
             self.icone = icone
             self.effet = "Aucun"
 
@@ -21,7 +22,7 @@ init -9 python :
 
         """
         def __init__(self,nom,description,icone="../images/items/default_icone.png"):
-            super().utiliser(entite)
+            super().utiliser(Entite)
             self.est_consomme = True
 
     class Munition(Consommable):

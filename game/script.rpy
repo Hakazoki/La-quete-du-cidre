@@ -184,6 +184,26 @@ screen Inventaire():
                     spacing 20
                     
                     
+
+                    
+                    frame:
+                        xysize (250, 300)
+                        padding (15, 15)
+                        background Solid("#222222")
+                        
+                        if tooltip_objet is not None:
+                            vbox:
+                                spacing 10
+                                text "[tooltip_objet.nom]" bold True size 22
+                                text "[tooltip_objet.description]" size 14
+                                if [tooltip_objet.effet] is not None:
+                                    text "Effet : [tooltip_objet.effet]" size 16 color "#42f554"
+                                else:
+                                    text "Regen Mana : [tooltip_objet.mana_regen]" size 16 color "#42a4f5"
+                                
+                        else:
+                            text "Survolez un objet pour afficher ses propriétés." size 14 align (0.5, 0.5) text_align 0.5
+
                     vpgrid:
                         cols 4
                         spacing 5 
@@ -209,22 +229,6 @@ screen Inventaire():
                                         hovered SetScreenVariable("tooltip_objet", item)
                                         unhovered SetScreenVariable("tooltip_objet", None)
                                         align (0.5, 0.5)
-
-                    
-                    frame:
-                        xysize (250, 300)
-                        padding (15, 15)
-                        background Solid("#222222")
-                        
-                        if tooltip_objet is not None:
-                            vbox:
-                                spacing 10
-                                text "[tooltip_objet.nom]" bold True size 22
-                                text "[tooltip_objet.description]" size 14
-                                text "Effet : [tooltip_objet.effet]" size 16 color "#42f554"
-                        else:
-                            text "Survolez un objet pour afficher ses propriétés." size 14 align (0.5, 0.5) text_align 0.5
-
             else:
                 text "Pas encore d'inventaire." color "#ff0000" xalign 0.5
     
@@ -615,7 +619,20 @@ python:
         case "Mage":
             pc = Mage()
 
+
+    
 # Fin Instanciation Joueur
+
+label personnage:
+    if classe_joueur == "Barbare":
+        "Votre audace sans limites fait de vous un guerrier intrépide, dont le cri de guerre fait trembler les murs des donjons les plus sombres !"
+        "Vous êtes barbare"
+    if classe_joueur == "Voleur":
+        "Votre sens de l'observation aiguisé fait de vous un expert de la discrétion, capable de déjouer tous les pièges pour s'emparer des trésors les mieux gardés."
+        "Vous êtes voleur"
+    if classe_joueur == "Mage":
+        "Votre curiosité insatiable pour les mystères du monde fait de vous un érudit des arcanes, maniant les éléments pour transformer le destin à votre guise."
+        "Vous êtes mage"
 
 
 scene bg taverne
@@ -651,7 +668,6 @@ menu:
     "Es-tu mineur ou majeur ?"
 
 label mineur:
-    $ pc.stats()
     "Dorian... c'est une taverne ici, sort d'ici !"
     jump fin
 
@@ -707,13 +723,13 @@ label dialogue_tavernier:
 
 menu choix_taverne: 
     "Parler au tavernier" if tavernier_taverne:
-        $ tavernier = False
+        $ tavernier_taverne = False
         jump choix_tavernier
     "Parler à une voyante" if voyante_taverne:
-        $ voyante = False
+        $ voyante_taverne = False
         jump choix_voyante
     "Parler à un barbare" if barbare_taverne:
-        $ barbare = False
+        $ barbare_taverne = False
         jump choix_barbare
     "Jouer aux runes avec le nain du coin" if glorp:
         $ glorp = False
@@ -765,9 +781,10 @@ label avenir_voyante:
 menu choix_barbare:
     "Vous le prennez par le col":
         jump finbarbare
-    "Vous vous escusez et continuez votre chemin":
+    "Vous vous excusez et continuez votre chemin":
         jump choix_taverne
-    "Vous vous faites une poignée de main": #todo rajouter un if barbare
+    
+    "Vous vous faites une poignée de main" if isinstance(pc, Barbare):
         show handshake:
             align (.50, .10)
         "MY MAN"
@@ -964,11 +981,12 @@ menu enigme_voleur:
 
         "{b}{size=+20}STOP !{/size}{/b}" with hpunch
 
-        s "Oh par tous les engrenages du monde... Arrête. Pitié. J'ai eu envie deme dévisser toute seule dès la deuxième phrase."
+        p "Mais... J'arrive a la meilleure pa- "
+        s "Oh par tous les engrenages du monde... Arrête. Pitié. J'ai eu envie de me dévisser toute seule dès la deuxième phrase."
         s "C'est long, c'est pénible, et la chute est plus plate que le ventre d'un squelette donjon."
         s "Je suis une serrure de précision, mon gars, j'ai des standards."
         s "Ne refaites plus jamais ça. Si j'avais des oreilles, je serais en train de saigner du cuivre fondu."
-        s "Rangez votre humour au fond de votre sac, à côté de vos rossignols rouillés, et ne le ressortez que si vous voulez torturer quelq'un."
+        s "Rangez votre humour au fond de votre sac, à côté de vos rossignols rouillés, et ne le ressortez que si vous voulez torturer quelqu'un."
 
         jump enigme_voleur
 
@@ -1075,13 +1093,80 @@ label labyrinthe_salle04:
 label labyrinthe_salle02:
     scene salle_labyrinthe_porte_droite_centre
 menu:
-    "De retour dans cette salle"
+    "(WIP)"
 
     "Vous décidez de prendre la porte a droite":
         jump labyrinthe_salle01
 
     "Vous décidez de prendre la porte au centre":
         jump labyrinthe_salle04
+
+label labyrinthe_salle03:
+    scene salle_labyrinthe_port_gauche_centre
+menu:
+    "(WIP)"
+
+    "Vous décidez de prendre la porte au centre":
+        jump labyrinthe_salle05
+
+    "Vous décidez de prendre la porte de gauche":
+        jump labyrinthe_salle01
+
+label labyrinthe_salle05:
+    scene salle_labyrinthe_porte_centre
+menu:
+    "(WIP)"
+
+    "Vous décidez de prendre la porte au centre":
+        jump labyrinthe_salle08
+
+label labyrinthe_salle08:
+    scene salle_labyrinthe_porte_gauche
+menu:
+    "(WIP)"
+
+    "Vous décidez de prendre la porte de gauche":
+        jump labyrinthe_salle07
+
+label labyrinthe_salle07:
+    scene salle_labyrinthe_trois_porte
+
+menu:
+    "Ici, le silence est un mensonge. La porte colossale dégage une aura électrique, imprégnée d'une odeur entêtante de malt et de... poils ? Une chose est certaine : le maître des lieux vous a déjà senti arriver."
+
+    "Vous décidez de prendre la porte au centre":
+        jump salle_du_boss
+
+    "Vous décidez de prendre la porte a gauche":
+        jump labyrinthe_salle06
+
+    "Vous décidez de prendre la porte a droite":
+        jump labyrinthe_salle08
+    "Salle Secrète(WIP)":
+        jump salle_secrete
+
+label labyrinthe_salle06:
+    scene salle_labyrinthe_porte_droite
+    "test"
+menu:
+    "(WIP)"
+
+    "Vous décidez de prendre la porte a droite":
+        jump labyrinthe_salle07
+
+label salle_du_boss:
+
+menu:
+    "Boss a vaincre(WIP)":
+        jump fin
+
+label salle_secrete:
+    
+menu:
+    "(WIP)":
+        jump fin
+    "test":
+        jump fin
 
 
 
