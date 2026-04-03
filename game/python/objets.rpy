@@ -33,7 +33,7 @@ init -9 python :
 
     class Munition(Consommable):
         max_ammo = 30
-        def __init__(self,nom,description):
+        def __init__(self,nom,description,icone="images/items/default_icone.png"):
             super().__init__(nom,description)
 
     class Cle(Consommable):
@@ -54,7 +54,7 @@ init -9 python :
 
     class Fleche(Munition):
         max_ammo = 10
-        def __init__(self,nom = "Fléche en bois",description = "Un fût de bois poli, léger et nerveux, surmonté d'une pointe en métal noirci. Trois plumes grises assurent son équilibre, fixées par un fil de lin poissé."):
+        def __init__(self,nom = "Fléche en bois",description = "Un fût de bois poli, léger et nerveux, surmonté d'une pointe en métal noirci. Trois plumes grises assurent son équilibre, fixées par un fil de lin poissé.",icone="images/items/fc2154.png"):
             super().__init__(nom,description)
 
     class ArmeDeLancer(Consommable):
@@ -74,7 +74,7 @@ init -9 python :
             entite.vie -= self.degat
 
     class Equipement(Objets):
-        def __init__(self,nom, description):
+        def __init__(self,nom, description,icone="images/items/default_icone.png"):
             super().__init__(nom,description)
             self.est_equiper = False
 
