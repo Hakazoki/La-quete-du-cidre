@@ -31,11 +31,14 @@ image frame_17 = im.Scale("bloggif_frames_gif/frame-17.jpg", 750, 750)
 image frame_18 = im.Scale("bloggif_frames_gif/frame-18.jpg", 750, 750)
 image plaine = im.Scale("Plaine.jpg", 1920, 1080)
 image dungeon_entrance = im.Scale("dungeon_entrance.jpeg", 1920, 1080)
+image labyrinthe_porte = im.Scale("porte_labyrinthe.png", 1920, 1080)
 image salle_labyrinthe_porte_droite = im.Scale("Salle_Labyrinthe_Porte_Droite.png", 1920, 1080)
 image salle_labyrinthe_porte_gauche = im.Scale("Salle_Labyrinthe_Porte_Gauche.png", 1920, 1080)
 image salle_labyrinthe_trois_porte = im.Scale("Salle_Labyrinthe_Trois_Porte.jpg", 1920, 1080)
 image salle_labyrinthe_porte_droite_centre = im.Scale("Salle_Labyrinthe_Porte_Droite_Centre.png", 1920, 1080)
 image salle_labyrinthe_porte_gauche_centre = im.Scale("Salle_Labyrinthe_Porte_Gauche_Centre.png", 1920, 1080)
+image salle_labyrinthe_porte_centre = im.Scale("salle_labyrinthe_porte_centre.png", 1920, 1080)
+image salle_labyrinthe_coffre = im.Scale("salle_labyrinthe_coffre.png", 1920, 1080)
 image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
 image handshake:
             "frame_01"
@@ -242,6 +245,7 @@ default pts_voleur = 0
 default pts_barbare = 0
 default pts_mage = 0
 default pc = None
+default fouille_salle4 = False
 
 # Déclarez les personnages utilisés dans le jeu.
 define g = Character('Gromli Fût-Perdu', color="#ff3434")
@@ -251,6 +255,7 @@ define t = Character('Tavernier', color="#c8ffc8")
 define v = Character('Voyante louche', color="#c8ffc8")
 define b = Character('Barbare costaud', color="#c8ffc8")
 define p = Character("[pc_name]", color="#ffabf1")
+define se = Character("Oracle de Maintenance blazé")
 define boss = Character('M. Grondin (Manager)', color="#ff0000")
 define coll = Character('Kévin du Marketing', color="#00fbff")
 define truck = Character('Truck-kun', color="#f098ca")
@@ -779,7 +784,7 @@ menu choix_sortie_taverne:
         jump fin_taverne
     "Ouvrir la porte et débuter votre aventure":
         $ dice_isekai = Dice.lancer(1, 100)[0]
-        if dice_isekai >= 1:
+        if dice_isekai >= 99:
             jump truck_kun
         else:
             jump exterieur_taverne
@@ -813,149 +818,274 @@ menu:
     "Vous voila devant le donjon, que faites-vous ?"
 
 label debut_donjon:
-    scene je_sais_pas
+    scene labyrinthe_porte
     "Un crapaud, je les hais de tout mon être"
-    jump combat_crapaud_magicien
+    jump entre_labyrinthe
 
 label admire_entree:
     "C'est un beau donjon"
     jump entree_donjon
 
-#label entre_labyrinthe
-#   scene labyrinthe_porte
-#
-#menu:
-#   "Vous évaluez la solidité de la porte avec vos pectoraux saillants." if isinstance(pc,Barbare):
-#       $ d20 = Dice.lancer(1,20)[0]
-#       jump voie_du_barbare
-#
-#   "Vous sortiz vos outils en espérant que vos mains tremblent dans le bon sens." if isinstance(pc,Voleur):
-#       $ d20 = Dice.lancer(1,20)[0]
-#       jump voie_du_voleur
-#
-#   "Vous utilisez votre élocution pour convaincre la porte que sa fonction de fermeture est obsolète." if isinstance(pc,Mage):
-#       $ d20 = Dice.lancer(1,20)[0]
-#       jump voie_du_mage
-#
-#   "Vous décider de rebrousser chemin parce que a quoi bon de toute façon cette aventure devais bien ce terminer quelque part":
-#       jump autre_chemin
-#       
-#label voie_du_barbare:      
-#        if d20 == 20:
-#           "Vous fixer la porte avec un mépris souverain et la traversez sans l'ouvrir : le concept de 'porte' est purement subjectif pour vous":
-#           jump labyrinthe_salle01   
-#       elif d20 >= 10:
-#           "Vous donnez un grand coup d'épaule. Dans un craquement sinistre, le bois cède. Vous passez.":
-#           jump labyrinthe_salle01
-#       elif d20 > 1:
-#           "Vous chargez la porte, mais vous rebondissez dessus lamentablement. Votre épaule vous fait mal.":
-#           jump entre_labyrinthe
-#       else:
-#           "Vous tentez de défoncer la porte avec votre tête. la porte n'a rien, mais vous vous assommez tout seul pour les dix prochaine minute.":
-#           jump entre_labyrinthe
-#
-#label voie_du_voleur:
-#       if d20 == 20:
-#           "Vous trébuchez sur vos propres lacets, puis tombez la tête la première contre la porte qui s'ouvre par miracle. Quel talent.":
-#           jump labyrinthe_salle01
-#       elif d20 >= 10:
-#           "Quelques secondes de manipulation avec vos outils et le verrou finit par céder dans un clic satisfaisant.":
-#           jump labyrinthe_salle01
-#       elif d20 > 1:
-#           "La serrure est plus complexe que prévu. Vous n'arrivez qu'à coincer un bout de métal à l'intérieur.":
-#           jump entre_labyrinthe  
-#       else:
-#           "Votre outil de crochetage casse net dans la serrure. En prime, vous vous pincez les doigts si fort que vous poussez un cri de souris.":
-#           jump entré_labyrinthe
-#
-#label voie_du_mage:
-#       if d20 == 20:
-#           "Vous convainquez la serrure que, d'un point de vue métaphysique, son état naturel devrait être 'déverrouillé'. Elle s'exécute par pur respect intellectuel.":
-#           jump labyrinthe_salle01
-#       elif d20 >= 10:
-#           "Votre argumentation est implacable. Le verrou, intimidé par votre logique, finit par lâcher prise dans un soupir métallique.":
-#           jump labyrinthe_salle01
-#       elif d20 > 1:
-#           "La porte est têtue. Elle refuse d'écouter vos arguments et semble même se verrouiller un peu plus fort par pur esprit de contradiction.":
-#           jump entre_labyrinthe_salle01
-#       else:
-#           "À force de vouloir paraître trop savant, vous vous emmêlez dans vos syllabes et lancez accidentellement un sort de 'Mutisme' sur vous-même. Vous ne pouvez plus dire un mot, et la porte semble se moquer de vous en silence.":
-#           jump entre_labyrinthe_salle01
-#
-#label labyrinthe_salle01:
-#   scene salle_labyrinthe_trois_porte
-#
-#menu:
-#   
-#   "Vous décidez de prendre la porte à droite":
-#       jump labyrinthe_salle03
-#
-#   "Vous décidez de prendre la porte à gauche":
-#       if isinstance(pc,Barbare):
-#           jump salle02_enigme_barbare
-#
-#       if isinstance(pc,Voleur):
-#           jump salle02_enigme_voleur
-#
-#       if isinstance(pc,Mage):
-#           jump salle02_enigme_mage
-#       
-#
-#   "Vous décidez de prendre la porte au centre":
-#       jump labyrinthe_salle_central
-#
-#   "L'odeur d'humidité et de poussière ancienne chatouille vos narines, mais c'est surtout le silence oppressant de la salle qui vous donne envie de frapper quelque chose, juste pour vérifier si l'écho est aussi intimidant qu'il en a l'air." if isinstance(pc,Barbare)
-#   "Vous vous glissez dans la pièce en restant près des murs, remarquant immédiatement que le sol est étrangement propre... beaucoup trop propre pour un donjon abandonné. Soit quelqu'un passe le balai, soit le sol mange tout ce qui traîne." if isinstance(pc,Voleur)
-#   "Vos sens magiques picotent : cette salle baigne dans un résidu d'énergie arcanique si instable qu'elle pourrait transformer vos bottes en canards en plastique si vous aviez le malheur d'éternuer trop fort." if isinstance(pc,Mage)
-#
-#label salle02_enigme_barbare
-#   scene salle_labyrinthe_porte_droite_centre
-#   
-#   menu:
-#       "Insérer votre hache dans l'encoche du premier guerrier.":
-#           "Rien ne se passe, à part un bruit de métal contre la pierre"
-#           jump salle02_enigme_barbare
-#
-#       "Fapper un coup de poing démesuré sur le centre de la fresque.":
-#           "Bing ! Le mécanisme reconnaît la force pure. La port tremble et s'efface."
-#           jump labyrinthe_salle04
-#
-#       "Chercher un bouton caché derrière le bouclier du roi.":
-#           show poster_chat
-#           "Vous trouvé une étrange image qui vous semble famillière"
-#           hide poster_chat
-#           jump salle02_enigme_barbare
-#   
-#   "La fresque reprèsente quatre guerriers. Le dernier n'a pas d'arme, son poing est levé vers le ciel."
-#
-#label salle02_enigme_voleur
-#   scene salle_labyrinthe_porte_droite_centre
-#   "La serrure de la porte centrale vous regarde avec mépris. Elle semble attendre quelque chose."
-#
-#   menu:
-#       "Lui raconter une blague sur les barbare."
-#       
-#
-#       "Lui glissez un pot-de-vin":
-#           p "Tien j'ai dix balle tu veux"
-#           s "Dix balles ? Seulement ? Vous savez les temps son dure en ce moment j'ai une femme, deux enfant..."
-#           p "Douze balles. C'est mon dernier mot, je n'ai plus que des jetons de lave-linge après ça, j'ai même plus de quoi payez la bonne Josianne"
-#           s "Josianne ? La Josianne qui fait les poussières dans l'aile Est ? Oh, ne m'en parlez pas, elle a un plumeau qui gratte, c'est un enfer pour mes finitions en cuivre."
-#           p "Oh, croyez-moi, entre son plumeau qui gratte et sa façon de polir le manche... elle sait comment faire briller les bijoux de famille, même les plus rouillés."
-#           s "(Un petit silence métallique gêné, puis un cliquetis de gorge)"
-#           s "Ah... Je vois le genre. Elle fait dans la 'rénovation complète' de l'équipement, c'est ça ? Je comprends mieux pourquoi le levier de la herse a l'air si... vigoureux ces temps-ci."
-#           p "Exactement. Alors, ces douze balles ? C'est ça ou je vous laisse avec la poussière et les acariens magiques."
-#           s "Bon... D'accord. Mais vous rajoutez un jeton de lave-linge. Le petit dernier a avalé un bouton de manchette et il fait un bruit de grelot quand il court, faut que je le passe à l'essorage."
-#           p "Vendu. Douze balles et un jeton de lavage. On est bons ?"
-#           s "On est bons. Allez, glissez ça dans la fente, et doucement hein ! Je suis pas une de ces serrures de taverne que tout le monde peut forcer avec un bout de fil de fer."
-#           "CLING. CLANG. SCHLIP."
-#           "La serrure gobe le tout avec un petit frisson de métal."
-#           s "Ah... Ça glisse tout seul. Allez, passez vite avant que la femme du verrou de gauche ne me surprenne à faire des affaires avec vous !"
-#           jump labyrinthe_salle04
-#
-#
-#   s "Écoutez mon petit pote, je m'ennuie à mourir dans ce couloir. Si vous voulez que je tourne, il me faut une info croustillante ou un truc qui brille. Alors ?"
-#   
+label entre_labyrinthe:
+    scene labyrinthe_porte
+
+    menu:
+        "Une grande porte ce dresse contre vous que faite vous"
+
+        "Vous évaluez la solidité de la porte avec vos pectoraux saillants." if isinstance(pc,Barbare):
+            $ d20 = Dice.lancer(1,20)[0]
+            jump voie_du_barbare
+
+        "Vous sortiz vos outils en espérant que vos mains tremblent dans le bon sens." if isinstance(pc,Voleur):
+            $ d20 = Dice.lancer(1,20)[0]
+            jump voie_du_voleur
+
+        "Vous utilisez votre élocution pour convaincre la porte que sa fonction de fermeture est obsolète." if isinstance(pc,Mage):
+            $ d20 = Dice.lancer(1,20)[0]
+            jump voie_du_mage
+
+        "Vous décider de rebrousser chemin parce que a quoi bon de toute façon cette aventure devais bien ce terminer quelque part":
+            jump autre_chemin
+       
+label voie_du_barbare:      
+        if d20 == 20:
+            "Vous fixer la porte avec un mépris souverain et la traversez sans l'ouvrir : le concept de 'porte' est purement subjectif pour vous"
+            jump labyrinthe_salle01   
+        elif d20 >= 10:
+            "Vous donnez un grand coup d'épaule. Dans un craquement sinistre, le bois cède. Vous passez."
+            jump labyrinthe_salle01
+        elif d20 > 1:
+            "Vous chargez la porte, mais vous rebondissez dessus lamentablement. Votre épaule vous fait mal."
+            jump entre_labyrinthe
+        else:
+            "Vous tentez de défoncer la porte avec votre tête. la porte n'a rien, mais vous vous assommez tout seul pour les dix prochaine minute."
+            jump entre_labyrinthe
+
+label voie_du_voleur:
+        if d20 == 20:
+            "Vous trébuchez sur vos propres lacets, puis tombez la tête la première contre la porte qui s'ouvre par miracle. Quel talent."
+            jump labyrinthe_salle01
+        elif d20 >= 10:
+            "Quelques secondes de manipulation avec vos outils et le verrou finit par céder dans un clic satisfaisant."
+            jump labyrinthe_salle01
+        elif d20 > 1:
+            "La serrure est plus complexe que prévu. Vous n'arrivez qu'à coincer un bout de métal à l'intérieur."
+            jump entre_labyrinthe  
+        else:
+            "Votre outil de crochetage casse net dans la serrure. En prime, vous vous pincez les doigts si fort que vous poussez un cri de souris."
+            jump entré_labyrinthe
+
+label voie_du_mage:
+        if d20 == 20:
+            "Vous convainquez la serrure que, d'un point de vue métaphysique, son état naturel devrait être 'déverrouillé'. Elle s'exécute par pur respect intellectuel."
+            jump labyrinthe_salle01
+        elif d20 >= 10:
+            "Votre argumentation est implacable. Le verrou, intimidé par votre logique, finit par lâcher prise dans un soupir métallique."
+            jump labyrinthe_salle01
+        elif d20 > 1:
+            "La porte est têtue. Elle refuse d'écouter vos arguments et semble même se verrouiller un peu plus fort par pur esprit de contradiction."
+            jump entre_labyrinthe_salle01
+        else:
+            "À force de vouloir paraître trop savant, vous vous emmêlez dans vos syllabes et lancez accidentellement un sort de 'Mutisme' sur vous-même. Vous ne pouvez plus dire un mot, et la porte semble se moquer de vous en silence."
+            jump entre_labyrinthe_salle01
+
+label labyrinthe_salle01:
+    scene salle_labyrinthe_trois_porte
+
+    if isinstance(pc, Barbare):
+        $ description_salle = "L'odeur de poussière vous donne envie de frapper les murs pour vérifier l'écho. Quelle porte choisir ?"
+    elif isinstance(pc, Voleur):
+        $ description_salle = "Le sol est trop propre pour être honnête... Quelque chose cloche. Par où passer ?"
+    else:
+        $ description_salle = "L'air vibre d'une magie instable qui pourrait transformer vos bottes en canards. Quelle direction prendre ?"
+    
+    menu:
+        
+        "[description_salle]"
+
+    
+        "Vous décidez de prendre la porte à droite":
+            jump labyrinthe_salle03
+
+        "Vous décidez de prendre la porte à gauche":
+            if isinstance(pc, Barbare):
+                jump salle02_enigme_barbare
+            elif isinstance(pc, Voleur):
+                jump salle02_enigme_voleur
+            else:
+                jump salle02_enigme_mage
+
+        "Vous décidez de prendre la porte au centre":
+            jump labyrinthe_salle_central
+
+    
+label salle02_enigme_barbare:
+    scene salle_labyrinthe_porte_droite_centre
+   
+    menu:
+        "Insérer votre hache dans l'encoche du premier guerrier.":
+            "Rien ne se passe, à part un bruit de métal contre la pierre"
+            jump salle02_enigme_barbare
+
+        "Fapper un coup de poing démesuré sur le centre de la fresque.":
+            "Bing ! Le mécanisme reconnaît la force pure. La port tremble et s'efface."
+            jump labyrinthe_salle04
+
+        "Chercher un bouton caché derrière le bouclier du roi.":
+            show poster_chat
+            "Vous trouvé un étrange poster qui vous semble famillier"
+            hide poster_chat
+            jump salle02_enigme_barbare
+   
+    "La fresque reprèsente quatre guerriers. Le dernier n'a pas d'arme, son poing est levé vers le ciel."
+
+label salle02_enigme_voleur:
+    scene salle_labyrinthe_porte_droite_centre
+    "La serrure de la porte centrale vous regarde avec mépris. Elle semble attendre quelque chose."
+
+menu enigme_voleur:
+    s "Écoutez mon petit pote, je m'ennuie à mourir dans ce couloir. Si tu veux que je tourne, il me faut une info croustillante ou un truc qui brille. Alors ?"
+
+    "Lui raconter une blague sur les barbare.":
+        p "Alors, c'est l'histoire d'un barbare, mais pas un petit barbare de foire, non..."
+        p "Un type qui s'apppele Grog. Le genre de gars qui utilise des troncs comme cure-dents et qui ne s'est pas laver depuis le couronnement du rois précédent."
+        p "Bref..., Grog arrive devant la Grande Bibliothèque de l'Ordre des Sages. Il pousse les portes double - qui pèsent trois tonne chacune - comme si c'était des rideaux de perles."
+        p "Il entre en faisant un boucan d'enfer avec ses bottes en cuir de mammouth. Un silence de mort règne, on entendrait une mouche péter."
+        p "Grog marche sur le parquet qui gince, s'approche du bibliothécaire, un petit vieux tout sec qui ressemble à un parchemin oublié..."
+        p "Il pose son énorme hache pleine de sang de gobelin sur le bureau en acjou vernis. Le bureau craque, le vieux sursaute, ses lunettes tombent."
+        p "Grog le regarde droit dans les yeux, avec une haleine qui sent le vieux fromage de chèvre, et il hurle : {i}'HÉ, LE VIEUX ! DONNE-MOI LE PLUS GROS GRIMOIRE DE MAGIE QUE T'AS EN STOCK !'{/i}"
+        p "Le vieux s'exécute en tremblant, il va chercher un livre monstrueux, au moins huit cents pages de parchemin sacré, relié en peau de dragon rouge avec des fermoins en argent pur."
+        p "Grog ouvre le bouquin. Il regarde la première page. Ses yeux s'écarquillent, il commence à transpirer en voyant toutes ces petites lettres noires, bien alignées..."
+        p "Et là, d'un coup, il se met à hurler à la mort : {i}'AU SECOURS ! DES ARAIGNÉES NOIRES SUR DU PAPIER BLANC ! ELLES VEULENT ME BOUFFER LE CERVEAU !'{/i}"
+        p "Et là, il lève son énorme poing, il prend de l'élan pour éclater le livre et-"
+
+        window hide
+        pause 0.2
+
+        "{b}{size=+20}STOP !{/size}{/b}" with hpunch
+
+        s "Oh par tous les engrenages du monde... Arrête. Pitié. J'ai eu envie deme dévisser toute seule dès la deuxième phrase."
+        s "C'est long, c'est pénible, et la chute est plus plate que le ventre d'un squelette donjon."
+        s "Je suis une serrure de précision, mon gars, j'ai des standards."
+        s "Ne refaites plus jamais ça. Si j'avais des oreilles, je serais en train de saigner du cuivre fondu."
+        s "Rangez votre humour au fond de votre sac, à côté de vos rossignols rouillés, et ne le ressortez que si vous voulez torturer quelq'un."
+
+        jump enigme_voleur
+
+    "Lui glissez un pot-de-vin":
+        p "Tien j'ai dix balle, tu veux ?"
+        s "Dix balles ? Seulement ? Vous savez les temps son dure en ce moment j'ai une femme, deux enfant..."
+        p "Douze balles. C'est mon dernier mot, je n'ai plus que des jetons de lave-linge après ça, j'ai même plus de quoi payez la bonne Josianne"
+        s "Josianne ? La Josianne qui fait les poussières dans l'aile Est ? Oh, ne m'en parlez pas, elle a un plumeau qui gratte, c'est un enfer pour mes finitions en cuivre."
+        p "Oh, croyez-moi, entre son plumeau qui gratte et sa façon de polir le manche... elle sait comment faire briller les bijoux de famille, même les plus rouillés."
+        s "(Un petit silence métallique gêné, puis un cliquetis de gorge)"
+        s "Ah... Je vois le genre. Elle fait dans la 'rénovation complète' de l'équipement, c'est ça ? Je comprends mieux pourquoi le levier de la herse a l'air si... vigoureux ces temps-ci."
+        p "Exactement. Alors, ces douze balles ? C'est ça ou je vous laisse avec la poussière et les acariens magiques."
+        s "Bon... D'accord. Mais vous rajoutez un jeton de lave-linge. Le petit dernier a avalé un bouton de manchette et il fait un bruit de grelot quand il court, faut que je le passe à l'essorage."
+        p "Vendu. Douze balles et un jeton de lavage. On est bons ?"
+        s "On est bons. Allez, glissez ça dans la fente, et doucement hein ! Je suis pas une de ces serrures de taverne que tout le monde peut forcer avec un bout de fil de fer."
+        "CLING. CLANG. SCHLIP."
+        "La serrure gobe le tout avec un petit frisson de métal."
+        s "Ah... Ça glisse tout seul. Allez, passez vite avant que la femme du verrou de gauche ne me surprenne à faire des affaires avec vous !"
+        jump labyrinthe_salle04
+
+    "Tenter de la crocheter en douce pendant qu'elle parle.":
+        s "'AÏE ! MAIS ÇA VA PAS ? C'EST HARCÈLEMENT, ÇA !' Elle se verrouille deux fois plus fort. 'Réfléchis un peu au lieu de tripoter mon mécanisme !'"
+        jump enigme_voleur
+
+
+label salle02_enigme_mage:
+    scene salle_labyrinthe_porte_droite_centre
+
+    "Vous entrez dans la salle. Pas de monstre, pas de pièges à piques, juste une petite table en bois avec un cristal de communication qui clignote frénétiquement en rose fluo."
+    
+    "Une voix nasillarde et fatiguée s'en échappe :"
+    
+    se "{i}'Bienvenue au Support Technique de l'Archimage Xylothar. Si vous appelez pour un familier coincé dans une dimension de poche, tapez 1.'{/i}"
+    
+    se "{i}'Si vous avez accidentellement transformé votre apprenti en table de chevet, tapez 2. Pour déverrouiller la porte, répondez à la question de sécurité suivante.'{/i}"
+    
+    se "{i}'L'énergie magique est comme un chat de gouttière... que se passe-t-il si vous lui mettez un petit chapeau pointu en plein milieu d'une tempête de mana ?'{/i}"
+
+    
+label .choix_enigme: 
+
+    "Le cristal de communication attend votre réponse."
+
+    menu:
+        "Option 1 : La tempête s'arrête par respect pour votre style vestimentaire.":
+            "Une petite voix ricane : {i}'Hahaha ! Non. La mode n'a aucun pouvoir ici.'{/i}"
+            "Une étincelle rose vous pique le nez. Vous perdez 2 PV de dignité."
+            $ pc.pv -= 2
+            jump .choix_enigme 
+
+        "Option 2 : Vous provoquez une explosion de paillettes et un paradoxe temporel.":
+            "La voix change de ton : {i}'Ah ! Un connaisseur. C'est la base de la loi de Murphy Arcanique.'{/i}"
+            "{b}CLIC.{/b} La porte se déverrouille."
+            $ enigme_mage_resolue = True
+            jump labyrinthe_salle04
+
+        "Option 3 : Le chat devient un Archimage et vous demande un loyer.":
+            "{i}'Théorie intéressante, mais nous sommes au SAV ici, pas dans un club d'écriture.'{/i}"
+            "Le cristal s'éteint un instant... puis se rallume."
+            jump .choix_enigme
+
+label labyrinthe_salle04:
+    scene salle_labyrinthe_coffre
+
+    if not fouille_salle4:
+        if isinstance(pc,Barbare):
+            "Une salle étrangement calme. Pas de monstres, juste un coffre qui vous attend au milieu comme une provocation."
+        elif isinstance(pc, Voleur):
+            "Vos yeux s'écarquillent. Un poster de recherche ? Sur un mur de donjon ? Et ce coffre n'est même pas piégé..."
+        elif isinstance(pc, Mage):
+            "L'aura de cette salle est... bizarre. Ça sent moins le souffre et plus la litière propre. Très perturbant."
+    
+    label menu_salle04:
+    menu:
+        "Observer le poster sur le mur":
+            "Il s'agit d'un avis de recherche pour un certain 'Gromli'. La prime est astronomique."
+            "Le chat sur la photo a un regard qui semble lire dans votre âme... ou qui veut juste des croquettes."
+            jump menu_salle04
+
+        "Ouvrir le coffre" if not fouille_salle4:
+            $ fouille_salle4 = True
+            $ item1 = Cle()
+            $ item2 = HerbeCap()
+            
+            if isinstance(pc, Barbare):
+                "Vous soulevez le couvercle d'un coup sec. À l'intérieur, pas d'or, mais des objets curieux."
+            elif isinstance(pc, Voleur):
+                "Vous crochetez la serrure en un temps record. Le contenu est... inattendu."
+            elif isinstance(pc, Mage):
+                "D'un geste de la main, vous déverrouillez le coffre. Une odeur de plantes séchées s'en échappe."
+
+            $ pc.consommables.append(item1)
+            $ pc.consommables.append(item2)
+            
+            "{i}Vous avez obtenu la {b}[item1.nom]{/b} (ornée d'une tête de chat) !{/i}"
+            "{i}Vous avez obtenu un sachet d'{b}[item2.nom]{/b}. Ça sent bizarrement bon.{/i}"
+            "Ces objets ont été ajoutés à votre inventaire."
+            jump menu_salle04
+
+        "Repartir sur vos pas":
+            "Vous laissez cette pièce étrange derrière vous et retournez vers la salle précédante."
+            jump labyrinthe_salle02
+
+label labyrinthe_salle02:
+    scene salle_labyrinthe_porte_droite_centre
+menu:
+    "De retour dans cette salle"
+
+    "Vous décidez de prendre la porte a droite":
+        jump labyrinthe_salle01
+
+    "Vous décidez de prendre la porte au centre":
+        jump labyrinthe_salle04
+
+
+
+   
 
 label finalcool:
     "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."

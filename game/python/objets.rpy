@@ -6,9 +6,11 @@ init -9 python :
         """
         Definition de la class abstract de l'objets
         """
-        def __init__(self,nom,description):
+        def __init__(self,nom,description,icone = "images/items/default_icone.png"):
             self.nom = nom
             self.description = description
+            self.icone = icone
+            self.effet = "Aucun"
 
         @abstractmethod
         def utiliser(self, entite):
@@ -18,8 +20,8 @@ init -9 python :
         """
 
         """
-        def __init__(self,nom,description):
-            super().__init__(nom,description)
+        def __init__(self,nom,description,icone="images/items/default_icone.png"):
+            super().__init__(nom,description,icone)
             self.est_consomme = False
 
         @abstractmethod
@@ -33,6 +35,22 @@ init -9 python :
         max_ammo = 30
         def __init__(self,nom,description):
             super().__init__(nom,description)
+
+    class Cle(Consommable):
+        def __init__(self,nom = "Clé du chat",description = "Une clé ornée d'une tête de félin. Elle semble ouvrir une serrure",icone="images/items/default_icone.png"):
+            super().__init__(nom,description,icone)
+            self.effet = "Ouvre une porte"
+
+        def utiliser(self,entite):
+            renpy.say(None, "Cette clé s'utilisera automatiquement devant la bonne porte.")
+
+    class HerbeCap(Consommable):
+        def __init__(self,nom = "Herbe du Cap",description = "Une plante séchée à l'odeur irrésistible pour les créatures de type félin."):
+            super().__init__(nom,description)
+            self.effet = "Calme même le plus grand des félins"
+        
+        def utiliser(self,entite):
+            renpy.say(None, "Ça sent bon, mais ce n'est pas le moment de jardiner. Gardez-la pour plus tard !")
 
     class Fleche(Munition):
         max_ammo = 10
