@@ -2,17 +2,15 @@ init -8 python :
 
 
     class Potion(Consommable):
-        def __init__(self,nom,description,soin : Dice,mana_regen,icone):
+        def __init__(self,nom,description,icone):
             super().__init__(nom,description,icone)
-            self.soin = soin
-            self.mana_regen = mana_regen
         
         def utiliser(self,entite):
             super().utiliser(entite)
 
     class PotionVie(Potion):
-        def __init__(self, nom, description, soin, mana_regen,icone):
-            super().__init__(nom, description, soin, mana_regen,icone)
+        def __init__(self, nom, description,soin,icone):
+            super().__init__(nom, description,soin,icone)
             self.soin = soin
 
         def utiliser(self, entite):
@@ -33,6 +31,6 @@ init -8 python :
             self.soin = Dice.lancer(4, 4)
 
     class PotionDeMana(Potion):
-        def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.",soin=0,mana_regen = 60,icone="images/items/mana_potion.png"):
-            super().__init__(nom,description,soin,mana_regen,icone)
-            self.nom = nom
+        def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.",mana_regen = 60,icone="images/items/mana_potion.png"):
+            super().__init__(nom,description,mana_regen,icone)
+            self.mana_regen = mana_regen
