@@ -17,6 +17,12 @@ init -9 python :
         def utiliser(self, entite):
             pass
 
+        def get_stats_affichage(self):
+        stats = []
+        if hasattr(self, 'effet') and self.effet != "Aucun":
+            stats.append(f"{{color=#42f554}}Effet : {self.effet}{{/color}}")
+        return stats
+
     class Consommable(Objets):
         """
 

@@ -3,6 +3,13 @@ init -8 python:
     class Arme(Equipement):
         def __init__(self,nom,description,attaque : Dice,icone="images/items/default_icone.png"):
             super().__init__(nom,description,attaque)
+            self.attaque = attaque
+
+        def get_stats_affichage(self):
+        stats = super().get_stats_affichage()
+        if hasattr(self, 'attaque'):
+            stats.append(f"{{color=#ff0000}}Dégâts : {self.attaque.nb_dices}D{self.attaque.nb_faces}{{/color}}")
+        return stats
 
     class ArmeAUneMain(Arme):
         def __init__(self,nom,description,attaque,icone="images/items/default_icone.png"):
