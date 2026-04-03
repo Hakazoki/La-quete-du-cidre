@@ -21,10 +21,10 @@ init -8 python :
                 entite.vie += self.soin
 
         def get_stats_affichage(self):
-        stats = super().get_stats_affichage()
-        if hasattr(self, 'soin'):
-            stats.append(f"{{color=#00ff00}}Soin : {self.attaque.nb_dices}D{self.attaque.nb_faces}{{/color}}")
-        return stats
+            stats = super().get_stats_affichage()
+            if hasattr(self, 'soin'):
+                stats.append(f"{{color=#00ff00}}Soin : {self.attaque.nb_dices}D{self.attaque.nb_faces}{{/color}}")
+            return stats
 
     class PotionMana(Potion):
         def __init__(self,nom,description,mana_regen,icone):
@@ -32,10 +32,10 @@ init -8 python :
             self.mana_regen = mana_regen
 
         def get_stats_affichage(self):
-        stats = super().get_stats_affichage()
-        if hasattr(self, 'mana_regen'):
-            stats.append(f"{{color=#0000ff}}Regen Mana : {self.attaque.nb_dices}D{self.attaque.nb_faces}{{/color}}")
-        return stats
+            stats = super().get_stats_affichage()
+            if hasattr(self, 'mana_regen'):
+                stats.append(f"{{color=#0000ff}}Regen Mana : {self.attaque.nb_dices}D{self.attaque.nb_faces}{{/color}}")
+            return stats
 
     class PotionDeGuerison(PotionVie):
         def __init__(self,nom = "Potion De Guérison",description = "Un flacon de verre contenant un liquide rougeoyant qui referme les plaies et redonne de la vigueur dès la première gorgée.", soin=0,icone="images/items/fc267.png"):
