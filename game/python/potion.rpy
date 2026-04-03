@@ -28,8 +28,8 @@ init -8 python :
             self.soin = Dice.lancer(2,4)
 
     class PotionDeGuerisonMajeur(PotionVie):
-        def __init__(self,nom = "Potion de Guérison Majeur", description = "Une essence cramoisie bouillonnante dont l'éclat pur cicatrise instantanément les pires blessures et restaure la force vitale du héros.",soin=0,icone="../images/items/fc272.png"):
-            super().__init__(nom,description,soin,icone)
+        def __init__(self,nom = "Potion de Guérison Majeur", description = "Une essence cramoisie bouillonnante dont l'éclat pur cicatrise instantanément les pires blessures et restaure la force vitale du héros.",soin=0,mana_regen = 0,icone="../images/items/fc272.png"):
+            super().__init__(nom,description,soin,mana_regen,icone)
             self.soin = Dice.lancer(4, 4)
 
     class PotionDeMana(Potion):
