@@ -78,7 +78,6 @@ init -9 python :
             super().__init__(nom,description)
             self.est_equiper = False
 
-        @abstractmethod
         def utiliser(self,entite):
             if self.est_equiper == True:
                 raise Exception('Déjà équiper')
