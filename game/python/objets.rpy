@@ -20,14 +20,7 @@ init -9 python :
         """
 
         """
-        def __init__(self,nom,description,icone):
-            super().__init__(nom,description,icone)
-            self.est_consomme = False
-
-        @abstractmethod
-        def utiliser(self, entite):
-            if self.est_consomme == True:
-                raise Exception('Je suis deja utilisé')
+        def __init__(self,nom,description,icone="../images/items/default_icone.png")
             super().utiliser(entite)
             self.est_consomme = True
 
@@ -45,7 +38,7 @@ init -9 python :
             renpy.say(None, "Cette clé s'utilisera automatiquement devant la bonne porte.")
 
     class HerbeCap(Consommable):
-        def __init__(self,nom = "Herbe du Cap",description = "Une plante séchée à l'odeur irrésistible pour les créatures de type félin."):
+        def __init__(self,nom = "Herbe du Cap",description = "Une plante séchée à l'odeur irrésistible pour les créatures de type félin.",icone="images/items/default_icone.png"):
             super().__init__(nom,description)
             self.effet = "Calme même le plus grand des félins"
         
@@ -66,7 +59,7 @@ init -9 python :
             self.degat -= entite.pv
             
     class DagueALancer(ArmeDeLancer):
-        def __init__(self,nom = "Dague de Lancer",description = "Cette lame de 15 centimètres d'acier mat ne brille pas à la lumière, évitant ainsi de trahir votre position. Entre vos doigts, elle semble légère, presque vivante. Son équilibre parfait vous garantit que, là où votre regard se posera, la pointe trouvera son chemin."):
+        def __init__(self,nom = "Dague de Lancer",description = "Cette lame de 15 centimètres d'acier mat ne brille pas à la lumière, évitant ainsi de trahir votre position. Entre vos doigts, elle semble légère, presque vivante. Son équilibre parfait vous garantit que, là où votre regard se posera, la pointe trouvera son chemin.",icone="images/items/default_icone.png"):
             super().__init__(nom,description)
             self.degat = Dice.lancer(4,1)
 
@@ -74,7 +67,7 @@ init -9 python :
             entite.vie -= self.degat
 
     class Equipement(Objets):
-        def __init__(self,nom, description,icone):
+        def __init__(self,nom, description,icone="images/items/default_icone.png"):
             super().__init__(nom,description)
             self.est_equiper = False
 
