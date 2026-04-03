@@ -298,11 +298,11 @@ label intro:
 
     play music "quiz_theme.mp3"
     
-    "Qui es tu jeune nain?"
+    "Qui es-tu jeune nain?"
     jump q1
 
 menu q1:
-    "Un voyou embête une fille dans une rue animée de la place marchande!Que faîtes-vous?"
+    "Un voyou embête une fille dans une rue marchande animée ! Que faîtes-vous ?"
     "a)Je sauve la demoiselle en détresse !!!.":
         $ pts_barbare += 1
         jump q2
@@ -316,11 +316,11 @@ menu q1:
         jump q2
 
 menu q2:
-    "Un pouilleu commence une conversation avec vous.Vous ne comprenez absolument rien à ce qu'il dit.Que lui dîtes-vous?"
-    "a)Hum...Vous pouvez répéter?":
+    "Un pouilleux commence une conversation avec vous. Vous ne comprenez absolument rien à ce qu'il dit. Que lui dîtes-vous?"
+    "a)Hum... Vous pouvez répéter ?":
         $ pts_mage += 1
         jump q3
-    "b)Bien...Hum,il faut que j'y aille.":
+    "b)Bien... Hum, il faut que j'y aille.":
         $ pts_voleur += 1
         jump q3
     "c)Ques tu mveu, tu veu une pièce c'est ça ?.":  
@@ -328,19 +328,19 @@ menu q2:
         jump q3
 
 menu q3:
-    "Un collègue de picole vous ramène quelque chose que vous aviez oublié. Comment le remerciez-vous?"
-    "a)Merci, je te revaudrais ça.":  
+    "Un collègue de picole vous ramène quelque chose que vous aviez oublié. Comment le remerciez-vous ?"
+    "a)Merci, je te revaudrai ça.":  
         $ pts_voleur += 1
         jump q4
-    "c)Merci,mon brave!":
+    "b)Merci, mon brave !":
         $ pts_mage += 1
         jump q4
-    "d)Une grosse baffe dans la tronche, c'est MES affaires.":
+    "c)Une grosse baffe dans la tronche, c'est MES affaires.":
         $ pts_barbare += 1
         jump q4
         
 menu q4:
-    "Une main sort des toilettes!Que faîtes-vous?"
+    "Une main sort des toilettes ! Que faîtes-vous?"
     "a)Je m'enfuis en hurlant.":
         $ pts_voleur += 1
         jump q5
@@ -365,7 +365,7 @@ menu q5:
         
 menu q6:
     "Osez-vous entrer dans une maison hantée?"
-    "a)Oui avec quelqu'un.":
+    "a)Oui, avec quelqu'un.":
         $ pts_mage +=1
         jump q7
     "b)Euh...non...":
@@ -377,7 +377,7 @@ menu q6:
 
 menu q7:
     "Racontez-nous une blague"
-    "a)Alors c'est un nain un elfe et un orc qui rentrent dans un bar...":
+    "a)Alors c'est un nain, un elfe et un orc qui rentrent dans un bar...":
         $ pts_voleur += 1
         jump q8
     "b)Tire sur mon doigt !":
@@ -388,7 +388,7 @@ menu q7:
         jump q8
 
 menu q8:
-    "Attrapez n'importe quel doigt de la main gauche avec la main droite.Quel doigt avez-vous choisi?"
+    "Attrapez n'importe quel doigt de la main gauche avec la main droite. Quel doigt avez-vous choisi ?"
     "a)Le pouce.":
         $ pts_barbare += 1
         jump q9
@@ -408,7 +408,7 @@ menu q8:
         jump q9
 
 menu q9:
-    "Avez-vous déjà construit un piège?"
+    "Avez-vous déjà construit un piège ?"
     "a)....":
         $ pts_voleur += 1
         jump q10
@@ -420,7 +420,7 @@ menu q9:
         jump q10
 
 menu q10:
-    "A quelle vitesse répondez-vous à un pigeon voyageur?"
+    "A quelle vitesse répondez-vous à un pigeon voyageur ?"
     "a)J'y réponds immédiatement, il en va de mon honneur!":
         $ pts_mage += 1
         jump q11
@@ -432,7 +432,7 @@ menu q10:
         jump q11
 
 menu q11:
-    "Vous êtes à la plage et le temps est superbe.Comme vous sentez-vous?"
+    "Vous êtes à la plage et le temps est superbe. Comment vous sentez-vous?"
     "a)Super bien! J'ai creusé un super trou!":
         $ pts_barbare += 1
         jump q12
@@ -444,23 +444,23 @@ menu q11:
         jump q12
         
 menu q12:
-    "C'est les vacances d'été! Où aimeriez-vous aller?"
-    "a)Jsuis déjà en vacance toute l'année à la taverne":
+    "C'est les vacances d'été! Où aimeriez-vous aller ?"
+    "a)Jsuis déjà en vacances toute l'année à la taverne":
         $ pts_barbare += 1
         jump q13
     "b)En thalasso.":
         $ pts_voleur += 1
         jump q13
-    "c)Je pars pas en vacances, je n'ai pas le temps":
+    "c)Je ne pars pas en vacances, je n'ai pas le temps":
         $ pts_mage += 1
         jump q13
-    "d)Je dois bien avouer que j'ai toujours rêver de visiter le colysée d'idylthir.":
+    "d)Je dois bien avouer que j'ai toujours rêvé de visiter le colysée d'Idylthir.":
         $ pts_voleur += 1
         $ pts_barbare += 1
         jump q13
 
 menu q13:
-    "Quelqu'un dit que vous êtes bizarre mais marrant.Vous vous sentez comment?"
+    "Quelqu'un dit que vous êtes bizarre mais marrant. Vous vous sentez comment ?"
     "a)Super!":
         $ pts_voleur += 1
         jump q14
@@ -478,11 +478,11 @@ menu q13:
         jump q14
         
 menu q14:
-    "La route se divise:elle part à droite et à gauche.On vous dit qu'il y a un trésor sur celle de droite.De quel côté allez-vous?"
-    "a)A droite! Les lingots m'appellent!":
+    "La route se divise: elle part à droite et à gauche. On vous dit qu'il y a un trésor sur celle de droite. De quel côté allez-vous ?"
+    "a)A droite ! Les lingots m'appellent!":
         $ pts_barbare += 1
         jump q15
-    "b)Un piège!A gauche.":
+    "b)Un piège ! A gauche.":
         $ pts_mage += 1
         jump q15
     "c)Peu importe.":
@@ -493,7 +493,7 @@ menu q14:
         jump q15
 
 menu q15:
-    "Voici un seau.Si vous mettez de l'eau dedans,vous le remplissez..."
+    "Voici un seau. Si vous mettez de l'eau dedans, vous le remplissez..."
     "a)A ras.":
         $ pts_barbare += 1
         jump q16
@@ -508,11 +508,11 @@ menu q15:
         jump q16
 
 menu q16:
-    "Vous aimez bien une personne...Mais aucun moyen de s'en rapprocher que faîtes-vous?"
+    "Vous aimez bien une personne... Mais aucun moyen de s'en rapprocher, que faîtes-vous ?"
     "a)Je lui déclare ma flamme.":
         $ pts_voleur += 1
         jump q17
-    "b)Je lui créer un poème.":
+    "b)Je lui crée un poème.":
         $ pts_barbare += 1
         jump q17
     "c)Je l'admire de loin.":
@@ -520,7 +520,7 @@ menu q16:
         jump q17
 
 menu q17:
-    "Vous entendez un cri venant de derrière la porte!Comment réagissez-vous?"
+    "Vous entendez un cri venant de derrière la porte ! Comment réagissez-vous ?"
     "a)Je l'ouvre d'un coup.":
         $  pts_voleur += 1
         jump q18
@@ -532,20 +532,20 @@ menu q17:
         jump q18
 
 menu q18:
-    "Vous trouvez la besace d'un aventurier dans un donjon que faites vous ?"
+    "Vous trouvez la besace d'un aventurier dans un donjon, que faites-vous ?"
     "a)Je l'apporte à la guilde des aventuriers.":
         $ pts_mage += 1
         jump q19
     "b)CEST A MOI!":
         $ pts_voleur += 1
         jump q19  
-    "c)Pas lus?":
+    "c)Pas lu ?":
         $ pts_barbare += 1
         jump q19
 
 menu q19:
-    "Les extraterrestres nous envahissent!Que faîtes-vous?"
-    "a)Je lutte!":
+    "Les extraterrestres nous envahissent ! Que faîtes-vous ?"
+    "a)Je lutte !":
         $ pts_barbare += 1
         jump q20
     "b)Je fuis.":
@@ -556,7 +556,7 @@ menu q19:
         jump q21
 
 menu q20:
-    "Vous avez bien combattu...mais les extraterrestres gagnent...Il y en a un qui vous dit <<Tu nous as impressionés,c'était un plaisir à voir.Joins-toi à nous,et ensemble,dirigeons le Monde.>>Que faîtes-vous?"
+    "Vous avez bien combattu... Mais les extraterrestres gagnent... Il y en a un qui vous dit <<Tu nous as impressionés, c'était un plaisir de voir. Joins-toi à nous et, ensemble, dirigeons le Monde.>> Que faîtes-vous?"
     "a)J'accepte.":
         $ pts_voleur += 1
         jump q21  
@@ -566,7 +566,7 @@ menu q20:
         jump q21
 
 menu q21:
-    "On vous donne le choix entre deux cadeaux.Le quel allez-vous choisir?"
+    "On vous donne le choix entre deux cadeaux. Lequel allez-vous choisir ?"
     "a)Le gros.":
         $ pts_barbare += 1
         jump q22  
@@ -578,7 +578,7 @@ menu q21:
         jump q22
 
 menu q22:
-    "On vous enferme par erreur dans une pièce noire comme de l'encre!Que faîtes-vous?"
+    "On vous enferme par erreur dans une pièce noire comme de l'encre ! Que faîtes-vous?"
     "a)Je pleure.":
         $ pts_mage += 1
         jump q25  
@@ -590,19 +590,19 @@ menu q22:
         jump q25
 
 menu q25:
-    "Vous gagnez le jackpot au WiNainMax!Que faîtes-vous de l'argent?"
+    "Vous gagnez le jackpot au WiNainMax ! Que faîtes-vous de l'argent ?"
     "a)J'économise.":
         $ pts_voleur += 1
         jump q26
     "b)Je le donne.":
         $pts_mage += 1
         jump q26
-    "c)Tournée générale de 3 semaines au bar!":
+    "c)Tournée générale de 3 semaines au bar !":
         $ pts_barbare += 1
         jump q26
 
 menu q26:
-    "L'empereur des Nains Grobiff XIVII est face à vous, comment lui parlez-vous?"
+    "L'empereur des Nains Grobiff XVII est face à vous, comment lui parlez-vous ?"
     "a)Calmement. ":
         $ pts_voleur += 1
     "b)ON S'EN FICHE!!!":
@@ -656,11 +656,11 @@ label personnage:
 
 scene bg taverne
 
-"Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain, bien connu du village grimpa sur une table pour attirer l'attention."
+"Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain bien connu du village grimpa sur une table pour attirer l'attention."
 
 show chat at right
 
-g "Mon trésor ? Je vous le laisse si vous voulez. Trouvez-le ! Je l'ai laissé quelque part dans ce monde !"
+g "Mon trésor ? Je vous le laisse si vous le voulez. Trouvez-le ! Je l'ai laissé quelque part dans ce monde !"
 
 hide chat
 
@@ -668,7 +668,7 @@ hide chat
 
 play music "elevator-music.mp3"
 
-$ pc_name = renpy.input("Brave aventurier fils de glorp héritier au throne de glorptopia, Quel est ton valeureux nom ?", length=20).strip() or "Aventurier"
+$ pc_name = renpy.input("Brave aventurier, fils de glorp et héritier au throne de glorptopia, quel est ton valeureux nom ?", length=20).strip() or "Aventurier"
 
 stop music
 
@@ -813,11 +813,11 @@ menu choix_barbare:
 
 
 label sortie_taverne:
-    "Après de longues heures à vous amuser à la taverne vous décidez d'enfin sortir de la taverne et vous approchez de la porte."
+    "Après de longues heures à vous amuser à la taverne, vous décidez d'enfin sortir de la taverne et vous approchez de la porte."
     
 menu choix_sortie_taverne:
     "Changer d'avis et retourner dans la taverne":
-        jump fin_taverne
+        jump fintaverne
     "Ouvrir la porte et débuter votre aventure":
         $ dice_isekai = Dice.lancer(1, 100)[0]
         if dice_isekai >= 99:
@@ -857,14 +857,19 @@ label debut_donjon:
     scene labyrinthe_porte
     "Un crapaud, je les hais de tout mon être"
     $ crapomagicien = CrapeauMagicien()
-    while pc.vie > 0 or crapomagicien.vie > 0:
+    while pc.vie > 0 and crapomagicien.vie > 0:
         menu:
             #Combat contre le crapaud magicien
-            # "Vous utilisez votre {pc.arme} pour attaquer le crapaud magicien!" if isinstance(pc, Barbare, Voleur):
+            "Vous utilisez votre [pc.arme[0].nom] pour attaquer le crapaud magicien!" if isinstance(pc, Barbare) or isinstance(pc, Voleur):
+                $ pc.attaquer(crapomagicien)
+                "Le crapaud magicien subit  points de dommage. Il lui reste [crapomagicien.vie] points de vie."
+                "Le crapaud magicien attaque en retour!"
+                $ crapomagicien.attaquer(pc)
+                "Vous subissez  points de dommage. Il vous reste  points de vie."
 
             "Vous canalisez votre magie pour attaquer le crapaud magicien!" if isinstance(pc, Mage):
                 $ pc.attaquer(crapomagicien)
-                "Le crapaud magicien subit  points de dommage. Il lui reste  points de vie. [crapomagicien.vie]"
+                "Le crapaud magicien subit  points de dommage. Il lui reste [crapomagicien.vie] points de vie."
                 "Le crapaud magicien attaque en retour!"
                 $ crapomagicien.attaquer(pc)
                 "Vous subissez  points de dommage. Il vous reste  points de vie."
@@ -879,13 +884,13 @@ label entre_labyrinthe:
     scene labyrinthe_porte
 
     menu:
-        "Une grande porte ce dresse contre vous que faite vous"
+        "Une grande porte ce dresse devant vous, que faites-vous"
 
         "Vous évaluez la solidité de la porte avec vos pectoraux saillants." if isinstance(pc,Barbare):
             $ d20 = Dice.lancer(1,20)[0]
             jump voie_du_barbare
 
-        "Vous sortiz vos outils en espérant que vos mains tremblent dans le bon sens." if isinstance(pc,Voleur):
+        "Vous sortez vos outils en espérant que vos mains tremblent dans le bon sens." if isinstance(pc,Voleur):
             $ d20 = Dice.lancer(1,20)[0]
             jump voie_du_voleur
 
@@ -893,12 +898,12 @@ label entre_labyrinthe:
             $ d20 = Dice.lancer(1,20)[0]
             jump voie_du_mage
 
-        "Vous décider de rebrousser chemin parce que a quoi bon de toute façon cette aventure devais bien ce terminer quelque part":
+        "Vous décidez de rebrousser chemin parce-qu'à quoi bon ? De toute façon, cette aventure devait bien se terminer quelque part":
             jump autre_chemin
        
 label voie_du_barbare:      
         if d20 == 20:
-            "Vous fixer la porte avec un mépris souverain et la traversez sans l'ouvrir : le concept de 'porte' est purement subjectif pour vous"
+            "Vous fixez la porte avec un mépris souverain et la traversez sans l'ouvrir : le concept de 'porte' est purement subjectif pour vous"
             jump labyrinthe_salle01   
         elif d20 >= 10:
             "Vous donnez un grand coup d'épaule. Dans un craquement sinistre, le bois cède. Vous passez."
@@ -1132,7 +1137,7 @@ label labyrinthe_salle02:
 menu:
     "(WIP)"
 
-    "Vous décidez de prendre la porte a droite":
+    "Vous décidez de prendre la porte à droite":
         jump labyrinthe_salle01
 
     "Vous décidez de prendre la porte au centre":
@@ -1214,7 +1219,8 @@ label finalcool:
     jump fin
 label finbarbare:
     "Vous essayez d'attrapper le col de barbare qui est torse nu, vous échouez"
-    "Le barbare soulève une table et vous fracasse le crâne, vous mourrez sur le coup"
+    "Le barbare soulève une table et vous fracasse le crâne, vous mourez sur le coup"
+    jump fin
 label fintaverne:
     "Vous avez décidé de rester vivre dans la taverne, et depuis ce jour, entre les chopes débordantes, les chants graves des mineurs et la chaleur du grand foyer de pierre, vous vous sentez plus nain que jamais, trouvant enfin un foyer aussi solide qu'un roc et aussi chaleureux qu’un banquet nain."
     jump fin

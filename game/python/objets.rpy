@@ -36,7 +36,7 @@ init -9 python :
             super().__init__(nom,description)
 
     class Cle(Consommable):
-        def __init__(self,nom = "Clé du chat",description = "Une clé ornée d'une tête de félin. Elle semble ouvrir une serrure",icone="images/items/default_icone.png"):
+        def __init__(self,nom = "Clé du chat",description = "Une clé ornée d'une tête de félin. Elle semble ouvrir une serrure",icone="images/items/fc179.png"):
             super().__init__(nom,description,icone)
             self.effet = "Ouvre une porte"
 
@@ -44,7 +44,7 @@ init -9 python :
             renpy.say(None, "Cette clé s'utilisera automatiquement devant la bonne porte.")
 
     class HerbeCap(Consommable):
-        def __init__(self,nom = "Herbe du Cap",description = "Une plante séchée à l'odeur irrésistible pour les créatures de type félin.",icone="images/items/default_icone.png"):
+        def __init__(self,nom = "Herbe du Cap",description = "Une plante séchée à l'odeur irrésistible pour les créatures de type félin.",icone="images/items/fc242.png"):
             super().__init__(nom,description,icone)
             self.effet = "Calme même le plus grand des félins"
         
