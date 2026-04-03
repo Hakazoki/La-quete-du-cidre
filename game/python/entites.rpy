@@ -327,8 +327,8 @@ init -7 python :
             self.desequiper(self.plastron)
             self.tete.utiliser(self)
             self.torse.utiliser(self)
-            mana1 = PotionDeMana(60)
-            mana2 = PotionDeMana(60)
+            mana1 = PotionDeMana()
+            mana2 = PotionDeMana()
             self.consommables = [mana1, mana2]
             self.mana = 0
             self.mana_max = 60
