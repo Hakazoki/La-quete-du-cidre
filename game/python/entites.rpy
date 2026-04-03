@@ -329,7 +329,8 @@ init -7 python :
             self.torse.utiliser(self)
             mana1 = PotionDeMana()
             mana2 = PotionDeMana()
-            self.consommables = [mana1, mana2]
+            popo1 = PotionDeGuerisonMajeur()
+            self.consommables = [mana1, mana2, popo1]
             self.mana = 0
             self.mana_max = 60
             self.stat_cap(self.force, -2)

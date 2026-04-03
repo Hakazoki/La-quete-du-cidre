@@ -1,6 +1,6 @@
 ﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
 init python:
-    blorp = 0
+    blorp=0
     
 
 
@@ -196,11 +196,16 @@ screen Inventaire():
                                 spacing 10
                                 text "[tooltip_objet.nom]" bold True size 22
                                 text "[tooltip_objet.description]" size 14
-                                if [tooltip_objet.effet] is not None:
+
+                                if hasattr(tooltip_objet, 'effet') and tooltip_objet.effet != "Aucun":
                                     text "Effet : [tooltip_objet.effet]" size 16 color "#42f554"
-                                else:
+                                    
+                                if hasattr(tooltip_objet, 'mana_regen') and tooltip_objet.mana_regen > 0:
                                     text "Regen Mana : [tooltip_objet.mana_regen]" size 16 color "#42a4f5"
-                                
+                                    
+                                if hasattr(tooltip_objet, 'soin') and tooltip_objet.soin > 0:
+                                    text "Soin : [tooltip_objet.soin.nb_dices]D[tooltip_objet.soin.nb_faces]" size 16 color "#f54242"
+                                    
                         else:
                             text "Survolez un objet pour afficher ses propriétés." size 14 align (0.5, 0.5) text_align 0.5
 
@@ -267,6 +272,9 @@ define truck = Character('Truck-kun', color="#f098ca")
 # Déclarez des transitions
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
+#Déclarez des sfx
+define sfx_get_class = "audio/get_class.mp3"
+
 # Le jeu commence ici
 label start:
     show screen bouton_stats
@@ -285,6 +293,9 @@ $ glorp = True
 
 # Création du personnage
 label intro:
+
+    play music "quiz_theme.mp3"
+    
     "Qui es tu jeune nain?"
     jump q1
 
@@ -597,6 +608,8 @@ menu q26:
     "c)Nerveusement.":
         $ pts_mage += 1
 
+
+stop music fadeout 2.5
 # Fin Création
 
 # Instanciation Joueur
@@ -619,19 +632,23 @@ python:
         case "Mage":
             pc = Mage()
 
-
+    
     
 # Fin Instanciation Joueur
 
 label personnage:
+    
     if classe_joueur == "Barbare":
         "Votre audace sans limites fait de vous un guerrier intrépide, dont le cri de guerre fait trembler les murs des donjons les plus sombres !"
+        play sfx "sfx_get_class"
         "Vous êtes barbare"
     if classe_joueur == "Voleur":
         "Votre sens de l'observation aiguisé fait de vous un expert de la discrétion, capable de déjouer tous les pièges pour s'emparer des trésors les mieux gardés."
+        play sfx "sfx_get_class"
         "Vous êtes voleur"
     if classe_joueur == "Mage":
         "Votre curiosité insatiable pour les mystères du monde fait de vous un érudit des arcanes, maniant les éléments pour transformer le destin à votre guise."
+        play sfx "sfx_get_class"
         "Vous êtes mage"
 
 
