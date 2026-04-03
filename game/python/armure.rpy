@@ -17,7 +17,7 @@ init -8 python :
             stats = super().get_stats_affichage() 
             stats.append(f"{{color=#ff8000}}Déf. Phys : +{self.defence_physique}{{/color}}")
             stats.append(f"{{color=#cc00ff}}Déf. Mag : +{self.defence_magique}{{/color}}")
-        return stats
+            return stats
 
     class Casque(Armure):
         def __init__(self,nom,description,defence_physique,defence_magique,icone="images/items/default_icone.png"):

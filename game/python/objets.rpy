@@ -18,10 +18,10 @@ init -9 python :
             pass
 
         def get_stats_affichage(self):
-        stats = []
-        if hasattr(self, 'effet') and self.effet != "Aucun":
-            stats.append(f"{{color=#42f554}}Effet : {self.effet}{{/color}}")
-        return stats
+            stats = []
+            if hasattr(self, 'effet') and self.effet != "Aucun":
+                stats.append(f"{{color=#42f554}}Effet : {self.effet}{{/color}}")
+            return stats
 
     class Consommable(Objets):
         """
