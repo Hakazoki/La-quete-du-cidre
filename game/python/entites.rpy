@@ -38,7 +38,7 @@ init -7 python :
             if self.arme == []:
                 return degats
             elif isinstance(self.arme[0], ArmeADistance):
-                degats = self.bonus(self.dexterite) + self.arme[0].tirer()
+                degats = self.bonus(self.dexterite) + self.arme[0].attaque.jeter()
             else:
                 for element in self.arme:
                     degats += element.bonus_attaque.jeter()
@@ -86,11 +86,11 @@ init -7 python :
             Difference entre l'attaque et la defense -> degats subis
             """
             if self.type_degat == "physique":
-                precision = dice.Dice.lancer()
+                precision = Dice.lancer()
                 if precision[0] >= 10 :
                     print("Vous touchez")
-                    attaque = dice.Dice.lancer()[0] + self.attaque
-                    defense = dice.Dice.lancer()[0] + other.defense
+                    attaque = Dice.lancer()[0] + self.attaque
+                    defense = Dice.lancer()[0] + other.defense
                     if attaque - self.attaque == 20:
                         attaque = attaque * 2
                         print("Reussite critique !")
@@ -341,7 +341,7 @@ init -7 python :
             print("Missiles magiques !")
             for element in Dice.lancer(3,10)[1]:
                 if element > 2 :
-                    degats = Dice.lancer(1,8)[0] + self.bonus(self.intelligence) + self.arme[0].jeter() - other.defense_magique
+                    degats = Dice.lancer(1,8)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique
                 else:
                     print("Raté !")
                     degats = 0
@@ -351,7 +351,7 @@ init -7 python :
         def sort2(self, other):
             print("Boule de feu !")
             if Dice.lancer()[0] > 12:
-                degats = Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].jeter() - other.defense_magique
+                degats = Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique
                 self.mana -= 20
             else:
                 print("Raté !")
