@@ -274,8 +274,8 @@ define crapo = Character('Albert Le Crapo Magicien De Lécole De La Bave', color
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
 #Déclarez des sfx
-define sfx_get_class = "audio/get_class.mp3"
-define sfx_item_get = "audio/item_get.mp3"
+define sfx_get_class = "game/audio/get_class.mp3"
+define sfx_item_get = "game/audio/item_get.mp3"
 
 # Le jeu commence ici
 label start:
@@ -642,15 +642,15 @@ label personnage:
     
     if classe_joueur == "Barbare":
         "Votre audace sans limites fait de vous un guerrier intrépide, dont le cri de guerre fait trembler les murs des donjons les plus sombres !"
-        play sfx "sfx_get_class"
+        play music sfx_get_class
         "Vous êtes barbare"
     if classe_joueur == "Voleur":
         "Votre sens de l'observation aiguisé fait de vous un expert de la discrétion, capable de déjouer tous les pièges pour s'emparer des trésors les mieux gardés."
-        play sfx "sfx_get_class"
+        play sfx sfx_get_class
         "Vous êtes voleur"
     if classe_joueur == "Mage":
         "Votre curiosité insatiable pour les mystères du monde fait de vous un érudit des arcanes, maniant les éléments pour transformer le destin à votre guise."
-        play sfx "sfx_get_class"
+        play sfx sfx_get_class
         "Vous êtes mage"
 
 
@@ -864,10 +864,10 @@ label debut_donjon:
 
             "Vous canalisez votre magie pour attaquer le crapaud magicien!" if isinstance(pc, Mage):
                 $ pc.attaquer(crapomagicien)
-                "Le crapaud magicien subit {pc.attaquer(crapomagicien)} points de dommage. Il lui reste {crapomagicien.hp} points de vie."
+                "Le crapaud magicien subit  points de dommage. Il lui reste  points de vie. [crapomagicien.vie]"
                 "Le crapaud magicien attaque en retour!"
                 $ crapomagicien.attaquer(pc)
-                "Vous subissez {crapomagicien.attaquer(pc)} points de dommage. Il vous reste {pc.hp} points de vie."
+                "Vous subissez  points de dommage. Il vous reste  points de vie."
 
     jump entre_labyrinthe
 
