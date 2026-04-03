@@ -1,8 +1,8 @@
 init -8 python:
 
     class Arme(Equipement):
-        def __init__(self,nom,description,attaque : Dice,icone="images/items/default_icone.png"):
-            super().__init__(nom,description,attaque)
+        def __init__(self, nom, description, attaque: Dice, icone="images/items/default_icone.png"):
+            super().__init__(nom, description, icone) 
             self.attaque = attaque
 
         def get_stats_affichage(self):
@@ -12,12 +12,12 @@ init -8 python:
             return stats
 
     class ArmeAUneMain(Arme):
-        def __init__(self,nom,description,attaque,icone="images/items/default_icone.png"):
-            super().__init__(nom,description,attaque)
+        def __init__(self, nom, description, attaque, icone="images/items/default_icone.png"):
+            super().__init__(nom, description, attaque, icone)
 
     class ArmeADeuxMain(Arme):
-        def __init__(self,nom,description,attaque,icone="images/items/default_icone.png"):
-            super().__init__(nom,description,attaque)
+        def __init__(self, nom, description, attaque, icone="images/items/default_icone.png"):
+            super().__init__(nom, description, attaque, icone)
 
     class EpeeEnBois(ArmeAUneMain):
         def __init__(self,nom = "Epée en Bois",description= "Simple Epée en bois",attaque=0,icone="images/items/fc1521.png"):

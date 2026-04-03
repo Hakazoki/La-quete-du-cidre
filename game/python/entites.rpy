@@ -8,6 +8,7 @@ init -7 python :
     class Entite(ABC):
         def __init__(self, race):
             self.race = race
+            self.couleur_log = "#e74c3c"
             #Equipement
             self.arme = []
             self.casque = None
@@ -86,40 +87,43 @@ init -7 python :
             1 lancer pour la defense
             Difference entre l'attaque et la defense -> degats subis
             """
+            degats_totaux = 0
+
             if self.type_degat == "physique":
                 precision = Dice.lancer()
                 if precision[0] >= 10 :
-                    print("Vous touchez")
+                    store.log_msg(f"{getattr(self, 'nom', self.race)} touche sa cible !", self.couleur_log)
                     attaque = Dice.lancer()[0] + self.attaque
                     defense = Dice.lancer()[0] + other.defense
+
                     if attaque - self.attaque == 20:
                         attaque = attaque * 2
-                        print("Reussite critique !")
+                        store.log_msg("Réussite critique !", self.couleur_log)
                     elif attaque - self.attaque == 1:
-                        attaque = attaque/2
-                        print("Echec critique !")
+                        attaque = attaque / 2
+                        store.log_msg("Échec critique de l'attaque !", self.couleur_log)
+                        
                     if defense - other.defense == 20:
                         attaque = attaque / 2
-                        print("Reussite critique !")
+                        store.log_msg("Défense parfaite en face !", other.couleur_log)
                     elif defense - other.defense == 1:
                         attaque = attaque * 2
-                        print("Echec critique !")
-                    print(f"Attaque de {attaque} VS defense de {defense}")
-                    degats = attaque - defense
-                    if degats < 0:
-                        degats = 0
-                    other.perte_pv(degats)
+                        store.log_msg("Échec de la défense adverse !", other.couleur_log)
+
+                    degats_totaux = max(0, attaque - defense)
+                    other.perte_pv(degats_totaux)
                 else:
-                    print("Vous ratez")
+                    store.log_msg(f"{getattr(self, 'nom', self.race)} rate son attaque !", self.couleur_log)
             else :
                 aleatoire = randint(1,2)
                 match aleatoire:
                     case 1:
-                        attaque = self.sort1(other)
+                        degats_totaux = self.sort1(other)
                     case 2:
-                        attaque = self.sort2(other)
-                other.perte_pv(attaque)
-            return
+                        degats_totaux = self.sort2(other)
+                other.perte_pv(degats_totaux)
+                
+            return degats_totaux
 
         def __str__(self):
             return f"{self.__class__.__name__} avec PV de {self.vie}"
@@ -131,6 +135,7 @@ init -7 python :
             super().__init__(race)
             self.type_degat = "physique"
             self.nom = nom
+            self.couleur_log = "#3498db"
             self.bourse = 1
             #Armes
             self.arme = []
@@ -341,25 +346,26 @@ init -7 python :
             self.defense_magique = 2
 
         def sort1(self, other):
-            print("Missiles magiques !")
+            store.log_msg("Missiles magiques !", self.couleur_log)
+            degats_totaux = 0
             for element in Dice.lancer(3,10)[1]:
                 if element > 2 :
                     degats = Dice.lancer(1,8)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique
+                    degats_totaux += max(0, degats) 
                 else:
-                    print("Raté !")
-                    degats = 0
+                    store.log_msg("Un missile rate sa cible !", self.couleur_log)
             self.mana -= 10
-            return degats
+            return degats_totaux
 
         def sort2(self, other):
-            print("Boule de feu !")
+            store.log_msg("Boule de feu !", self.couleur_log)
+            degats_totaux = 0
             if Dice.lancer()[0] > 12:
-                degats = Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique
+                degats_totaux = max(0, Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique)
                 self.mana -= 20
             else:
-                print("Raté !")
-                degats = 0
-            return degats
+                store.log_msg("La boule de feu rate lamentablement !", self.couleur_log)
+            return degats_totaux
 
     #Classes des monstres -------------------------------------------------------------------------------------
     class Monstre(Entite):
@@ -413,22 +419,23 @@ init -7 python :
             self.defense_magique = 3
 
         def sort1(self, other):
-            print("Des grenouilles tombent sur vous !")
-            degats = 0
+            store.log_msg("Le crapaud invoque une pluie de grenouilles !", self.couleur_log)
+            degats_totaux = 0
             for element in Dice.lancer(10,10)[1]:
                 if element > 5:
                     degats = Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
+                    degats_totaux += max(0, degats)
                 else:
-                    print("Raté !")
+                    pass 
             self.mana -= 10
-            return degats
+            return degats_totaux
 
         def sort2(self, other):
-            print("Il vous crache dessus ! Attention : corrosif !")
-            degats = 0
+            store.log_msg("Le crapaud vous crache dessus ! Attention : corrosif !", self.couleur_log)
+            degats_totaux = 0
             if Dice.lancer(1,10)[0] > 6:
-                degats = Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique
+                degats_totaux = max(0, Dice.lancer(1,20)[0] + self.bonus(self.intelligence) - other.defense_magique)
                 self.mana -= 20
             else:
-                print("Raté !")
-            return degats
+                store.log_msg("Le crachat rate !", self.couleur_log)
+            return degats_totaux

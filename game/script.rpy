@@ -244,6 +244,135 @@ screen Inventaire():
 
 # Fin inventaire
 
+# Equipements
+
+screen bouton_equipement():
+    if pc is not None:
+        textbutton "Équipement":
+            xalign 0.98 yalign 0.1 # Position bouton
+            action ToggleScreen("Menu_Equipement")
+
+screen slot_equipement(item, pos_x, pos_y, nom_slot):
+    frame:
+        xpos pos_x ypos pos_y
+        xysize (80, 80)
+        padding (5, 5)
+        background Solid("#333333")
+
+        if item is not None:
+            imagebutton:
+                idle Transform(item.icone, size=(64, 64))
+                hover Transform(item.icone, size=(64, 64))
+
+                # Déséquiper Items
+                action Function(pc.desequiper, item) 
+                hovered SetScreenVariable("tooltip_objet", item)
+                align (0.5, 0.5)
+        else:
+            text nom_slot size 14 align (0.5, 0.5) color "#777777"
+
+screen Menu_Equipement():
+    modal True
+    zorder 100
+    default tooltip_objet = None
+
+    frame:
+        xalign 0.5 yalign 0.5
+        padding (20, 20)
+        xysize (1050, 500)
+
+        hbox:
+            spacing 20
+
+            # --- Trucs Equiper ---
+            frame:
+                xysize (300, 460)
+                background Solid("#222222")
+                text "Équipement" xalign 0.5 ypos 10 bold True size 22
+
+                use slot_equipement(pc.tete, 110, 50, "Tête")
+                use slot_equipement(pc.arme[0] if pc.arme else None, 20, 140, "Arme")
+                use slot_equipement(pc.torse, 110, 140, "Torse")
+                use slot_equipement(pc.mains, 200, 140, "Mains")
+                use slot_equipement(pc.jambes, 110, 230, "Jambes")
+                use slot_equipement(pc.pieds, 110, 320, "Pieds")
+
+            # --- Inventaire ---
+            frame:
+                xysize (340, 460)
+                background Solid("#222222")
+                
+                vpgrid:
+                    cols 4
+                    spacing 5 
+                    mousewheel True
+                    scrollbars "vertical"
+                    allow_underfull True
+                    
+                    if hasattr(pc, 'inventaire_equipements') and pc.inventaire_equipements:
+                        for item in pc.inventaire_equipements:
+                            frame:
+                                xysize (80, 80)
+                                padding (5, 5)
+                                background Solid("#333333")
+                                
+                                imagebutton:
+                                    idle Transform(item.icone, size=(64, 64)) 
+                                    hover Transform(item.icone, size=(64, 64))
+                                    action Function(pc.equiper_ui, item) 
+                                    hovered SetScreenVariable("tooltip_objet", item)
+                                    unhovered SetScreenVariable("tooltip_objet", None)
+                                    align (0.5, 0.5)
+                    else:
+                        text "Sac vide." size 16 align (0.5, 0.5) color "#777777"
+
+            # --- Tooltip ---
+            frame:
+                xysize (330, 400)
+                yalign 1.0
+                padding (15, 15)
+                background Solid("#222222")
+                
+                if tooltip_objet is not None:
+                    textbutton "x":
+                        xalign 1.0 yalign 0.0
+                        action SetScreenVariable("tooltip_objet", None)
+                    vbox:
+                        spacing 10
+                        text "[tooltip_objet.nom]" bold True size 20
+                        null height 5
+                        viewport:
+                            mousewheel True
+                            scrollbars "vertical"
+                            yfill False 
+                            
+                            vbox:
+                                spacing 10
+                                text "[tooltip_objet.description]" size 14
+                                
+                                if hasattr(tooltip_objet, 'get_stats_affichage'):
+                                    for stat in tooltip_objet.get_stats_affichage():
+                                        text stat size 16
+                else:
+                    text "Survolez un objet." size 14 align (0.5, 0.5)
+                    
+        textbutton "Fermer":
+            xalign 1.0 yalign 0.0
+            action Hide("Menu_Equipement")
+
+# Fin Equipements
+
+# Variables de log
+
+default combat_log = []
+init python:
+    def log_msg(texte, couleur="#dddddd"):
+        combat_log.append(f"{{color={couleur}}}{texte}{{/color}}")
+        if len(combat_log) > 6:
+            combat_log.pop(0)
+
+# Fin log
+
 # Stats Combat Crapo
 
 screen Combat_Crapo():
@@ -284,9 +413,20 @@ screen Combat_Crapo():
                 bar value AnimatedValue(crapomagicien.vie, crapomagicien.pv_max) xysize (200, 20) left_bar "#e74c3c"
                 text " [crapomagicien.vie]/[crapomagicien.pv_max]" size 14
 
+    frame:
+        xalign 0.5 yalign 0.85
+        padding (15, 15)
+        xysize (650, 200)
+        background Solid("#111111d9")
+        
+        vbox:
+            spacing 5
+            for msg in combat_log:
+                text msg size 16 color "#dddddd"
+
     # Fin Stats Combat Crapo
 
-#
+# définition de variables
 
 default p = None
 default drunk = 0
@@ -310,8 +450,10 @@ define coll = Character('Kévin du Marketing', color="#00fbff")
 define truck = Character('Truck-kun', color="#f098ca")
 define crapo = Character('Albert Le Crapo Magicien De Lécole De La Bave', color="#77f242")
 
-# Déclarez des transitions
+# Déclarez des transitions et effets visuels
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
+define flash_rouge = Fade(0.1, 0.0, 0.5, color="#ff0000")
+define flash_blanc = Fade(0.1, 0.0, 0.5, color="#ffffff")
 
 #Déclarez des sfx
 define sfx_get_class = "game/audio/get_class.mp3"
@@ -321,7 +463,7 @@ define sfx_item_get = "game/audio/item_get.mp3"
 label start:
     show screen bouton_stats
     show screen bouton_inventaire
-    
+    show screen bouton_equipement
 
 
 # Switch pour les différents états du scénario
@@ -902,8 +1044,14 @@ label debut_donjon:
 
     scene labyrinthe_porte
     "Un crapaud, je les hais de tout mon être"
+
+
     $ crapomagicien = CrapeauMagicien()
+    $ combat_log = []
+    $ log_msg("Un Crapeau Magicien vous barre la route !")
+
     show screen Combat_Crapo
+
     label boucle_combat_crapo:
         if pc.vie <= 0:
             jump defaite_crapo
@@ -912,17 +1060,26 @@ label debut_donjon:
 
         menu:
             
-            "Vous utilisez votre [pc.arme[0].nom] pour attaquer le crapaud magicien!" if isinstance(pc, Barbare) or isinstance(pc, Voleur):
-                $ pc.attaquer(crapomagicien)
-                "Le crapaud magicien subit  points de dommage. Il lui reste [crapomagicien.vie] points de vie."
+            "Attaquer avec [pc.arme[0].nom]" if not isinstance(pc, Mage) and pc.arme:
+                $ degats = pc.attaquer(crapomagicien)
+                $ log_msg(f"Vous attaquez ! Le crapaud subit {degats} dégâts.")
+                with hpunch
 
-            "Vous canalisez votre magie pour attaquer le crapaud magicien!" if isinstance(pc, Mage):
-                $ pc.attaquer(crapomagicien)
-                "Le crapaud magicien subit  points de dommage. Il lui reste [crapomagicien.vie] points de vie."
+            "Attaquer à mains nues" if not isinstance(pc, Mage) and not pc.arme:
+                $ degats = pc.attaquer(crapomagicien)
+                $ log_msg(f"Vous collez un boure-pif ! Le crapaud subit {degats} dégâts.")
+                with hpunch
 
-        "Le crapaud magicien attaque en retour!"
-        $ crapomagicien.attaquer(pc)
-        "Vous subissez  points de dommage. Il vous reste  points de vie."
+            "Canaliser un sort" if isinstance(pc, Mage):
+                $ degats = pc.attaquer(crapomagicien)
+                $ log_msg(f"Vous déchainez un sort ! Le crapaud subit {degats} dégâts.")
+                with flash_blanc
+
+        $ degats_subis = crapomagicien.attaquer(pc)
+        $ log_msg(f"Le crapaud riposte ! Vous subissez {degats_subis} dégâts.")
+        if degats_subis > 0:
+            with vpunch
+            with flash_rouge
 
         jump boucle_combat_crapo
 
