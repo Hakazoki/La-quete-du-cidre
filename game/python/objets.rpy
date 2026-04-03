@@ -20,7 +20,7 @@ init -9 python :
         """
 
         """
-        def __init__(self,nom,description,icone="../images/items/default_icone.png")
+        def __init__(self,nom,description,icone="../images/items/default_icone.png"):
             super().utiliser(entite)
             self.est_consomme = True
 
