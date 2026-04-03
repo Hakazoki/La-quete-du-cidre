@@ -6,7 +6,7 @@ init -9 python :
         """
         Definition de la class abstract de l'objets
         """
-        def __init__(self,nom,description,icone = "images/items/default_icone.png"):
+        def __init__(self,nom,description,icone):
             self.nom = nom
             self.description = description
             self.icone = icone
@@ -20,7 +20,7 @@ init -9 python :
         """
 
         """
-        def __init__(self,nom,description,icone="images/items/default_icone.png"):
+        def __init__(self,nom,description,icone):
             super().__init__(nom,description,icone)
             self.est_consomme = False
 
@@ -33,7 +33,7 @@ init -9 python :
 
     class Munition(Consommable):
         max_ammo = 30
-        def __init__(self,nom,description,icone="images/items/default_icone.png"):
+        def __init__(self,nom,description,icone):
             super().__init__(nom,description)
 
     class Cle(Consommable):
@@ -58,7 +58,7 @@ init -9 python :
             super().__init__(nom,description)
 
     class ArmeDeLancer(Consommable):
-        def __init__(self,nom,description,degat):
+        def __init__(self,nom,description,degat,icone):
             super().__init__(nom,description)
             self.degat = degat
         
@@ -74,7 +74,7 @@ init -9 python :
             entite.vie -= self.degat
 
     class Equipement(Objets):
-        def __init__(self,nom, description,icone="images/items/default_icone.png"):
+        def __init__(self,nom, description,icone):
             super().__init__(nom,description)
             self.est_equiper = False
 

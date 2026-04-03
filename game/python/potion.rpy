@@ -2,7 +2,7 @@ init -8 python :
 
 
     class Potion(Consommable):
-        def __init__(self,nom,description,soin : Dice,mana_regen,icone="../images/items/default_icone.png"):
+        def __init__(self,nom,description,soin : Dice,mana_regen,icone):
             super().__init__(nom,description)
             self.soin = soin
             self.mana_regen = mana_regen
@@ -11,7 +11,7 @@ init -8 python :
             super().utiliser(entite)
 
     class PotionVie(Potion):
-        def __init__(self, nom, description, soin, mana_regen,icone="../images/items/default_icone.png"):
+        def __init__(self, nom, description, soin, mana_regen,icone):
             super().__init__(nom, description, soin, mana_regen)
             self.soin = soin
 
