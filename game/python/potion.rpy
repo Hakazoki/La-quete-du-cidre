@@ -34,8 +34,5 @@ init -8 python :
 
     class PotionDeMana(Potion):
         def __init__(self, nom = "Potion de Mana", description = "Une fiole remplie d'un liquide bleu profond créée par les plus grands mages du monde, vous serez revigorés en une gorgée et vous pourrez repartir au combat.",soin=0,mana_regen = 60,icone="../images/items/mana_potion.png"):
-            super().__init__(nom, description,soin,mana_regen,icone)
-            self.mana_regen = mana_regen
-            self.icone = icone
+            super().__init__(nom,description,soin,mana_regen,icone)
             self.nom = nom
-            self.description = description
