@@ -79,6 +79,23 @@ image handshake:
             0.1
             repeat
 
+
+# Progression Quizz
+
+screen prog_questionnaire(etape, totale=20):
+    zorder 80
+
+    frame:
+        xalign 0.5 yalign 0.05
+        padding(7, 7)
+        background Solid("#222222")
+        
+        hbox:
+            spacing 5
+            bar value AnimatedValue(etape, totale) xysize (300, 20) left_bar "#3498db" right_bar "#766050"
+
+# Fin Progression Quizz
+
 # Ecran des statistiques
 
 screen bouton_stats():
@@ -449,6 +466,7 @@ define boss = Character('M. Grondin (Manager)', color="#ff0000")
 define coll = Character('Kévin du Marketing', color="#00fbff")
 define truck = Character('Truck-kun', color="#f098ca")
 define crapo = Character('Albert Le Crapo Magicien De Lécole De La Bave', color="#77f242")
+define voix = Character('Voix Mystérieuse', color="#8e44ad", what_italic=True)
 
 # Déclarez des transitions et effets visuels
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -479,46 +497,57 @@ label intro:
 
     play music "quiz_theme.mp3"
     
-    "Qui es-tu jeune nain?"
+    voix "Qui es-tu jeune nain?"
     jump q1
+label q1:
+    show screen prog_questionnaire(1)
+    with dissolve
+    menu:
+        voix "Un voyou embête une fille dans une rue marchande animée ! Que faîtes-vous ?"
+        "a)Je sauve la demoiselle en détresse !!!.":
+            $ pts_barbare += 1
+            voix "L'héroïsme... ou l'inconscience."
+            jump q2
+        "b)Je lui baisse discrètement son slip.":
+            $ pts_voleur += 1
+            voix "Hehe... La fourberie naine dans toute sa splendeur."
+            jump q2
+        "c)J'appelle la milice.":
+            $ pts_mage += 1
+            voix "Pragmatique. Très bien."
+            jump q2
+        "d)Je me fais dessus.":
+            voix "..."
+            voix "Pathétique. Passons."
+            jump q2
 
-menu q1:
-    "Un voyou embête une fille dans une rue marchande animée ! Que faîtes-vous ?"
-    "a)Je sauve la demoiselle en détresse !!!.":
-        $ pts_barbare += 1
-        jump q2
-    "b)Je lui baisse discrètement son slip.":
-        $ pts_voleur += 1
-        jump q2
-    "c)J'appelle la milice.":
-        $ pts_mage += 1
-        jump q2
-    "d)Je me fais dessus.":
-        jump q2
-
-menu q2:
-    "Un pouilleux commence une conversation avec vous. Vous ne comprenez absolument rien à ce qu'il dit. Que lui dîtes-vous?"
-    "a)Hum... Vous pouvez répéter ?":
-        $ pts_mage += 1
-        jump q3
-    "b)Bien... Hum, il faut que j'y aille.":
-        $ pts_voleur += 1
-        jump q3
-    "c)Ques tu mveu, tu veu une pièce c'est ça ?.":  
-        $ pts_barbare += 1
-        jump q3
-
-menu q3:
-    "Un collègue de picole vous ramène quelque chose que vous aviez oublié. Comment le remerciez-vous ?"
-    "a)Merci, je te revaudrai ça.":  
-        $ pts_voleur += 1
-        jump q4
-    "b)Merci, mon brave !":
-        $ pts_mage += 1
-        jump q4
-    "c)Une grosse baffe dans la tronche, c'est MES affaires.":
-        $ pts_barbare += 1
-        jump q4
+label q2:
+    show screen prog_questionnaire(2)
+    with dissolve
+    menu:
+        voix "Un pouilleux commence une conversation avec vous. Vous ne comprenez absolument rien à ce qu'il dit. Que lui dîtes-vous?"
+        "a)Hum... Vous pouvez répéter ?":
+            $ pts_mage += 1
+            jump q3
+        "b)Bien... Hum, il faut que j'y aille.":
+            $ pts_voleur += 1
+            jump q3
+        "c)Ques tu mveu, tu veu une pièce c'est ça ?.":  
+            $ pts_barbare += 1
+            jump q3
+label q3:
+    show screen prog_questionnaire(3)
+    menu:
+        "Un collègue de picole vous ramène quelque chose que vous aviez oublié. Comment le remerciez-vous ?"
+        "a)Merci, je te revaudrai ça.":  
+            $ pts_voleur += 1
+            jump q4
+        "b)Merci, mon brave !":
+            $ pts_mage += 1
+            jump q4
+        "c)Une grosse baffe dans la tronche, c'est MES affaires.":
+            $ pts_barbare += 1
+            jump q4
         
 menu q4:
     "Une main sort des toilettes ! Que faîtes-vous?"
