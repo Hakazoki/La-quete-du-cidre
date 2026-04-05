@@ -460,6 +460,59 @@ screen Combat_Crapo():
 
     # Fin Stats Combat Crapo
 
+# Stats Combat Oiia
+
+screen Combat_Oiia():
+    zorder 80 
+
+    
+    frame:
+        xalign 0.02 yalign 0.2
+        padding (15, 15)
+        xysize (350, 150)
+        
+        vbox:
+            spacing 5
+            text "[pc.nom]" size 24 bold True
+
+            hbox:
+                text "PV:" min_width 50
+                bar value AnimatedValue(pc.vie, pc.pv_max) xysize (200, 20) left_bar "#2ecc71"
+                text " [pc.vie]/[pc.pv_max]" size 14
+                
+            if pc.mana_max > 0:
+                hbox:
+                    text "PM:" min_width 50
+                    bar value AnimatedValue(pc.mana, pc.mana_max) xysize (200, 20) left_bar "#3498db"
+                    text " [pc.mana]/[pc.mana_max]" size 14
+
+    frame:
+        xalign 0.98 yalign 0.2
+        padding (15, 15)
+        xysize (350, 120)
+        
+        vbox:
+            spacing 5
+            text "[oiiacat.race]" size 24 bold True color "#e74c3c"
+            
+            hbox:
+                text "PV:" min_width 50
+                # bar value AnimatedValue(oiiacat.vie, oiiacat.pv_max) xysize (200, 20) left_bar "#e74c3c"
+                # text " [oiiacat.vie]/[oiiacat.pv_max]" size 14
+
+    frame:
+        xalign 0.5 yalign 0.85
+        padding (15, 15)
+        xysize (650, 200)
+        background Solid("#111111d9")
+        
+        vbox:
+            spacing 5
+            for msg in combat_log:
+                text msg size 16 color "#dddddd"
+
+    # Fin Stats Combat Oiia
+
 # définition de variables
 
 default p = None
@@ -486,6 +539,8 @@ define truck = Character('Truck-kun', color="#f098ca")
 define crapo = Character('Albert Le Crapo Magicien De Lécole De La Bave', color="#77f242")
 define voix = Character('Voix Mystérieuse', color="#8e44ad", what_italic=True)
 define pnj_skaven = Character("Skaven", color="#5c4033")
+define inconnu = Character("???", color="#585858", what_italic=True)
+define oiiacat = Character("Chat", color="#9df2e1", what_italic=True)
 
 # Déclarez des transitions et effets visuels
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -842,6 +897,8 @@ menu q26:
 
 
 stop music fadeout 2.5
+hide screen prog_questionnaire
+
 # Fin Création
 
 # Instanciation Joueur
@@ -1092,7 +1149,13 @@ label debut_donjon:
 #------------------------------------- COMBAT CRAPAUD MAGICIEN -------------------------------------
 
     scene labyrinthe_porte
-    "Un crapaud, je les hais de tout mon être"
+    "Alors que vous approchez la porte, vous entendez un étrange croakement, il vous donne froid dans le dos"
+    play sound "croak.mp3" volume 0.5
+    inconnu "*croak* *croak*"
+    with flash
+    show crapo at right with moveinright
+    "C'est alors que la terrible créature surgit !"
+    p "Un crapaud magicien, je hais ces saloperies de tout mon être ! Leurs yeux sont pleins de malice ..."
 
     $ crapomagicien = CrapeauMagicien()
     $ combat_log = []
@@ -1648,7 +1711,12 @@ menu:
     "Vous décidez de prendre la porte a droite":
         jump labyrinthe_salle07
 
+#--------------------------Combat Boss--------------------------
+
 label salle_du_boss:
+
+    $ oiiacat = UiiaCat()
+
 
 menu:
     "Boss a vaincre(WIP)":
@@ -1656,6 +1724,8 @@ menu:
 
 label boss_vaincu:
     "WIP"
+
+#--------------------------Fin Combat Boss--------------------------
 
     if skaven_yandere_fin:
         jump fin_nice_boat
