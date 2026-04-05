@@ -1,14 +1,31 @@
-﻿# Vous pouvez placer le script de votre jeu dans ce fichier.
+﻿define config.developer = True
+# Vous pouvez placer le script de votre jeu dans ce fichier.
 init python:
     blorp=0
     
+# Debug Menu ('CTRL + D' Pour ouvrire le menu)
 
+init python:
+    def toggle_debug():
+        if config.developer:
+            if renpy.get_screen("debug_class_menu"):
+                renpy.hide_screen("debug_class_menu")
+            else:
+                renpy.show_screen("debug_class_menu")
+
+init 1 python:
+    config.underlay.append(
+        renpy.Keymap(
+            ctrl_K_d = toggle_debug,  
+        )
+    )
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
 # ex: image eileen heureuse = "eileen_heureuse.png"
 image chat = im.Scale("chat01.png", 900, 1000)
-image poster_chat = im.Scale("wanted-poster", 900, 1000)
+image poster_chat = im.Scale("wanted-poster.png", 900, 1000)
 image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
+image fin_nice_boat = im.Scale("fin_nice_boat.png", 1920, 1080)
 image bg_open_space = Solid("#cccccc")
 image bg_office_night = Solid("#1a1a1a")
 image frame_01 = im.Scale("bloggif_frames_gif/frame-01.jpg", 750, 750)
@@ -78,7 +95,6 @@ image handshake:
             "frame_18"
             0.1
             repeat
-
 # Ecran des statistiques
 
 screen bouton_stats():
@@ -435,6 +451,7 @@ default pts_barbare = 0
 default pts_mage = 0
 default pc = None
 default fouille_salle4 = False
+default skaven_yandere_fin = False
 
 # Déclarez les personnages utilisés dans le jeu.
 define g = Character('Gromli Fût-Perdu', color="#ff3434")
@@ -449,6 +466,7 @@ define boss = Character('M. Grondin (Manager)', color="#ff0000")
 define coll = Character('Kévin du Marketing', color="#00fbff")
 define truck = Character('Truck-kun', color="#f098ca")
 define crapo = Character('Albert Le Crapo Magicien De Lécole De La Bave', color="#77f242")
+define pnj_skaven = Character("Skaven", color="#5c4033")
 
 # Déclarez des transitions et effets visuels
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -456,14 +474,15 @@ define flash_rouge = Fade(0.1, 0.0, 0.5, color="#ff0000")
 define flash_blanc = Fade(0.1, 0.0, 0.5, color="#ffffff")
 
 #Déclarez des sfx
-define sfx_get_class = "game/audio/get_class.mp3"
-define sfx_item_get = "game/audio/item_get.mp3"
+define sfx_get_class = "audio/get_class.mp3"
+define sfx_item_get = "audio/item_get.mp3"
 
 # Le jeu commence ici
 label start:
     show screen bouton_stats
     show screen bouton_inventaire
     show screen bouton_equipement
+    achieve started
 
 
 # Switch pour les différents états du scénario
@@ -823,15 +842,15 @@ label personnage:
     
     if classe_joueur == "Barbare":
         "Votre audace sans limites fait de vous un guerrier intrépide, dont le cri de guerre fait trembler les murs des donjons les plus sombres !"
-        play music sfx_get_class
+        play sound sfx_get_class
         "Vous êtes barbare"
     if classe_joueur == "Voleur":
         "Votre sens de l'observation aiguisé fait de vous un expert de la discrétion, capable de déjouer tous les pièges pour s'emparer des trésors les mieux gardés."
-        play sfx sfx_get_class
+        play sound sfx_get_class
         "Vous êtes voleur"
     if classe_joueur == "Mage":
         "Votre curiosité insatiable pour les mystères du monde fait de vous un érudit des arcanes, maniant les éléments pour transformer le destin à votre guise."
-        play sfx sfx_get_class
+        play sound sfx_get_class
         "Vous êtes mage"
 
 
@@ -1044,7 +1063,6 @@ label debut_donjon:
 
     scene labyrinthe_porte
     "Un crapaud, je les hais de tout mon être"
-
 
     $ crapomagicien = CrapeauMagicien()
     $ combat_log = []
@@ -1335,7 +1353,8 @@ label labyrinthe_salle04:
             elif isinstance(pc, Mage):
                 "D'un geste de la main, vous déverrouillez le coffre. Une odeur de plantes séchées s'en échappe."
 
-            play sfx "sfx_item_get"
+
+            play sound sfx_item_get
             $ pc.consommables.append(item1)
             $ pc.consommables.append(item2)
             
@@ -1365,26 +1384,213 @@ menu:
     "(WIP)"
 
     "Vous décidez de prendre la porte au centre":
-        jump labyrinthe_salle05
+        jump salle_05_speed_dating
 
     "Vous décidez de prendre la porte de gauche":
         jump labyrinthe_salle01
 
-label labyrinthe_salle05:
-    scene salle_labyrinthe_porte_centre
-menu:
-    "(WIP)"
 
-    "Vous décidez de prendre la porte au centre":
+
+label salle_05_speed_dating:
+    scene salle_labyrinthe_porte_centre
+    $ seduction = 0
+    show screen barre_seduction
+    
+    pnj_skaven "Skritch ! Approche-approche, humaine-chose. On va voir si ton cœur est assez noir-sombre pour moi !"
+
+    
+    pnj_skaven "D'abord... Qu'est-ce que tu penses de mon odeur ?"
+    menu:
+        "On pourrait peut-être aérer la salle ?":
+            $ seduction -= 30
+        "Tu sens le rat sauvage, c'est très musqué.":
+            $ seduction += 20
+        "Je n'ai jamais rien senti d'aussi nauséabond.":
+            $ seduction -= 50
+        "C'est une odeur... très marquée.":
+            $ seduction += 10
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Si on trouve une réserve de nourriture, comment on fait ?"
+    menu:
+        "On divise tout équitablement à 50/50.":
+            $ seduction -= 20
+        "Je mange tout et je te laisse les restes si tu es sage.":
+            $ seduction += 40
+        "Je te laisse manger en premier, c'est la politesse.":
+            $ seduction -= 40
+        "On se bat à mort pour savoir qui mange tout.":
+            $ seduction += 30
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Comment tu comptes protéger notre futur nid-maison contre les intrus ?"
+    menu:
+        "Je ferme la porte à clé et je demande qui est là.":
+            $ seduction -= 30
+        "Je piège le sol avec des lames empoisonnées." if isinstance(pc, Voleur):
+            $ seduction += 50
+        "Je reste devant la porte et j'écrase tout ce qui bouge." if isinstance(pc, Barbare):
+            $ seduction += 40
+        "Je dresse un mur de flammes vertes magiques !" if isinstance(pc, Mage):
+            $ seduction += 50
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Si je te vole ton goûter pendant que tu dors, tu fais quoi ?"
+    menu:
+        "Je te mords l'oreille pour te donner une leçon.":
+            $ seduction += 20
+        "Je boude dans mon coin en pleurant.":
+            $ seduction -= 40
+        "Je te félicite pour ton agilité-vol !":
+            $ seduction += 40
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "C'est quoi ton rêve le plus fou-dingue ?"
+    menu:
+        "Invoquer une pluie de rats géants sur la ville !" if isinstance(pc, Mage):
+            $ seduction += 50
+        "Faire la paix entre les humains et les rats.":
+            $ seduction -= 60
+        "Devenir le cerveau de l'ombre et trahir tout le monde !" if isinstance(pc, Voleur):
+            $ seduction += 50
+        "Trouver une montagne de fromage infinie.":
+            $ seduction += 30
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Si tu devais m'offrir un bijou, ce serait quoi ?"
+    menu:
+        "Un diamant pur de la mine des nains.":
+            $ seduction -= 30
+        "Un collier fait de dents de répurgateurs.":
+            $ seduction += 40
+        "Un vieux bouton que j'ai trouvé par terre.":
+            $ seduction += 20
+        "Une bague en malepierre qui donne des mutations.":
+            $ seduction += 30
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Si on se fait coincer par des gardes, tu fais quoi ?"
+    menu:
+        "Je m'enfuis et je reviens te chercher plus tard.":
+            $ seduction += 30
+        "Je me rends pour te sauver la vie.":
+            $ seduction -= 70
+        "Je te pousse dans les bras des gardes pour m'enfuir.":
+            $ seduction += 60
+        "Je saute pour te sauver, au péril de ma vie !":
+            $ seduction -= 50
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Mon bras-pattes est cassé après ce combat... Tu fais quoi ?"
+    menu:
+        "Je t'emmène chez le guérisseur du village.":
+            $ seduction -= 60
+        "Je te greffe un membre de rat pris sur un cadavre." if isinstance(pc, Voleur):
+            $ seduction += 50
+        "Je te soigne avec une potion de régénération." if isinstance(pc, Mage):
+            $ seduction -= 40
+        "Je t'attache un bout de bois avec une corde et on continue." if isinstance(pc, Barbare):
+            $ seduction += 30
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Dis-moi, quelle est la chose la plus magnifique que tu aies jamais vue ?"
+    menu:
+        "Un coffre rempli de pièces d'or volées.":
+            $ seduction += 20
+        "Un coucher de soleil sur les montagnes.":
+            $ seduction -= 60
+        "Une pile de cadavres de nains parfaitement alignés.":
+            $ seduction += 40
+        "Le visage d'un ami fidèle.":
+            $ seduction -= 40
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Si on devait composer une chanson pour le Grand Rat Cornu, quel instrument utiliser ?"
+    menu:
+        "Le son de mes poings frappant un bouclier." if isinstance(pc, Barbare):
+            $ seduction += 30
+        "Une harpe, c'est doux et mélodieux.":
+            $ seduction -= 50
+        "Ma flûte à rats, pour les hypnotiser." if isinstance(pc, Mage):
+            $ seduction += 40
+        "Le bruit de mes lames que j'aiguise." if isinstance(pc, Voleur):
+            $ seduction += 40
+    $ renpy.restart_interaction()
+
+    
+    pnj_skaven "Dernière réflexion : qu'est-ce qui est le plus important au monde ?"
+    menu:
+        "Le pouvoir de posséder ce qu'on veut.":
+            $ seduction += 30
+        "L'honneur et la loyauté.":
+            $ seduction -= 80
+        "La capacité à trahir au bon moment.":
+            $ seduction += 60
+        "La connaissance absolue.":
+            $ seduction -= 30
+    $ renpy.restart_interaction()
+
+    hide screen barre_seduction
+    jump verdict_skaven
+
+
+label verdict_skaven:
+    hide screen barre_seduction
+
+# --- ÉVÉNEMENT SPÉCIAL ----
+    if seduction <= -50:
+        pnj_skaven "NON ! Trop de... bonté... de lumière... de politesse..."
+        pnj_skaven "MON CŒUR DE RAT NE SUPPORTE PAS TANT DE PURETÉ !!!"
+        
+        play sound "audio/sfx_explosion.mp3"
+        show white with img_flash
+        
+        "Le Skaven explose littéralement dans une gerbe de sang, de tripes et... de paillettes magiques."
+        "La porte derrière les restes fumants de la créature s'ouvre toute seule, comme terrifiée par votre gentillesse."
+        
+        $ passage_salle05_debloque = True    
         jump labyrinthe_salle08
+
+# --- FIN CACHÉE -------
+    if seduction >= 150:
+        $ skaven_yandere_fin = True
+        pnj_skaven "Skritch... Je ne peux plus te laisser partir..."
+        pnj_skaven "Tu es à moi. Pour toujours. Je te suivrai... partout. Dans l'ombre. Derrière toi."
+        "Le Skaven rejoint votre groupe. Son regard est fixe, dilaté, et ne cligne plus des yeux."
+        $ passage_salle05_debloque = True
+        jump labyrinthe_salle08
+
+    # --- RÉUSSITE NORMALE ---
+    elif seduction >= 50:
+        pnj_skaven "Skritch ! Tu me plais, humaine-chose. Passe vite avant que je ne reprenne mes esprits !"
+        $ passage_salle05_debloque = True
+        jump labyrinthe_salle08
+
+    # --- ÉCHEC NORMAL ---
+    else:
+        pnj_skaven "Toi être ennuyeuse-chose. Moi avoir faim maintenant !"
+        jump fin
 
 label labyrinthe_salle08:
     scene salle_labyrinthe_porte_gauche
+
 menu:
     "(WIP)"
 
-    "Vous décidez de prendre la porte de gauche":
+    "Partir vers la porte gauche":
         jump labyrinthe_salle07
+    
+
+
 
 label labyrinthe_salle07:
     scene salle_labyrinthe_trois_porte
@@ -1416,19 +1622,48 @@ label salle_du_boss:
 
 menu:
     "Boss a vaincre(WIP)":
-        jump fin
+        jump boss_vaincu
+
+label boss_vaincu:
+    "WIP"
+
+    if skaven_yandere_fin:
+        jump fin_nice_boat
+    else:
+        "WIP"
 
 label salle_secrete:
     
 menu:
     "(WIP)":
         jump fin
-    "test":
-        jump fin
 
 
 
-   
+label fin_nice_boat:
+    scene fin_nice_boat
+    play music "sea_wave_sfx.mp3"
+    with fade
+
+    "Le calme de l'océan est apaisant."
+    "Le Skaven est assis sur le pont, bercé par les vagues, loin du labyrinthe et de ses horreurs."
+ 
+    
+    "Dans ses bras-pattes, iel serre tendrement votre tête décapitée."
+    "Votre regard est fixe, figé pour l'éternité dans une expression de surprise glacée."
+    
+    pnj_skaven "tu sourit enfin. (des larmes de bonheur perlant dans ses yeux de rat)"
+    
+    
+    pnj_skaven "Skritch... Enfin. Tu ne me trahiras plus-jamais. Tu ne regarderas plus-personne."
+    pnj_skaven "Tu es à moi. Pour l'éternité-toujours. Nous sommes... enfin... UN."
+    
+    "Le Skaven frotte doucement son museau contre votre joue froide."
+    
+    achieve yandere_end
+
+    "{b}FIN SECRÈTE : Nice Boat.{/b}"
+    jump fin
 
 label finalcool:
     "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."
@@ -1516,7 +1751,7 @@ label fin_bureau:
     p "C'est donc ça... l'enfer des humains ? Pas de gloire, pas de chants... juste le bruit de la clim."
     stop music
     
-    "FÉLICITATIONS : Vous avez débloqué la fin secrète 'Burn-out Isekai'."
+    achieve isekai_office
     
     "Peut-être qu'en traversant la route demain matin, vous aurez plus de chance ?"
     

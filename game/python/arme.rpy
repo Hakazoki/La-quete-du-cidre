@@ -26,9 +26,13 @@ init -8 python:
     class EpeeEnFer(ArmeAUneMain):
         def __init__(self,nom = "Epée en Fer",description = "Une lame de fer sombre de 60 cm, brute et fonctionnelle. Sa garde en croix et sa poignée gainée de cuir privilégient l'efficacité au style. C’est une arme équilibrée, forgée pour l'estocade et le combat rapproché.",attaque = 0,icone="images/items/fc1449.png"):
             super().__init__(nom,description,Dice(6,1))
+    
+    class DagueEnFer(ArmeAUneMain):
+        def __init__(self,nom = "Dague en Fer",description = "Une lame courte et robuste, forgée dans un fer sombre et légèrement piqué par le temps. Sa garde est dépouillée, faite d'une simple barre de métal brut, et son manche est enveloppé de cuir tanné, un peu râpé par l'usage. Elle n'a rien d'élégant, mais elle est parfaitement équilibrée pour une prise en main rapide et tranchante.",attaque = 0,icone="images/items/fc1521.png"):
+            super().__init__(nom,description,Dice(4,1))
 
     class Hache(ArmeAUneMain):
-        def __init__(self, nom = "Hache en Fer", description = "Une hache en fer forgé à la main par un maître forgeron. Son élégance disparait au profit de sa sauvagerie", attaque = 0,icone="images/items/fc1465.png"):
+        def __init__(self, nom = "Hache en Fer", description = "Une hache en fer forgé à la main par un maître forgeron. Son élégance disparait au profit de sa sauvagerie", attaque = 0,icone = "images/items/fc1465.png"):
             super().__init__(nom, description, Dice(4,1))
 
     class Zweihander(ArmeADeuxMain):

@@ -21,7 +21,9 @@
 #   (This does not currently support progress stats.)
 define BOBCACHIEVEMENT_LIST = (
     ("started", _("Started The Game"), _("A sample achievement you can grant when the player starts the game.")),
-    ("samplehidden", _("My First Achievement"), _("A sample achievement to demonstrate usage of hidden achievements."), True),
+    ("rat_boom", _("Feu d'artifice de poils"), _("Vous avez fait exploser un Skaven à force d'être trop gentille."), False),
+    ("yandere_end", _("Nice Boat"), _("Le grand amour ne meurt jamais... contrairement à vous."), True),
+    ("isekai_office", _("Burn-out Isekai"), _("Vous avez échangé votre hache contre un tableur Excel. Triste destin."), True),
     )
     
 # 3) In your game script, when you want to grant an achievement, type "achieve <reference_id>" without the
