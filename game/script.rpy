@@ -23,6 +23,7 @@ init 1 python:
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
 # ex: image eileen heureuse = "eileen_heureuse.png"
 image chat = im.Scale("chat01.png", 900, 1000)
+image Oiia = im.Scale("Oiia_cat.png", 900, 1000)
 image poster_chat = im.Scale("wanted-poster.png", 900, 1000)
 image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
 image fin_nice_boat = im.Scale("fin_nice_boat.png", 1920, 1080)
@@ -47,6 +48,7 @@ image frame_16 = im.Scale("bloggif_frames_gif/frame-16.jpg", 750, 750)
 image frame_17 = im.Scale("bloggif_frames_gif/frame-17.jpg", 750, 750)
 image frame_18 = im.Scale("bloggif_frames_gif/frame-18.jpg", 750, 750)
 image plaine = im.Scale("Plaine.jpg", 1920, 1080)
+image end_cave = im.Scale("end_cave.jpg", 1920, 1080)
 image dungeon_entrance = im.Scale("dungeon_entrance.jpeg", 1920, 1080)
 image labyrinthe_porte = im.Scale("porte_labyrinthe.png", 1920, 1080)
 image salle_labyrinthe_porte_droite = im.Scale("Salle_Labyrinthe_Porte_Droite.png", 1920, 1080)
@@ -56,6 +58,10 @@ image salle_labyrinthe_porte_droite_centre = im.Scale("Salle_Labyrinthe_Porte_Dr
 image salle_labyrinthe_porte_gauche_centre = im.Scale("Salle_Labyrinthe_Porte_Gauche_Centre.png", 1920, 1080)
 image salle_labyrinthe_porte_centre = im.Scale("salle_labyrinthe_porte_centre.png", 1920, 1080)
 image salle_labyrinthe_coffre = im.Scale("salle_labyrinthe_coffre.png", 1920, 1080)
+image mc_base = im.Scale("image_base_levier_minecraft.png", 1920, 1080)
+image mc_gauche = im.Scale("image_levier_gauche_minecraft.png", 1920, 1080)
+image mc_centre = im.Scale("image_levier_centre_minecraft.png", 1920, 1080)
+image mc_droite = im.Scale("image_levier_droite_minecraft.png", 1920, 1080)
 image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
 image handshake:
             "frame_01"
@@ -396,6 +402,59 @@ screen Menu_Equipement():
 
 # Fin Equipements
 
+# Ecrant séductrion
+
+screen barre_seduction():
+    zorder 999
+
+    fixed:
+        xalign 0.5 
+        ypos 50
+        xsize 400 ysize 80 
+
+        
+        add Solid("#330000aa") xsize 400 ysize 80 xalign 0.5
+
+        
+        $ bar_val = max(0, min(100, (seduction + 50) / 2))
+        bar:
+            value bar_val
+            range 100
+            xsize 380
+            ysize 30 
+            xalign 0.5
+            ypos 25  
+            unscrollable "unscrollable"
+
+        
+        if seduction > 100:
+            $ extension_droite = (seduction - 100) * 4
+            add Solid("#ffaa44"):
+                xsize extension_droite ysize 30
+                ypos 25   
+                xpos 400   
+                xanchor 0.0
+
+        
+        if seduction < -50:
+            $ extension_gauche = (abs(seduction) - 50) * 4
+            add Solid("#ff4444"):
+                xsize extension_gauche ysize 30
+                ypos 25
+                xpos 0     
+                xanchor 1.0
+
+        
+        text "Niveau de Séduction : [seduction]%" size 18 xalign 0.5 ypos 5
+        
+        
+        if seduction <= -50:
+            text "{b}{color=#ff0000}ERREUR : PURETÉ CRITIQUE{/color}{/b}" size 14 xalign 0.5 ypos 60
+        elif seduction >= 150:
+            text "{b}{color=#ff00ff}ALERTE : OBSESSION{/color}{/b}" size 14 xalign 0.5 ypos 60
+
+# Fin écreant séduction
+
 # Variables de log
 
 default combat_log = []
@@ -493,12 +552,12 @@ screen Combat_Oiia():
         
         vbox:
             spacing 5
-            text "[oiiacat.race]" size 24 bold True color "#e74c3c"
+            text "[oiiacat_combat.race]" size 24 bold True color "#e74c3c"
             
             hbox:
                 text "PV:" min_width 50
-                # bar value AnimatedValue(oiiacat.vie, oiiacat.pv_max) xysize (200, 20) left_bar "#e74c3c"
-                # text " [oiiacat.vie]/[oiiacat.pv_max]" size 14
+                bar value AnimatedValue(oiiacat_combat.vie, oiiacat_combat.pv_max) xysize (200, 20) left_bar "#e74c3c"
+                text " [oiiacat_combat.vie]/[oiiacat_combat.pv_max]" size 14
 
     frame:
         xalign 0.5 yalign 0.85
@@ -1645,7 +1704,7 @@ label verdict_skaven:
         pnj_skaven "MON CŒUR DE RAT NE SUPPORTE PAS TANT DE PURETÉ !!!"
         
         play sound "audio/sfx_explosion.mp3"
-        show white with img_flash
+        with vpunch
         
         "Le Skaven explose littéralement dans une gerbe de sang, de tripes et... de paillettes magiques."
         "La porte derrière les restes fumants de la créature s'ouvre toute seule, comme terrifiée par votre gentillesse."
@@ -1692,7 +1751,7 @@ menu:
     "Ici, le silence est un mensonge. La porte colossale dégage une aura électrique, imprégnée d'une odeur entêtante de malt et de... poils ? Une chose est certaine : le maître des lieux vous a déjà senti arriver."
 
     "Vous décidez de prendre la porte au centre":
-        jump salle_du_boss
+        jump enigme_minecraft
 
     "Vous décidez de prendre la porte a gauche":
         jump labyrinthe_salle06
@@ -1701,6 +1760,28 @@ menu:
         jump labyrinthe_salle08
     "Salle Secrète(WIP)":
         jump salle_secrete
+
+label enigme_minecraft:
+    scene mc_base 
+    
+    "Une faille dimensionnelle s'ouvre. Trois leviers de pierre se dressent devant vous."
+
+label choix_levier:
+    menu:
+        "Actionner le levier de gauche":
+            scene mc_gauche 
+            "Un clic sourd retentit... La porte du boss tremble et s'ouvre enfin !"
+            jump salle_du_boss
+
+        "Actionner le levier du centre":
+            scene mc_centre 
+            "Le levier résiste. Une décharge électrique parcourt vos doigts. Ce n'est pas celui-là."
+            jump choix_levier 
+
+        "Actionner le levier de droite":
+            scene mc_droite 
+            "Le levier s'abaisse dans le vide. Rien ne se passe. Vous devriez essayer un autre levier."
+            jump choix_levier 
 
 label labyrinthe_salle06:
     scene salle_labyrinthe_porte_droite
@@ -1714,23 +1795,86 @@ menu:
 #--------------------------Combat Boss--------------------------
 
 label salle_du_boss:
+    scene end_cave
+    play music "audio/boss_theme.mp3"
+    
+    show Oiia at center with moveinbottom
+    "Le terrible Oiiacat se dresse contre vous !"
+    "Il tourne sur lui-même avec une vitesse défiant les lois de la physique. Ses miaulements forment une mélodie hypnotique..."
 
-    $ oiiacat = UiiaCat()
+    $ oiiacat_combat = UiiaCat()
+    $ combat_log = []
+    $ log_msg("Le combat final contre l'Oiiacat commence !")
 
+    show screen Combat_Oiia
 
-menu:
-    "Boss a vaincre(WIP)":
-        jump boss_vaincu
+label boucle_combat_oiiacat:
+    if pc.vie <= 0:
+        jump defaite_oiiacat
+    if oiiacat_combat.vie <= 0:
+        jump victoire_oiiacat
 
-label boss_vaincu:
-    "WIP"
+    menu:
+        "Utiliser l'[item2.nom]" if any(isinstance(i, HerbeCap) for i in pc.consommables):
+            $ log_msg("Vous jetez une poignée d'herbe à chat au sol !", "#2ecc71")
+            "L'Oiiacat s'arrête net de tourner. Il se roule dedans avec frénésie, oubliant totalement de se défendre !"
+            
+            $ degats_herbe = oiiacat_combat.vie / 2
+            $ oiiacat_combat.perte_pv(degats_herbe)
+            
+            $ log_msg(f"L'Oiiacat est déconcentré ! Il perd {int(degats_herbe)} PV.")
+            
+            python:
+                for i in pc.consommables:
+                    if isinstance(i, HerbeCap):
+                        pc.consommables.remove(i)
+                        break
+            with hpunch
 
-#--------------------------Fin Combat Boss--------------------------
+        "Attaquer avec [pc.arme[0].nom]" if not isinstance(pc, Mage) and pc.arme:
+            $ degats = pc.attaquer(oiiacat_combat)
+            $ log_msg(f"Vous frappez le chat en plein tournoiement ! Il subit {degats} dégâts.")
+            with hpunch
+            
 
+        "Tenter de l'attraper par la queue" if not isinstance(pc, Mage) and not pc.arme:
+            $ degats = pc.attaquer(oiiacat_combat)
+            $ log_msg(f"Vous essayez de stopper sa rotation ! L'Oiiacat subit {degats} dégâts.")
+            with vpunch
+
+        "Lancer une explosion de mana" if isinstance(pc, Mage):
+            $ degats = pc.attaquer(oiiacat_combat)
+            $ log_msg(f"Votre magie perturbe son rythme ! L'Oiiacat subit {degats} dégâts.")
+            
+
+    $ degats_subis = oiiacat_combat.attaquer(pc)
+    $ log_msg(f"L'Oiiacat miaule de façon stridente ! Vous subissez {degats_subis} dégâts.")
+    
+    if degats_subis > 0:
+        with vpunch
+        with flash_rouge 
+
+    jump boucle_combat_oiiacat
+
+label defaite_oiiacat:
+    hide screen Combat_Oiia
+    stop music fadeout 1.0
+    with vpunch
+    "Le tournoiement incessant du chat finit par vous faire perdre l'équilibre. Vous sombrez dans l'oubli, bercé par son miaulement éternel..."
+    jump fin
+
+label victoire_oiiacat:
+    hide screen Combat_Oiia
+    stop music fadeout 1.0
+    with vpunch
+    "Dans une ultime rotation, l'Oiiacat explose en mille paillettes de pixel !"
+    "Le labyrinthe redevient silencieux. Vous avez vaincu la menace tournante."
     if skaven_yandere_fin:
         jump fin_nice_boat
     else:
-        "WIP"
+        jump fin
+
+#--------------------------Fin Combat Boss--------------------------
 
 label salle_secrete:
     
