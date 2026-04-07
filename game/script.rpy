@@ -105,7 +105,7 @@ image handshake:
 
 # Progression Quizz
 
-screen prog_questionnaire(etape, totale=20):
+screen prog_questionnaire(etape, totale=10):
     zorder 80
 
     frame:
@@ -402,7 +402,7 @@ screen Menu_Equipement():
 
 # Fin Equipements
 
-# Ecrant séductrion
+# Ecran séductrion
 
 screen barre_seduction():
     zorder 999
@@ -662,297 +662,177 @@ label q2:
         voix "Un pouilleux commence une conversation avec vous. Vous ne comprenez absolument rien à ce qu'il dit. Que lui dîtes-vous?"
         "a)Hum... Vous pouvez répéter ?":
             $ pts_mage += 1
+            voix "Vous avez l'intention de lui faire répétez combien de fois ?"
             jump q3
         "b)Bien... Hum, il faut que j'y aille.":
             $ pts_voleur += 1
+            voix "Belle esquive !"
             jump q3
         "c)Ques tu mveu, tu veu une pièce c'est ça ?.":  
             $ pts_barbare += 1
+            voix "Vous ne savez pas parler ?"
             jump q3
 label q3:
     show screen prog_questionnaire(3)
+    with dissolve
     menu:
-        "Un collègue de picole vous ramène quelque chose que vous aviez oublié. Comment le remerciez-vous ?"
+        voix "Un collègue de picole vous ramène quelque chose que vous aviez oublié. Comment le remerciez-vous ?"
         "a)Merci, je te revaudrai ça.":  
             $ pts_voleur += 1
+            voix "Un service pour un service, bel esprit !"
             jump q4
         "b)Merci, mon brave !":
             $ pts_mage += 1
+            voix "Simple, mais efficace"
             jump q4
         "c)Une grosse baffe dans la tronche, c'est MES affaires.":
             $ pts_barbare += 1
+            voix "Parfait, apprenez lui à ne pas toucher à vos affaires !"
             jump q4
         
-menu q4:
-    "Une main sort des toilettes ! Que faîtes-vous?"
-    "a)Je m'enfuis en hurlant.":
-        $ pts_voleur += 1
-        jump q5
-    "b)Je referme le couvercle.":  
-        $ pts_mage += 1
-        jump q5
-    "c)Je la serre.":
-        $pts_barbare += 1
-        jump q5
+label q4:
+    show screen prog_questionnaire(4)
+    with dissolve
+    menu:
+        voix "Une main sort des toilettes ! Que faîtes-vous?"
+        "a)Je m'enfuis en hurlant.":
+            $ pts_voleur += 1
+            voix "Mimi Geignarde est une folle, fuyez !"
+            jump q5
+        "b)Je referme le couvercle.":  
+            $ pts_mage += 1
+            voix "Et vous laissez cette pauvre main dans les sanitaires ? La pauvre."
+            jump q5
+        "c)Je la serre.":
+            $pts_barbare += 1
+            voix "Quelle politesse, un nain digne de ce nom."
+            jump q5
 
-menu q5:
-    "Arrivez-vous souvent en retard à l'église?"
-    "a)Oui.":
-        $ pts_barbare += 1
-        jump q6
-    "b)Non.":
-        $ pts_mage += 1
-        jump q6
-    "c)C'est la faute des goblins":
-        $ pts_voleur += 1
-        jump q6
+label q5:
+    show screen prog_questionnaire(5)
+    with dissolve
+    menu:
+        voix "Racontez-nous une blague"
+        "a)Alors c'est un nain, un elfe et un orc qui rentrent dans un bar...":
+            $ pts_voleur += 1
+            voix "Oui, oui, oui, on va s'arreter là, merci."
+            jump q6
+        "b)Tire sur mon doigt !":
+            $ pts_barbare += 1
+            voix "... Vous avez quel âge serieusement ?"
+            jump q6
+        "c)T'imagine si Kornifex avait écrit le 3ème grimmoire de lucidité avec de l'encre de pieuvre calcinée!":
+            $ pts_mage += 1
+            voix "Euh, j'imagine que c'est amusant."
+            jump q6
+
+label q6:
+    show screen prog_questionnaire(6)
+    with dissolve
+    menu:
+        voix "Attrapez n'importe quel doigt de la main gauche avec la main droite. Quel doigt avez-vous choisi ?"
+        "a)Le pouce.":
+            voix "Choix intéressant."
+            $ pts_barbare += 1
+            jump q7
+        "b)L'index.":
+            voix "Choix intéressant."
+            $ pts_barbare += 1
+            $ pts_voleur += 1
+            $ pts_mage += 1
+            jump q7
+        "c)Le majeur.":
+            voix "Choix intéressant."
+            $ pts_voleur += 1
+            jump q7
+        "d)L'annulaire.":
+            voix "Choix intéressant."
+            $ pts_mage += 1
+            jump q7
+        "e)L'auriculaire.":
+            voix "Choix intéressant."
+            $ pts_mage += 1
+            jump q7
+
+label q7:
+    show screen prog_questionnaire(7)
+    with dissolve
+    menu:
+        voix "Quelqu'un dit que vous êtes bizarre mais marrant. Vous vous sentez comment ?"
+        "a)Super!":
+            voix "Quel optimisme, vous n'écoutez que le positif !"
+            $ pts_voleur += 1
+            jump q8
+        "b)Triste.":
+            voix "Quel esprit faible, vous n'écoutez que le négatif."
+            $ pts_mage += 1
+            jump q8
+        "c)Nain.":
+            voix "Euh... Oui."
+            $ pts_barbare += 1
+            $ pts_mage += 1
+            $ pts_voleur += 1
+            jump q8
+        "d)Ca me laisse naindifférent.":
+            voix "Très drôle..."
+            $ pts_mage += 1
+            $ pts_voleur += 1
+            jump q8
         
-menu q6:
-    "Osez-vous entrer dans une maison hantée?"
-    "a)Oui, avec quelqu'un.":
-        $ pts_mage +=1
-        jump q7
-    "b)Euh...non...":
-        $ pts_voleur += 1
-        jump q7
-    "c)Elle est même pas en forme de T ta maison!":
-        $ pts_barbare += 1
-        jump q7
+label q8:
+    show screen prog_questionnaire(8)
+    with dissolve
+    menu:
+        voix "Voici un seau. Si vous mettez de l'eau dedans, vous le remplissez..."
+        "a)A ras.":
+            voix "Vous allez en faire tomber partout."
+            $ pts_barbare += 1
+            jump q9
+        "b)A demi.":
+            voix "Un choix raisonnable."
+            $ pts_mage += 1
+            jump q9
+        "c)Un peu.":
+            voix "C'est tout ?"
+            $ pts_voleur += 1
+            jump q9
+        "d)Jeter le seau.":
+            voix "Euh, vous êtes sensé remplir le seau pas le jeter."
+            $ pts_barbare += 1
+            jump q9
 
-menu q7:
-    "Racontez-nous une blague"
-    "a)Alors c'est un nain, un elfe et un orc qui rentrent dans un bar...":
-        $ pts_voleur += 1
-        jump q8
-    "b)Tire sur mon doigt !":
-        $ pts_barbare += 1
-        jump q8
-    "c)T'imagine si Kornifex avait écrit le 3ème grimmoire de lucidité avec de l'encre de pieuvre calcinée!":
-        $ pts_mage += 1
-        jump q8
+label q9:
+    show screen prog_questionnaire(9)
+    with dissolve
+    menu:
+        voix "Vous entendez un cri venant de derrière la porte ! Comment réagissez-vous ?"
+        "a)Je l'ouvre d'un coup.":
+            voix " Quel réactivité !"
+            $  pts_voleur += 1
+            jump q10
+        "b)Je crie aussi.":
+            voix "Pourquoi ?"
+            $ pts_barbare += 1
+            jump q10
+        "c)Je toque à la porte.":
+            voix "Woah, vous êtes d'un calme et d'une politesse à toute épreuve."
+            $ pts_mage += 1
+            jump q10
 
-menu q8:
-    "Attrapez n'importe quel doigt de la main gauche avec la main droite. Quel doigt avez-vous choisi ?"
-    "a)Le pouce.":
-        $ pts_barbare += 1
-        jump q9
-    "b)L'index.":
-        $ pts_barbare += 1
-        $ pts_voleur += 1
-        $ pts_mage += 1
-        jump q9
-    "c)Le majeur.":
-        $ pts_voleur += 1
-        jump q9
-    "d)L'annulaire.":
-        $ pts_mage += 1
-        jump q9
-    "e)L'auriculaire.":
-        $ pts_mage += 1
-        jump q9
-
-menu q9:
-    "Avez-vous déjà construit un piège ?"
-    "a)....":
-        $ pts_voleur += 1
-        jump q10
-    "b)Non, j'ai pas besoin de ce genre de subterfuge de bas étage.":
-        $pts_mage += 1
-        jump q10
-    "c)J'en ai déjà casser un, ça compte ?":
-        $ pts_barbare += 1
-        jump q10
-
-menu q10:
-    "A quelle vitesse répondez-vous à un pigeon voyageur ?"
-    "a)J'y réponds immédiatement, il en va de mon honneur!":
-        $ pts_mage += 1
-        jump q11
-    "b)Jsuis pas un naintellectuel moi, je sais pas écrire.":
-        $ pts_barbare += 1
-        jump q11
-    "c)Trop fatigant.":
-        $ pts_voleur += 1
-        jump q11
-
-menu q11:
-    "Vous êtes à la plage et le temps est superbe. Comment vous sentez-vous?"
-    "a)Super bien! J'ai creusé un super trou!":
-        $ pts_barbare += 1
-        jump q12
-    "b)Super! Je viens de terminer une reproduction en sable de la tour d'ivoire d'Udum-Arak!":
-        $ pts_mage += 1
-        jump q12
-    "c)J'ai envie de rentrer...":
-        $pts_voleur += 1
-        jump q12
-        
-menu q12:
-    "C'est les vacances d'été! Où aimeriez-vous aller ?"
-    "a)Jsuis déjà en vacances toute l'année à la taverne":
-        $ pts_barbare += 1
-        jump q13
-    "b)En thalasso.":
-        $ pts_voleur += 1
-        jump q13
-    "c)Je ne pars pas en vacances, je n'ai pas le temps":
-        $ pts_mage += 1
-        jump q13
-    "d)Je dois bien avouer que j'ai toujours rêvé de visiter le colysée d'Idylthir.":
-        $ pts_voleur += 1
-        $ pts_barbare += 1
-        jump q13
-
-menu q13:
-    "Quelqu'un dit que vous êtes bizarre mais marrant. Vous vous sentez comment ?"
-    "a)Super!":
-        $ pts_voleur += 1
-        jump q14
-    "b)Triste.":
-        $ pts_mage += 1
-        jump q14
-    "c)Nain.":
-        $ pts_barbare += 1
-        $ pts_mage += 1
-        $ pts_voleur += 1
-        jump q14
-    "d)Ca me laisse naindifférent.":
-        $ pts_mage += 1
-        $ pts_voleur += 1
-        jump q14
-        
-menu q14:
-    "La route se divise: elle part à droite et à gauche. On vous dit qu'il y a un trésor sur celle de droite. De quel côté allez-vous ?"
-    "a)A droite ! Les lingots m'appellent!":
-        $ pts_barbare += 1
-        jump q15
-    "b)Un piège ! A gauche.":
-        $ pts_mage += 1
-        jump q15
-    "c)Peu importe.":
-        $ pts_voleur += 1
-        jump q15
-    "d)Tout droit.":
-        $ pts_barbare +=1
-        jump q15
-
-menu q15:
-    "Voici un seau. Si vous mettez de l'eau dedans, vous le remplissez..."
-    "a)A ras.":
-        $ pts_barbare += 1
-        jump q16
-    "b)A demi.":
-        $ pts_mage += 1
-        jump q16
-    "c)Un peu.":
-        $ pts_voleur += 1
-        jump q16
-    "d)Jeter le seau.":
-        $ pts_barbare += 1
-        jump q16
-
-menu q16:
-    "Vous aimez bien une personne... Mais aucun moyen de s'en rapprocher, que faîtes-vous ?"
-    "a)Je lui déclare ma flamme.":
-        $ pts_voleur += 1
-        jump q17
-    "b)Je lui écrit un poème.":
-        $ pts_barbare += 1
-        jump q17
-    "c)Je l'admire de loin.":
-        $ pts_mage += 1
-        jump q17
-
-menu q17:
-    "Vous entendez un cri venant de derrière la porte ! Comment réagissez-vous ?"
-    "a)Je l'ouvre d'un coup.":
-        $  pts_voleur += 1
-        jump q18
-    "b)Je crie aussi.":
-        $ pts_barbare += 1
-        jump q18
-    "c)Je toque à la porte.":
-        $ pts_mage += 1
-        jump q18
-
-menu q18:
-    "Vous trouvez la besace d'un aventurier dans un donjon, que faites-vous ?"
-    "a)Je l'apporte à la guilde des aventuriers.":
-        $ pts_mage += 1
-        jump q19
-    "b)CEST A MOI!":
-        $ pts_voleur += 1
-        jump q19  
-    "c)Pas lu ?":
-        $ pts_barbare += 1
-        jump q19
-
-menu q19:
-    "Les extraterrestres nous envahissent ! Que faîtes-vous ?"
-    "a)Je lutte !":
-        $ pts_barbare += 1
-        jump q20
-    "b)Je fuis.":
-        $ pts_mage += 1
-        jump q21
-    "c)Rien.":
-        $ pts_voleur += 1
-        jump q21
-
-menu q20:
-    "Vous avez bien combattu... Mais les extraterrestres gagnent... Il y en a un qui vous dit <<Tu nous as impressionés, c'était un plaisir de voir. Joins-toi à nous et, ensemble, dirigeons le Monde.>> Que faîtes-vous?"
-    "a)J'accepte.":
-        $ pts_voleur += 1
-        jump q21  
-    "b)Je refuse.":
-        $ pts_barbare += 1
-        $ pts_mage += 1
-        jump q21
-
-menu q21:
-    "On vous donne le choix entre deux cadeaux. Lequel allez-vous choisir ?"
-    "a)Le gros.":
-        $ pts_barbare += 1
-        jump q22  
-    "b)Le petit.":
-        $ pts_mage += 1
-        jump q22
-    "c)Les deux.":
-        $ pts_voleur += 1
-        jump q22
-
-menu q22:
-    "On vous enferme par erreur dans une pièce noire comme de l'encre ! Que faîtes-vous?"
-    "a)Je pleure.":
-        $ pts_mage += 1
-        jump q25  
-    "b)J'enfonce la porte.":
-        $ pts_barbare += 1
-        jump q25
-    "c)Je fais une sieste.":
-        $ pts_voleur += 1
-        jump q25
-
-menu q25:
-    "Vous gagnez le jackpot au WiNainMax ! Que faîtes-vous de l'argent ?"
-    "a)J'économise.":
-        $ pts_voleur += 1
-        jump q26
-    "b)Je le donne.":
-        $pts_mage += 1
-        jump q26
-    "c)Tournée générale de 3 semaines au bar !":
-        $ pts_barbare += 1
-        jump q26
-
-menu q26:
-    "L'empereur des Nains Grobiff XVII est face à vous, comment lui parlez-vous ?"
-    "a)Calmement. ":
-        $ pts_voleur += 1
-    "b)ON S'EN FICHE!!!":
-        $ pts_barbare += 1
-    "c)Nerveusement.":
-        $ pts_mage += 1
+label q10:
+    show screen prog_questionnaire(10)
+    with dissolve
+    menu:
+        voix "Vous gagnez le jackpot au WiNainMax ! Que faîtes-vous de l'argent ?"
+        "a)J'économise.":
+            voix "Le choix de la prudence, un choix judicieux"
+            $ pts_voleur += 1
+        "b)Je le donne.":
+            voix "Quel âme charitable, si seulement le monde était rempli d'homme comme vous !"
+            $pts_mage += 1
+        "c)Tournée générale de 3 semaines au bar !":
+            voix "HAHAHAHA, un vrai nain !"
+            $ pts_barbare += 1
 
 
 stop music fadeout 2.5
@@ -1377,11 +1257,11 @@ label salle02_enigme_barbare:
 
         "Chercher un bouton caché derrière le bouclier du roi.":
             show poster_chat
-            "Vous trouvé un étrange poster qui vous semble famillier"
+            "Vous trouvez un étrange poster qui vous semble familier"
             hide poster_chat
             jump salle02_enigme_barbare
    
-    "La fresque reprèsente quatre guerriers. Le dernier n'a pas d'arme, son poing est levé vers le ciel."
+    "La fresque représente quatre guerriers. Le dernier n'a pas d'arme, son poing est levé vers le ciel."
 
 label salle02_enigme_voleur:
     scene salle_labyrinthe_porte_droite_centre
@@ -1435,7 +1315,7 @@ menu enigme_voleur:
         jump labyrinthe_salle04
 
     "Tenter de la crocheter en douce pendant qu'elle parle.":
-        s "'AÏE ! MAIS ÇA VA PAS ? C'EST HARCÈLEMENT, ÇA !' Elle se verrouille deux fois plus fort. 'Réfléchis un peu au lieu de tripoter mon mécanisme !'"
+        s "'AÏE ! MAIS ÇA VA PAS ? C'EST  DU HARCÈLEMENT, ÇA !' Elle se verrouille deux fois plus fort. 'Réfléchis un peu au lieu de tripoter mon mécanisme !'"
         jump enigme_voleur
 
 
