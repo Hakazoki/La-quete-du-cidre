@@ -694,145 +694,145 @@ label q4:
     show screen prog_questionnaire(4)
     with dissolve
     menu:
-    voix "Une main sort des toilettes ! Que faîtes-vous?"
-    "a)Je m'enfuis en hurlant.":
-        $ pts_voleur += 1
-        voix "Mimi Geignarde est une folle, fuyez !"
-        jump q5
-    "b)Je referme le couvercle.":  
-        $ pts_mage += 1
-        voix "Et vous laissez cette pauvre main dans les sanitaires ? La pauvre."
-        jump q5
-    "c)Je la serre.":
-        $pts_barbare += 1
-        voix "Quelle politesse, un nain digne de ce nom."
-        jump q5
+        voix "Une main sort des toilettes ! Que faîtes-vous?"
+        "a)Je m'enfuis en hurlant.":
+            $ pts_voleur += 1
+            voix "Mimi Geignarde est une folle, fuyez !"
+            jump q5
+        "b)Je referme le couvercle.":  
+            $ pts_mage += 1
+            voix "Et vous laissez cette pauvre main dans les sanitaires ? La pauvre."
+            jump q5
+        "c)Je la serre.":
+            $pts_barbare += 1
+            voix "Quelle politesse, un nain digne de ce nom."
+            jump q5
 
 label q5:
     show screen prog_questionnaire(5)
     with dissolve
     menu:
-    voix "Racontez-nous une blague"
-    "a)Alors c'est un nain, un elfe et un orc qui rentrent dans un bar...":
-        $ pts_voleur += 1
-        voix "Oui, oui, oui, on va s'arreter là, merci."
-        jump q6
-    "b)Tire sur mon doigt !":
-        $ pts_barbare += 1
-        voix "... Vous avez quel âge serieusement ?"
-        jump q6
-    "c)T'imagine si Kornifex avait écrit le 3ème grimmoire de lucidité avec de l'encre de pieuvre calcinée!":
-        $ pts_mage += 1
-        voix "Euh, j'imagine que c'est amusant."
-        jump q6
+        voix "Racontez-nous une blague"
+        "a)Alors c'est un nain, un elfe et un orc qui rentrent dans un bar...":
+            $ pts_voleur += 1
+            voix "Oui, oui, oui, on va s'arreter là, merci."
+            jump q6
+        "b)Tire sur mon doigt !":
+            $ pts_barbare += 1
+            voix "... Vous avez quel âge serieusement ?"
+            jump q6
+        "c)T'imagine si Kornifex avait écrit le 3ème grimmoire de lucidité avec de l'encre de pieuvre calcinée!":
+            $ pts_mage += 1
+            voix "Euh, j'imagine que c'est amusant."
+            jump q6
 
 label q6:
     show screen prog_questionnaire(6)
     with dissolve
     menu:
-    voix "Attrapez n'importe quel doigt de la main gauche avec la main droite. Quel doigt avez-vous choisi ?"
-    "a)Le pouce.":
-        voix "Choix intéressant."
-        $ pts_barbare += 1
-        jump q7
-    "b)L'index.":
-        voix "Choix intéressant."
-        $ pts_barbare += 1
-        $ pts_voleur += 1
-        $ pts_mage += 1
-        jump q7
-    "c)Le majeur.":
-        voix "Choix intéressant."
-        $ pts_voleur += 1
-        jump q7
-    "d)L'annulaire.":
-        voix "Choix intéressant."
-        $ pts_mage += 1
-        jump q7
-    "e)L'auriculaire.":
-        voix "Choix intéressant."
-        $ pts_mage += 1
-        jump q7
+        voix "Attrapez n'importe quel doigt de la main gauche avec la main droite. Quel doigt avez-vous choisi ?"
+        "a)Le pouce.":
+            voix "Choix intéressant."
+            $ pts_barbare += 1
+            jump q7
+        "b)L'index.":
+            voix "Choix intéressant."
+            $ pts_barbare += 1
+            $ pts_voleur += 1
+            $ pts_mage += 1
+            jump q7
+        "c)Le majeur.":
+            voix "Choix intéressant."
+            $ pts_voleur += 1
+            jump q7
+        "d)L'annulaire.":
+            voix "Choix intéressant."
+            $ pts_mage += 1
+            jump q7
+        "e)L'auriculaire.":
+            voix "Choix intéressant."
+            $ pts_mage += 1
+            jump q7
 
 label q7:
     show screen prog_questionnaire(7)
     with dissolve
     menu:
-    voix "Quelqu'un dit que vous êtes bizarre mais marrant. Vous vous sentez comment ?"
-    "a)Super!":
-        voix "Quel optimisme, vous n'écoutez que le positif !"
-        $ pts_voleur += 1
-        jump q8
-    "b)Triste.":
-        voix "Quel esprit faible, vous n'écoutez que le négatif."
-        $ pts_mage += 1
-        jump q8
-    "c)Nain.":
-        voix "Euh... Oui."
-        $ pts_barbare += 1
-        $ pts_mage += 1
-        $ pts_voleur += 1
-        jump q8
-    "d)Ca me laisse naindifférent.":
-        voix "Très drôle..."
-        $ pts_mage += 1
-        $ pts_voleur += 1
-        jump q8
+        voix "Quelqu'un dit que vous êtes bizarre mais marrant. Vous vous sentez comment ?"
+        "a)Super!":
+            voix "Quel optimisme, vous n'écoutez que le positif !"
+            $ pts_voleur += 1
+            jump q8
+        "b)Triste.":
+            voix "Quel esprit faible, vous n'écoutez que le négatif."
+            $ pts_mage += 1
+            jump q8
+        "c)Nain.":
+            voix "Euh... Oui."
+            $ pts_barbare += 1
+            $ pts_mage += 1
+            $ pts_voleur += 1
+            jump q8
+        "d)Ca me laisse naindifférent.":
+            voix "Très drôle..."
+            $ pts_mage += 1
+            $ pts_voleur += 1
+            jump q8
         
 label q8:
     show screen prog_questionnaire(8)
     with dissolve
     menu:
-    voix "Voici un seau. Si vous mettez de l'eau dedans, vous le remplissez..."
-    "a)A ras.":
-        voix "Vous allez en faire tomber partout."
-        $ pts_barbare += 1
-        jump q9
-    "b)A demi.":
-        voix "Un choix raisonnable."
-        $ pts_mage += 1
-        jump q9
-    "c)Un peu.":
-        voix "C'est tout ?"
-        $ pts_voleur += 1
-        jump q9
-    "d)Jeter le seau.":
-        voix "Euh, vous êtes sensé remplir le seau pas le jeter."
-        $ pts_barbare += 1
-        jump q9
+        voix "Voici un seau. Si vous mettez de l'eau dedans, vous le remplissez..."
+        "a)A ras.":
+            voix "Vous allez en faire tomber partout."
+            $ pts_barbare += 1
+            jump q9
+        "b)A demi.":
+            voix "Un choix raisonnable."
+            $ pts_mage += 1
+            jump q9
+        "c)Un peu.":
+            voix "C'est tout ?"
+            $ pts_voleur += 1
+            jump q9
+        "d)Jeter le seau.":
+            voix "Euh, vous êtes sensé remplir le seau pas le jeter."
+            $ pts_barbare += 1
+            jump q9
 
 label q9:
     show screen prog_questionnaire(9)
     with dissolve
     menu:
-    voix "Vous entendez un cri venant de derrière la porte ! Comment réagissez-vous ?"
-    "a)Je l'ouvre d'un coup.":
-        voix " Quel réactivité !"
-        $  pts_voleur += 1
-        jump q10
-    "b)Je crie aussi.":
-        voix "Pourquoi ?"
-        $ pts_barbare += 1
-        jump q10
-    "c)Je toque à la porte.":
-        voix "Woah, vous êtes d'un calme et d'une politesse à toute épreuve."
-        $ pts_mage += 1
-        jump q10
+        voix "Vous entendez un cri venant de derrière la porte ! Comment réagissez-vous ?"
+        "a)Je l'ouvre d'un coup.":
+            voix " Quel réactivité !"
+            $  pts_voleur += 1
+            jump q10
+        "b)Je crie aussi.":
+            voix "Pourquoi ?"
+            $ pts_barbare += 1
+            jump q10
+        "c)Je toque à la porte.":
+            voix "Woah, vous êtes d'un calme et d'une politesse à toute épreuve."
+            $ pts_mage += 1
+            jump q10
 
 label q10:
     show screen prog_questionnaire(10)
     with dissolve
     menu:
-    voix "Vous gagnez le jackpot au WiNainMax ! Que faîtes-vous de l'argent ?"
-    "a)J'économise.":
-        voix "Le choix de la prudence, un choix judicieux"
-        $ pts_voleur += 1
-    "b)Je le donne.":
-        voix "Quel âme charitable, si seulement le monde était rempli d'homme comme vous !"
-        $pts_mage += 1
-    "c)Tournée générale de 3 semaines au bar !":
-        voix "HAHAHAHA, un vrai nain !"
-        $ pts_barbare += 1
+        voix "Vous gagnez le jackpot au WiNainMax ! Que faîtes-vous de l'argent ?"
+        "a)J'économise.":
+            voix "Le choix de la prudence, un choix judicieux"
+            $ pts_voleur += 1
+        "b)Je le donne.":
+            voix "Quel âme charitable, si seulement le monde était rempli d'homme comme vous !"
+            $pts_mage += 1
+        "c)Tournée générale de 3 semaines au bar !":
+            voix "HAHAHAHA, un vrai nain !"
+            $ pts_barbare += 1
 
 
 stop music fadeout 2.5
@@ -1257,11 +1257,11 @@ label salle02_enigme_barbare:
 
         "Chercher un bouton caché derrière le bouclier du roi.":
             show poster_chat
-            "Vous trouvé un étrange poster qui vous semble famillier"
+            "Vous trouvez un étrange poster qui vous semble familier"
             hide poster_chat
             jump salle02_enigme_barbare
    
-    "La fresque reprèsente quatre guerriers. Le dernier n'a pas d'arme, son poing est levé vers le ciel."
+    "La fresque représente quatre guerriers. Le dernier n'a pas d'arme, son poing est levé vers le ciel."
 
 label salle02_enigme_voleur:
     scene salle_labyrinthe_porte_droite_centre
@@ -1298,8 +1298,8 @@ menu enigme_voleur:
         jump enigme_voleur
 
     "Lui glissez un pot-de-vin":
-        p "Tien j'ai dix balle, tu veux ?"
-        s "Dix balles ? Seulement ? Vous savez les temps son dure en ce moment j'ai une femme, deux enfant..."
+        p "Tiens j'ai dix balle, tu veux ?"
+        s "Dix balles ? Seulement ? Vous savez les temps sont durs en ce moment, j'ai une femme, deux enfants..."
         p "Douze balles. C'est mon dernier mot, je n'ai plus que des jetons de lave-linge après ça, j'ai même plus de quoi payez la bonne Josianne"
         s "Josianne ? La Josianne qui fait les poussières dans l'aile Est ? Oh, ne m'en parlez pas, elle a un plumeau qui gratte, c'est un enfer pour mes finitions en cuivre."
         p "Oh, croyez-moi, entre son plumeau qui gratte et sa façon de polir le manche... elle sait comment faire briller les bijoux de famille, même les plus rouillés."
@@ -1315,7 +1315,7 @@ menu enigme_voleur:
         jump labyrinthe_salle04
 
     "Tenter de la crocheter en douce pendant qu'elle parle.":
-        s "'AÏE ! MAIS ÇA VA PAS ? C'EST HARCÈLEMENT, ÇA !' Elle se verrouille deux fois plus fort. 'Réfléchis un peu au lieu de tripoter mon mécanisme !'"
+        s "'AÏE ! MAIS ÇA VA PAS ? C'EST  DU HARCÈLEMENT, ÇA !' Elle se verrouille deux fois plus fort. 'Réfléchis un peu au lieu de tripoter mon mécanisme !'"
         jump enigme_voleur
 
 
