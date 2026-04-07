@@ -351,18 +351,19 @@ screen Menu_Equipement():
                     
                     if hasattr(pc, 'equipements') and pc.equipements:
                         for item in pc.equipements:
-                            frame:
-                                xysize (80, 80)
-                                padding (5, 5)
-                                background Solid("#333333")
-                                
-                                imagebutton:
-                                    idle Transform(item.icone, size=(64, 64)) 
-                                    hover Transform(item.icone, size=(64, 64))
-                                    action Function(pc.equiper_ui, item) 
-                                    hovered SetScreenVariable("tooltip_objet", item)
-                                    unhovered SetScreenVariable("tooltip_objet", None)
-                                    align (0.5, 0.5)
+                            if item is not None:
+                                frame:
+                                    xysize (80, 80)
+                                    padding (5, 5)
+                                    background Solid("#333333")
+                                    
+                                    imagebutton:
+                                        idle Transform(item.icone, size=(64, 64)) 
+                                        hover Transform(item.icone, size=(64, 64))
+                                        action Function(pc.equiper, item) 
+                                        hovered SetScreenVariable("tooltip_objet", item)
+                                        unhovered SetScreenVariable("tooltip_objet", None)
+                                        align (0.5, 0.5)
                     else:
                         text "Sac vide." size 16 align (0.5, 0.5) color "#777777"
 
