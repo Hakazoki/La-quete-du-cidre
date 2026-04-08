@@ -330,13 +330,13 @@ screen Menu_Equipement():
                 background Solid("#222222")
                 text "Équipement" xalign 0.5 ypos 10 bold True size 22
 
-                use slot_equipement(pc.tete, 110, 50, "Tête")
+                use slot_equipement(pc.casque, 110, 50, "Tête")
                 use slot_equipement(pc.arme[0] if pc.arme else None, 20, 140, "Arme")
                 use slot_equipement(pc.arme[1] if pc.arme else None, 20, 230, "Arme")
-                use slot_equipement(pc.torse, 110, 140, "Torse")
-                use slot_equipement(pc.mains, 200, 140, "Mains")
-                use slot_equipement(pc.jambes, 110, 230, "Jambes")
-                use slot_equipement(pc.pieds, 110, 320, "Pieds")
+                use slot_equipement(pc.plastron, 110, 140, "Torse")
+                use slot_equipement(pc.gants, 200, 140, "Mains")
+                use slot_equipement(pc.jambieres, 110, 230, "Jambes")
+                use slot_equipement(pc.bottes, 110, 320, "Pieds")
 
             # --- Inventaire ---
             frame:
