@@ -1057,7 +1057,7 @@ label exterieur_taverne:
 
 menu:        
     "Vous décidez de la parcourir jusqu'à ce que vous trouviez le donjon.":
-        jump devant_donjon
+        jump entree_donjon
     "Vous criez très fort pour débuter votre aventure":
         jump crier_fort   
     "Vous vous retrouvez devant une plaine magnifique. Vous éprouvez une légère nostalgie en la regardant."
@@ -1174,7 +1174,35 @@ label entre_labyrinthe:
 
         "Vous décidez de rebrousser chemin parce-qu'à quoi bon ? De toute façon, cette aventure devait bien se terminer quelque part":
             jump autre_chemin
+
+label autre_chemin:
+    scene plaine
+
+    menu:
+        "Abandonner votre quête et repartir affronter les rires de la taverne":
+            jump fin_depression
+
+        "Reprendre votre courage en main et repartir affronter votre destin":
+            $ d20 = Dice.lancer(1,20)[0]
+            if isinstance(pc,Barbare):
+                jump voie_du_barbare
+            if isinstance(pc,Voleur):
+                jump voie_du_voleur
+            if isinstance(pc,Mage):
+                jump voie_du_mage
+
+        "Vous rebroussez chemin et, à la vue de la taverne, votre point de départ, vous ressentez une déception profonde envers vous même. Que souhaitez-vous faire ?"
        
+label fin_depression:
+    scene bg taverne
+
+    "Vous revoilà à la taverne, vous vous étiez juré de changer mais le patron de la taverne et les habitués vous voient passer les portes pour une énième fois."
+    "Vous entendez des rires éclater en vous revoyant, vous qui étiez si sûr de vous avant de partir. Vous les entendez remettre en question votre courage et votre sens de l'héroïsme."
+    "Personne n'attendait rien de vous mais vous avez quand même réussi à décevoir le peu de personne qui aurait pu croire en vous."
+    "La couardise n'est pas une vertue mais savoir reconnaître ses faiblesses, oui."
+    "Vous n'êtes pas le héros de cette histoire et vous le savez, à présent vous allez juste essayer de vivre avec cette humiliation sur la conscience."
+    jump fin
+
 label voie_du_barbare:      
         if d20 == 20:
             "Vous fixez la porte avec un mépris souverain et la traversez sans l'ouvrir : le concept de 'porte' est purement subjectif pour vous"
@@ -1674,7 +1702,7 @@ label choix_levier:
 
 label labyrinthe_salle06:
     scene salle_labyrinthe_porte_droite
-    "test"
+    "Il n'y a rien de spécial ici"
 menu:
     "(WIP)"
 
