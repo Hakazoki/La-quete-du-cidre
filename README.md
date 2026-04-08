@@ -28,7 +28,7 @@ L'application utilise aux maximum la programation orienté objet et Ren'py pour 
 2. Clonez ce repo dans le dossier projet de Ren'Py SDK.
 3. Lancer Ren'Py.exe.
 4. Lancez `La-quete-du-cidre`.
-5. (Optionnel) Compilez le projet 'La-quete-du-cidre' et lancez le avec son .exe dédié.
+5. (Optionnel) Compilez le projet `La-quete-du-cidre` et lancez le avec son .exe dédié.
 ```
 
 ## Crédits
