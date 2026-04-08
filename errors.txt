@@ -1,0 +1,9 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 1323: Indentation mismatch.
+    "Tenter de la crocheter en douce pendant qu'elle parle.":
+
+Ren'Py Version: Ren'Py 8.5.2.26010301
+Tue Apr  7 12:23:39 2026
