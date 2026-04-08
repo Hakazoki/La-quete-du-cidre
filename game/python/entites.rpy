@@ -10,15 +10,15 @@ init -7 python :
             self.race = race
             self.couleur_log = "#e74c3c"
             #Equipement
-            self.arme = []
+            self.arme = [None, None]
             self.casque = None
             self.plastron = None
             self.gants = None
             self.jambieres = None
             self.bottes = None
             #Stats
-            self.vie = 50
-            self.pv_max = 50
+            self.vie = 100
+            self.pv_max = 100
             self.mana = 0
             self.mana_max = 0
             self.lvl = 1
@@ -37,10 +37,11 @@ init -7 python :
         @property
         def attaque(self)-> int:
             degats = self.bonus(self.force)
-            if self.arme == []:
+            if self.arme == [None, None]:
                 return degats
             elif isinstance(self.arme[0], ArmeADistance):
                 degats = self.bonus(self.dexterite) + self.arme[0].attaque.jeter()
+                return degats
             else:
                 for element in self.arme:
                     degats += element.attaque.jeter()
@@ -138,7 +139,7 @@ init -7 python :
             self.couleur_log = "#3498db"
             self.bourse = 1
             #Armes
-            self.arme = []
+            self.arme = [None, None]
             #Armures
             self.tete = CasqueEnCuire()
             self.torse = ArmureEnCuire()
@@ -151,7 +152,10 @@ init -7 python :
             self.jambes.utiliser(self)
             self.pieds.utiliser(self)
             #Inventaire consommables
-            self.consommables = []
+            popo1 = PotionDeGuerison()
+            popo2 = PotionDeGuerison()
+            self.consommables = [popo1, popo2]
+            self.equipements = [self.tete, self.torse, self.mains, self.jambes, self.pieds, self.arme[0], self.arme[1]]
             #Stats
             self.force = Dice.lancer()[0]
             self.dexterite = Dice.lancer()[0]
@@ -198,11 +202,13 @@ init -7 python :
 
         def equiper(self, equipement):
             if isinstance(equipement, ArmeAUneMain):
-                if self.arme == [] or len(self.arme) < 2 and isinstance(self.arme[0], ArmeAUneMain) == True:
-                    self.arme.append(equipement)
+                if self.arme[0] is None:
+                    self.arme[0] = equipement
+                elif self.arme[1] is None and isinstance(self.arme[0],ArmeADeuxMain) == False or isinstance(self.arme[0],ArmeADistance) == False:
+                    self.arme[1] = equipement
             elif isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance):
-                if self.arme == []:
-                    self.arme.append(equipement)
+                if self.arme[0] is None:
+                    self.arme[0] = equipement
             elif isinstance(equipement, Casque):
                 if self.casque is None:
                     self.casque = equipement
@@ -222,8 +228,9 @@ init -7 python :
 
         def desequiper(self, equipement):
             if isinstance(equipement, ArmeAUneMain) or isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance) :
-                if self.arme != []:
+                if self.arme != [None, None]:
                     self.arme.remove(equipement)
+                    self.arme.append(None)
             elif isinstance(equipement, Casque):
                 if self.casque is not None:
                     self.casque = None
@@ -251,8 +258,9 @@ init -7 python :
                     self.mana = self.mana_max
                 print("Vous récupérez tout votre mana.")
             elif isinstance(objet, PotionDeGuerison) or isinstance(objet, PotionDeGuerisonMajeur):
-                self.gagner_pv(objet.soin)
-                print(f"Vous gagnez {objet.soin} points de vie !")
+                gain = objet.soin.jeter()
+                self.gagner_pv(gain)
+                print(f"Vous gagnez {gain} points de vie !")
             objet.est_consomme = True
             self.consommables.remove(objet)
 
@@ -280,8 +288,8 @@ init -7 python :
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
             arc = Arc()
-            self.arme = [arc]
-            self.stat_cap(self.dexterite,3)
+            self.equiper(arc)
+            self.stat_cap(self.dexterite,5)
             self.stat_cap(self.intelligence,1)
             self.stat_cap(self.charisme,-2)
             self.defense_physique = 1
@@ -291,9 +299,10 @@ init -7 python :
             super().__init__(race, nom)
             h1 = Hache()
             h2 = Hache()
-            self.arme = [h1, h2]
-            self.stat_cap(self.force, 3)
-            self.stat_cap(self.constitution, 2)
+            self.equiper(h1)
+            self.equiper(h2)
+            self.stat_cap(self.force, 5)
+            self.stat_cap(self.constitution, 4)
             self.stat_cap(self.intelligence, -2)
             self.defense_physique = 2
 
@@ -301,13 +310,13 @@ init -7 python :
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
             marto = MarteauDeMoradin()
-            self.arme = [marto]
-            self.stat_cap(self.force,3)
-            self.stat_cap(self.constitution,3)
-            self.stat_cap(self.dexterite,3)
-            self.stat_cap(self.intelligence,3)
-            self.stat_cap(self.sagesse,3)
-            self.stat_cap(self.charisme,3)
+            self.equiper(marto)
+            self.stat_cap(self.force,5)
+            self.stat_cap(self.constitution,5)
+            self.stat_cap(self.dexterite,5)
+            self.stat_cap(self.intelligence,5)
+            self.stat_cap(self.sagesse,5)
+            self.stat_cap(self.charisme,5)
             self.defense_magique = 5
             self.defense_physique = 5
 
@@ -327,8 +336,8 @@ init -7 python :
         def __init__(self, race="Nain", nom="Gimli"):
             super().__init__(race, nom)
             self.type_degat = "magique"
-            self.baton = BatonDeSorcier()
-            self.baton.utiliser(self)
+            baton = BatonDeSorcier()
+            self.equiper(baton)
             self.tete = CoiffeDerudi()
             self.torse = RobeDeMagicien()
             self.desequiper(self.casque)
@@ -337,12 +346,13 @@ init -7 python :
             self.torse.utiliser(self)
             mana1 = PotionDeMana()
             mana2 = PotionDeMana()
-            self.consommables = [mana1, mana2]
-            self.mana = 0
-            self.mana_max = 60
+            self.consommables.append(mana1)
+            self.consommables.append(mana2)
+            self.mana = 100
+            self.mana_max = 100
             self.stat_cap(self.force, -2)
-            self.stat_cap(self.intelligence, 3)
-            self.stat_cap(self.sagesse, 2)
+            self.stat_cap(self.intelligence, 5)
+            self.stat_cap(self.sagesse, 5)
             self.defense_magique = 2
 
         def sort1(self, other):
@@ -360,7 +370,7 @@ init -7 python :
         def sort2(self, other):
             store.log_msg("Boule de feu !", self.couleur_log)
             degats_totaux = 0
-            if Dice.lancer()[0] > 12:
+            if Dice.lancer()[0] > 11:
                 degats_totaux = max(0, Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique)
                 self.mana -= 20
             else:
@@ -385,7 +395,7 @@ init -7 python :
         def __init__(self, race = "Dieu"):
             super().__init__(race)
             self.vie = self.pv_max = 120
-            self.force = 14
+            self.force = 12
             self.dexterite = 11
             self.constitution = 12
             self.intelligence = 1
@@ -412,8 +422,8 @@ init -7 python :
             self.mana = self.mana_max = 60
             self.force = 6
             self.dexterite = 5
-            self.constitution = 16
-            self.intelligence = 16
+            self.constitution = 10
+            self.intelligence = 12
             self.sagesse = 18
             self.charisme = 13
             self.defense_magique = 3
@@ -421,7 +431,7 @@ init -7 python :
         def sort1(self, other):
             store.log_msg("Le crapaud invoque une pluie de grenouilles !", self.couleur_log)
             degats_totaux = 0
-            for element in Dice.lancer(10,10)[1]:
+            for element in Dice.lancer(4,10)[1]:
                 if element > 5:
                     degats = Dice.lancer(1,2)[0] + self.bonus(self.intelligence) - other.defense_magique
                     degats_totaux += max(0, degats)

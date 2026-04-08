@@ -52,7 +52,7 @@ init -8 python :
             super().__init__(nom,description,defence_physique,defence_magique,icone)
 
     class GantsEnCuire(Gants):
-        def __init__(self,nom="Gants de protection en cuir",description="Gants de protection pouvant servir aux aventuriers préoccupés par leurs doigts fragiles comme aux gros forgerons bien virils",defence_physique=1, defence_magique=0,icone="images/items/armor_020.png"):
+        def __init__(self,nom="Gants de protection en cuir",description="Gants de protection pouvant servir aux aventuriers préoccupés par leurs doigts fragiles comme aux gros forgerons bien virils",defence_physique=1, defence_magique=0,icone="images/items/armor_036.png"):
             super().__init__(nom,description,defence_physique, defence_magique,icone)
             defence_physique = 1
 
@@ -61,7 +61,7 @@ init -8 python :
             super().__init__(nom,description,defence_physique,defence_magique,icone)
 
     class JambieresEnCuire(Jambieres):
-        def __init__(self,nom="Jambières en cuir",description="Jambières en cuir tanné qui vous assureront un charisme et une présence impressionnante lors de vos aventures et autres voyages vers des cultures étrangères.",defence_physique=2, defence_magique=0,icone="images/items/armor_028.png"):
+        def __init__(self,nom="Jambières en cuir",description="Jambières en cuir tanné qui vous assureront un charisme et une présence impressionnante lors de vos aventures et autres voyages vers des cultures étrangères.",defence_physique=2, defence_magique=0,icone="images/items/armor_020.png"):
             super().__init__(nom,description,defence_physique, defence_magique,icone)
             defence_physique = 2
 
@@ -70,6 +70,6 @@ init -8 python :
             super().__init__(nom ,description ,defence_physique ,defence_magique,icone)
 
     class BottesEnCuire(Bottes):
-        def __init__(self, nom="Bottes en cuir", description="Bottes en cuir pour les aventuriers soucieux de leurs orteils ou pour les fashionistas qui se balladent dans la ville uniquement quand il y a un marché. Non mais sérieusement, vous les trouvez pas complétement débiles avec leurs paires de bottes de toutes les couleurs juste pour attirer les regards ? Faut vraiment ne rien avoir à faire de sa vie pour sortir de chez soi uniquement pour frimer au marché de la ville. Surtout qu'en général ils achètent que des fruits et des légumes ces bouffeurs d'herbe. Si on voulait voir des truc débiles avec du cuir sur eux qui mangent de l'herbe, je serai allé dans le pré de mon pote à la sortie du village pour voir ses vaches", defence_physique=2, defence_magique=0,icone="images/items/armor_036.png"):
+        def __init__(self, nom="Bottes en cuir", description="Bottes en cuir pour les aventuriers soucieux de leurs orteils ou pour les fashionistas qui se balladent dans la ville uniquement quand il y a un marché. Non mais sérieusement, vous les trouvez pas complétement débiles avec leurs paires de bottes de toutes les couleurs juste pour attirer les regards ? Faut vraiment ne rien avoir à faire de sa vie pour sortir de chez soi uniquement pour frimer au marché de la ville. Surtout qu'en général ils achètent que des fruits et des légumes ces bouffeurs d'herbe. Si on voulait voir des truc débiles avec du cuir sur eux qui mangent de l'herbe, je serai allé dans le pré de mon pote à la sortie du village pour voir ses vaches", defence_physique=2, defence_magique=0,icone="images/items/armor_028.png"):
             super().__init__(nom, description, defence_physique, defence_magique,icone)
             defence_physique = 1

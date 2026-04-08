@@ -349,20 +349,21 @@ screen Menu_Equipement():
                     scrollbars "vertical"
                     allow_underfull True
                     
-                    if hasattr(pc, 'inventaire_equipements') and pc.inventaire_equipements:
-                        for item in pc.inventaire_equipements:
-                            frame:
-                                xysize (80, 80)
-                                padding (5, 5)
-                                background Solid("#333333")
-                                
-                                imagebutton:
-                                    idle Transform(item.icone, size=(64, 64)) 
-                                    hover Transform(item.icone, size=(64, 64))
-                                    action Function(pc.equiper_ui, item) 
-                                    hovered SetScreenVariable("tooltip_objet", item)
-                                    unhovered SetScreenVariable("tooltip_objet", None)
-                                    align (0.5, 0.5)
+                    if hasattr(pc, 'equipements') and pc.equipements:
+                        for item in pc.equipements:
+                            if item is not None:
+                                frame:
+                                    xysize (80, 80)
+                                    padding (5, 5)
+                                    background Solid("#333333")
+                                    
+                                    imagebutton:
+                                        idle Transform(item.icone, size=(64, 64)) 
+                                        hover Transform(item.icone, size=(64, 64))
+                                        action Function(pc.equiper, item) 
+                                        hovered SetScreenVariable("tooltip_objet", item)
+                                        unhovered SetScreenVariable("tooltip_objet", None)
+                                        align (0.5, 0.5)
                     else:
                         text "Sac vide." size 16 align (0.5, 0.5) color "#777777"
 
@@ -894,7 +895,7 @@ hide chat
 
 play music "elevator-music.mp3"
 
-$ pc_name = renpy.input("Brave aventurier, fils de glorp et héritier au throne de glorptopia, quel est ton valeureux nom ?", length=20).strip() or "Aventurier"
+$ pc_name = renpy.input("Brave aventurier, fils de glorp et héritier au trône de glorptopia, quel est ton valeureux nom ?", length=20).strip() or "Aventurier"
 
 stop music
 
@@ -1298,9 +1299,9 @@ menu enigme_voleur:
         jump enigme_voleur
 
     "Lui glissez un pot-de-vin":
-        p "Tiens j'ai dix balle, tu veux ?"
-        s "Dix balles ? Seulement ? Vous savez les temps sont durs en ce moment, j'ai une femme, deux enfants..."
-        p "Douze balles. C'est mon dernier mot, je n'ai plus que des jetons de lave-linge après ça, j'ai même plus de quoi payez la bonne Josianne"
+        p "Tien j'ai dix balle, tu veux ?"
+        s "Dix balles ? Seulement ? Vous savez les temps sont durs en ce moment j'ai une femme, deux enfants..."
+        p "Douze balles. C'est mon dernier mot, je n'ai plus que des jetons de lave-linge après ça, j'ai même plus de quoi payer la bonne Josianne"
         s "Josianne ? La Josianne qui fait les poussières dans l'aile Est ? Oh, ne m'en parlez pas, elle a un plumeau qui gratte, c'est un enfer pour mes finitions en cuivre."
         p "Oh, croyez-moi, entre son plumeau qui gratte et sa façon de polir le manche... elle sait comment faire briller les bijoux de famille, même les plus rouillés."
         s "(Un petit silence métallique gêné, puis un cliquetis de gorge)"
@@ -1618,7 +1619,7 @@ label labyrinthe_salle08:
 menu:
     "(WIP)"
 
-    "Partir vers la porte gauche":
+    "Partir vers la porte de gauche":
         jump labyrinthe_salle07
     
 
@@ -1776,11 +1777,11 @@ label fin_nice_boat:
     "Dans ses bras-pattes, iel serre tendrement votre tête décapitée."
     "Votre regard est fixe, figé pour l'éternité dans une expression de surprise glacée."
     
-    pnj_skaven "tu sourit enfin. (des larmes de bonheur perlant dans ses yeux de rat)"
+    pnj_skaven "Tu souris enfin. (Des larmes de bonheur perlant dans ses yeux de rat)"
     
     
-    pnj_skaven "Skritch... Enfin. Tu ne me trahiras plus-jamais. Tu ne regarderas plus-personne."
-    pnj_skaven "Tu es à moi. Pour l'éternité-toujours. Nous sommes... enfin... UN."
+    pnj_skaven "Skritch... Enfin. Tu ne me trahiras plus jamais. Tu ne regarderas plus personne."
+    pnj_skaven "Tu es à moi. Pour l'éternité. Nous sommes... enfin... UN."
     
     "Le Skaven frotte doucement son museau contre votre joue froide."
     
