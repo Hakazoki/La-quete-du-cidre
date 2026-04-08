@@ -1410,7 +1410,7 @@ menu:
         jump labyrinthe_salle04
 
 label labyrinthe_salle03:
-    scene salle_labyrinthe_port_gauche_centre
+    scene salle_labyrinthe_porte_gauche_centre
 menu:
     "Vous entendez un grondement sourd venant du fond de ce donjon. Qui sait ce qui vous attend à la fin de votre périple ?"
 
