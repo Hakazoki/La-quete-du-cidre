@@ -332,6 +332,7 @@ screen Menu_Equipement():
 
                 use slot_equipement(pc.tete, 110, 50, "Tête")
                 use slot_equipement(pc.arme[0] if pc.arme else None, 20, 140, "Arme")
+                use slot_equipement(pc.arme[1] if pc.arme else None, 20, 230, "Arme")
                 use slot_equipement(pc.torse, 110, 140, "Torse")
                 use slot_equipement(pc.mains, 200, 140, "Mains")
                 use slot_equipement(pc.jambes, 110, 230, "Jambes")
@@ -1064,10 +1065,7 @@ menu:
 
 label crier_fort:
     "Les passants vous regardent, ils vous prennent juste pour un guignol"
-    jump devant_donjon
-
-label devant_donjon:    
-    "glorp"
+    jump entree_donjon
     
 label entree_donjon:
     scene dungeon_entrance
@@ -1099,7 +1097,7 @@ label debut_donjon:
 
     $ crapomagicien = CrapeauMagicien()
     $ combat_log = []
-    $ log_msg("Un Crapeau Magicien vous barre la route !")
+    $ log_msg("Un Crapaud Magicien vous barre la route !")
 
     show screen Combat_Crapo
 
@@ -1403,9 +1401,9 @@ label labyrinthe_salle04:
 label labyrinthe_salle02:
     scene salle_labyrinthe_porte_droite_centre
 menu:
-    "(WIP)"
+    "Vous n'avez plus de raisons de rester ici. Vous sentez que vous approchez du but."
 
-    "Vous décidez de prendre la porte à droite":
+    "Vous décidez de revenir sur vos pas":
         jump labyrinthe_salle01
 
     "Vous décidez de prendre la porte au centre":
@@ -1414,12 +1412,12 @@ menu:
 label labyrinthe_salle03:
     scene salle_labyrinthe_port_gauche_centre
 menu:
-    "(WIP)"
+    "Vous entendez un grondement sourd venant du fond de ce donjon. Qui sait ce qui vous attend à la fin de votre périple ?"
 
     "Vous décidez de prendre la porte au centre":
         jump salle_05_speed_dating
 
-    "Vous décidez de prendre la porte de gauche":
+    "Vous décidez de revenir sur vos pas":
         jump labyrinthe_salle01
 
 
@@ -1617,7 +1615,7 @@ label labyrinthe_salle08:
     scene salle_labyrinthe_porte_gauche
 
 menu:
-    "(WIP)"
+    "Plus vous avancez, plus vous sentez une forte pression sur vos épaules."
 
     "Partir vers la porte de gauche":
         jump labyrinthe_salle07
@@ -1637,8 +1635,9 @@ menu:
     "Vous décidez de prendre la porte a gauche":
         jump labyrinthe_salle06
 
-    "Vous décidez de prendre la porte a droite":
+    "Vous décidez de revenir sur vos pas":
         jump labyrinthe_salle08
+
     "Salle Secrète(WIP)":
         jump salle_secrete
 
