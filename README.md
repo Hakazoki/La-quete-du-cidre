@@ -35,6 +35,7 @@ L'application utilise aux maximum la programation orienté objet et Ren'py pour 
 - https://www.linkedin.com/in/j%C3%A9r%C3%A9my-merlaud-9a352a301/
 - https://wallspic.com/fr/image/164648-chat-chaton-la_gentillesse-tete-felidae
 - https://wallhaven.cc/w/39evv6
+- https://wallhaven.cc/w/4yodzd
 
 On se protège légalement via les crédits
 
