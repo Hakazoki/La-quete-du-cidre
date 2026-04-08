@@ -1217,7 +1217,7 @@ label fin_depression:
     "Vous entendez des rires éclater en vous revoyant, vous qui étiez si sûr de vous avant de partir. Vous les entendez remettre en question votre courage et votre sens de l'héroïsme."
     "Personne n'attendait rien de vous mais vous avez quand même réussi à décevoir le peu de personne qui aurait pu croire en vous."
     "La couardise n'est pas une vertue mais savoir reconnaître ses faiblesses, oui."
-    "Vous n'êtes pas le héros de cette histoire et vous le savez, à présent vous allez juste essayer de vivre avec cette humiliation sur la conscience."
+    "Vous n'êtes pas le héros de cette histoire et vous le savez. A présent, vous allez juste essayer de vivre avec cette humiliation sur la conscience."
     jump fin
 
 label voie_du_barbare:      

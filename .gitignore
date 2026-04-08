@@ -217,6 +217,7 @@ textual-example
 # be preserved by developer and build systems after the game has been released.
 /game/**/*.rpyc
 /game/**/*.rpymc
+*.rpyc
 
 # Files Ren'Py can generate.
 /game/**/*.bak
@@ -236,4 +237,6 @@ textual-example
 /dialogue.txt
 /strings.json
 
+# Assets folder
+assets_items
 
