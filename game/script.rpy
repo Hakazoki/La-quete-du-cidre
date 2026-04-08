@@ -20,10 +20,24 @@ init 1 python:
         )
     )
 
+init python:
+
+    credits_speed = 25.0 
+
+transform credits_scroll:
+    yanchor 0.0 ypos 1.0
+    linear 20.0 yanchor 1.0 ypos 0.0
+
+transform credits_scroll_long:
+    yanchor 0.0 ypos 1.1
+    linear 60.0 yanchor 1.0 ypos -0.1
+
+
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
 # ex: image eileen heureuse = "eileen_heureuse.png"
 image chat = im.Scale("chat01.png", 900, 1000)
 image Oiia = im.Scale("Oiia_cat.png", 900, 1000)
+image tonneau_cidre = im.Scale("tonneau_de_cidre.png", 900, 1000)
 image poster_chat = im.Scale("wanted-poster.png", 900, 1000)
 image bg taverne = im.Scale("taverne01.jpg", 1920, 1080)
 image fin_nice_boat = im.Scale("fin_nice_boat.png", 1920, 1080)
@@ -1091,6 +1105,7 @@ label debut_donjon:
     inconnu "*croak* *croak*"
     with flash
     show crapo at right with moveinright
+    play music "battle_theme.mp3"
     "C'est alors que la terrible créature surgit !"
     p "Un crapaud magicien, je hais ces saloperies de tout mon être ! Leurs yeux sont pleins de malice ..."
 
@@ -1143,11 +1158,13 @@ label debut_donjon:
 
 label defaite_crapo:
     hide screen Combat_Crapo
+    stop music fadeout 1.0
     "Le terrifiant crapaud magicien viens à bout de votre piètre vie de nain, vous n'étiez tout simplement pas à la hauteur d'une telle créature."
     jump fin
 
 label victoire_crapo:
     hide screen Combat_Crapo
+    stop music fadeout 1.0
     "Vous avez vaincu le terrible crapaud magicien !"
     jump entre_labyrinthe
 
@@ -1240,10 +1257,10 @@ label voie_du_mage:
             jump labyrinthe_salle01
         elif d20 > 1:
             "La porte est têtue. Elle refuse d'écouter vos arguments et semble même se verrouiller un peu plus fort par pur esprit de contradiction."
-            jump entre_labyrinthe_salle01
+            jump entre_labyrinthe
         else:
             "À force de vouloir paraître trop savant, vous vous emmêlez dans vos syllabes et lancez accidentellement un sort de 'Mutisme' sur vous-même. Vous ne pouvez plus dire un mot, et la porte semble se moquer de vous en silence."
-            jump entre_labyrinthe_salle01
+            jump entre_labyrinthe
 
 label labyrinthe_salle01:
     scene salle_labyrinthe_trois_porte
@@ -1661,7 +1678,7 @@ menu:
 
 
 label labyrinthe_salle07:
-    scene salle_labyrinthe_trois_porte
+    scene salle_labyrinthe_porte_droite_centre
 
 menu:
     "Ici, le silence est un mensonge. La porte colossale dégage une aura électrique, imprégnée d'une odeur entêtante de malt et de... poils ? Une chose est certaine : le maître des lieux vous a déjà senti arriver."
@@ -1669,14 +1686,9 @@ menu:
     "Vous décidez de prendre la porte au centre":
         jump enigme_minecraft
 
-    "Vous décidez de prendre la porte a gauche":
-        jump labyrinthe_salle06
-
     "Vous décidez de revenir sur vos pas":
         jump labyrinthe_salle08
 
-    "Salle Secrète(WIP)":
-        jump salle_secrete
 
 label enigme_minecraft:
     scene mc_base 
@@ -1793,12 +1805,7 @@ label victoire_oiiacat:
     hide screen Combat_Oiia
     stop music fadeout 1.0
     with vpunch
-    "Dans une ultime rotation, l'Oiiacat explose en mille paillettes de pixel !"
-    "Le labyrinthe redevient silencieux. Vous avez vaincu la menace tournante."
-    if skaven_yandere_fin:
-        jump fin_nice_boat
-    else:
-        jump fin
+    jump fin_du_jeu
 
 #--------------------------Fin Combat Boss--------------------------
 
@@ -1809,6 +1816,91 @@ menu:
         jump fin
 
 
+label fin_du_jeu:
+    scene end_cave
+    
+    "L'aura ronronnante qui émanait du monstre se dissipe, laissant place à un silence pesant."
+    "Ses grands yeux ronds perdent leur éclat malicieux alors qu'il s'effondre."
+    "Le Gardien de la Cave, cette aberration féline vaincue par la ténacité (ou la maladresse chanceuse) d'un nain déterminé, gît désormais immobile."
+    
+    p "Enfin... Mes muscles brûlent, ma barbe est pleine de suie, mais je sens... cette odeur..."
+    
+    "Au fond de la salle, posé sur un piédestal en or massif qui jure avec l'humidité ambiante, se trouve un petit tonneau scellé par une rune de chat."
+    
+    show tonneau_cidre at center with flash
+    
+    p "Le Cidre de Gromli. La légende disait vrai. Il brille d'une lueur... ambrée ? Ou c'est juste la réflexion de mon crâne ?"
+
+    menu:
+        "Ouvrir le tonneau immédiatement":
+            jump fin_soif
+        "Prendre le tonneau avec dignité pour le village":
+            jump fin_gloire
+        "Vérifier s'il reste des survivants à qui se vanter":
+            jump fin_ego
+
+label fin_soif:
+    "Vous faites sauter le bouchon avec vos dents. Une effluve de pomme fermentée et de magie ancienne envahit vos narines."
+    p "*Gulp... Gulp... Gulp...*"
+    "C'est... c'est le paradis. Vous sentez vos ancêtres chanter dans vos oreilles. Vous avez sauvé l'alcool, mais vous avez surtout sauvé votre soirée."
+    jump conclusion_generale
+
+label fin_gloire:
+    "Vous soulevez le tonneau au-dessus de votre tête. Le poids de la responsabilité est lourd, mais celui de l'alcool est sacré."
+    p "Pour Glorptopia ! Pour le peuple nain ! On va s'en mettre jusque-là !"
+    "Vous imaginez déjà la statue qu'ils vont ériger en votre honneur. Probablement une petite statue, pour économiser la pierre."
+    jump conclusion_generale
+
+label fin_ego:
+    p "Regardez-moi ça ! Qui est le plus fort ? Qui n'est pas mort face au crapaud ? C'est [pc_name] !"
+    "Le silence du donjon est votre seule audience, mais votre ego est assez grand pour remplir la salle."
+
+    jump conclusion_generale
+
+label conclusion_generale:
+    scene black with fade
+    scene bg taverne
+    
+    "Quelques jours plus tard..."
+    
+    "Le retour à la taverne fut triomphal. Le tavernier, qui ne donnait pas cher de votre peau, a dû vous offrir sa meilleure table."
+    
+    t "Alors ça... j'y croyais pas. Le Cidre de Gromli ! Tu l'as vraiment fait, [pc_name]."
+    
+    p "C'était rien. Juste un crapaud, quelques énigmes et un rat un peu trop collant."
+
+   
+    if skaven_yandere_fin:
+        "Dans l'ombre de la taverne, deux yeux rouges brillent. Le Skaven est là, grignotant nerveusement un dessous de verre en vous fixant."
+        
+        "Mais grisé par la gloire, vous ne prêtez aucune attention à ce regard sombre."
+        
+        p "Tavernier ! Sers une tournée générale ! Et appelle donc la petite barmaid, j'ai des histoires de bravoure à lui conter... de très près."
+        
+        "Vous commencez à faire du rentre-dedans à toutes les personnes qui passent, oubliant totalement la créature qui vous a suivi depuis les profondeurs."
+        
+        "Soudain, le Skaven se lève. Sans un bruit, sans un couinement. Il s'approche de vous alors que vous riez aux éclats, une chope à la main."
+        
+        p "Hé, le rat ! Tu veux goûter au cidre ? Tiens, lèche les gouttes par ter—"
+
+        
+        with hpunch
+        scene black with fade
+        
+        "Le rire s'arrête net. La chope se brise au sol. Vous ne sentez même pas la lame, juste un froid soudain qui remonte le long de votre gorge."
+        
+        jump fin_nice_boat
+
+    else:
+
+        "Vous levez votre chope de cidre légendaire. Le liquide pétille comme des milliers de petites victoires."
+    
+        p "À la santé de tous les nains trop têtus pour mourir !"
+
+        "{b}FÉLICITATIONS !{/b}"
+        "Vous avez retrouvé le Cidre de Gromli et prouvé que la taille ne fait pas le héros... mais que la soif, si."
+
+        jump credits
 
 label fin_nice_boat:
     scene fin_nice_boat
@@ -1819,7 +1911,7 @@ label fin_nice_boat:
     "Le Skaven est assis sur le pont, bercé par les vagues, loin du labyrinthe et de ses horreurs."
  
     
-    "Dans ses bras-pattes, iel serre tendrement votre tête décapitée."
+    "Dans ses bras-pattes, elle serre tendrement votre tête décapitée."
     "Votre regard est fixe, figé pour l'éternité dans une expression de surprise glacée."
     
     pnj_skaven "Tu souris enfin. (Des larmes de bonheur perlant dans ses yeux de rat)"
@@ -1833,7 +1925,7 @@ label fin_nice_boat:
     achieve yandere_end
 
     "{b}FIN SECRÈTE : Nice Boat.{/b}"
-    jump fin
+    jump credits_yandere
 
 label finalcool:
     "Après plusieurs verres de trop, vous vacillez… puis vous vous affaissez lamentablement dans votre chope, sous les rires étouffés de la taverne."
@@ -1925,4 +2017,108 @@ label fin_bureau:
     
     "Peut-être qu'en traversant la route demain matin, vous aurez plus de chance ?"
     
-    jump fin
+    jump credits_isekai
+
+label credits:
+    $ quick_menu = False
+    scene black with fade
+    play music "quiz_theme.mp3"
+
+    $ normal_credits = Text("{size=60}LA QUÊTE DU CIDRE\n\n\n\n"
+        "{size=45}UN JEU DE :\n"
+        "Zengorax, Hakazoki,\n"
+        "HdEX29, Mr0megaa\n\n\n"
+        "{size=35}LE HÉROS DE GLORPTOPIA\n" + pc_name + "\n\n"
+        "DOMPTEUR DU OIIA CAT\nHakazoki\n\n"
+        "DISTILLATEUR DE SORTS\nHdEX29\n\n"
+        "RESPONSABLE DES ENNEMIS VAINCUS\nMr0megaa\n\n"
+        "SCÉNARISTE & BUVEUR DE CIDRE\nZengorax\n\n"
+        "REINE DU DESIGN\nLa Voyante (Qui l'avait prédit !)\n\n"
+        "CASCADEUR PROFESSIONNEL\nLe Crapaud Magicien (Parti en vacances)\n\n"
+        "SPONSOR OFFICIEL\nLe Tonneau de Cidre de Gromli\n\n"
+        "AGENT DE SÉCURITÉ DU LABYRINTHE\nLe Skaven (Porté disparu... tant mieux !)\n\n\n"
+        "{size=30}Le saviez-vous ?\n"
+        "Le Cidre de Gromli fait pousser la barbe\n"
+        "deux fois plus vite le mardi.\n\n"
+        "Le Crapaud Magicien cherche un colocataire\n"
+        "qui n'a pas peur de l'humidité.\n\n\n"
+        "{size=50}MERCI D'AVOIR SAUVÉ LE CIDRE !", 
+        text_align=0.5, xalign=0.5)
+
+    show expression normal_credits at credits_scroll_long
+
+    pause 60.0 
+    
+    hide expression normal_credits with fade
+    $ quick_menu = True
+    return
+
+label credits_yandere:
+    $ quick_menu = False
+    scene black with fade
+    play music "ending_yandere.mp3"
+    
+    $ yandere_credits = Text("{size=60}LA QUÊTE DU CIDRE\n\n\n\n"
+        "{size=45}UN JEU DE :\n"
+        "Zengorax, Hakazoki,\n"
+        "HdEX29, Mr0megaa\n\n\n"
+        "{size=35}CONTRÔLEUR DE LA SOIF\n" + pc_name + " (RIP)\n\n"
+        "CHEF D'ORCHESTRE DU OIIA CAT\nHakazoki\n\n"
+        "SERVICES APRÈS-VENTE DES SORTILÈGES\nHdEX29\n\n"
+        "COORDONNATEUR DES RATS JALOUX\nMr0megaa\n\n"
+        "SCÉNARIO ET BLAGUES DOUTEUSES\nZengorax\n\n"
+        "STYLISME DE LA VOYANTE\nLa section 'T'es trop petit'\n\n"
+        "CASCADEUR PROFESSIONNEL\nLe Crapaud Magicien (Aucun animal n'a été blessé,\nsauf ses yeux pleins de malice)\n\n"
+        "TRAITEUR OFFICIEL\nLa Taverne du Coin (Cidre non remboursable)\n\n"
+        "CONSEILLER EN RELATION TOXIQUE\nLe Skaven discret\n\n"
+        "{size=30}Saviez-vous que le Crapaud Magicien\nlance des sorts pour ne pas payer son loyer ?\n\n"
+        "Et que la voyante avait prédit cette fin,\nmais vous étiez trop occupé à boire ?\n\n\n"
+        "{size=50}MERCI D'AVOIR JOUER", 
+        text_align=0.5, xalign=0.5)
+
+
+    show expression yandere_credits at credits_scroll_long
+
+    pause 60.0 
+    stop music fadeout 2.0
+
+    hide expression yandere_credits with fade
+    $ quick_menu = True
+
+    return
+
+label credits_isekai:
+    $ quick_menu = False
+    scene black with fade
+    play music "ending_isekai.mp3"
+
+    $ isekai_text = Text("{size=60}LA QUÊTE DU CIDRE\n{size=30}(Édition : Mon boss est un démon de niveau 100)\n\n\n"
+        "{size=45}UNE PRODUCTION DE LA COGIP :\n"
+        "Zengorax, Hakazoki,\n"
+        "HdEX29, Mr0megaa\n\n\n"
+        "{size=35}EMPLOYÉ DU MOIS (STAGIAIRE)\n" + pc_name + "\n\n"
+        "ADMINISTRATEUR RÉSEAU DU OIIA CAT\nHakazoki\n\n"
+        "SUPPORT TECHNIQUE EXCEL\nHdEX29\n\n"
+        "CHEF DE PROJET 'DÉGÂTS COLLATÉRAUX'\nMr0megaa\n\n"
+        "LORE & DÉPRESSION SALARIALE\nZengorax\n\n"
+        "CONSULTANTE EN VOYANCE & KPI\nLa Voyante (Délocalisée en open-space)\n\n"
+        "DISTRIBUTEUR DE CAFÉ MAGIQUE\nLe Crapaud (En rupture de stock)\n\n"
+        "CHAUFFEUR DE POIDS LOURDS\nTruck-kun (Meilleur employé Isekai 2026)\n\n"
+        "OBJET DE QUÊTE INTROUVABLE\nLa prime de fin d'année\n\n\n"
+        "{size=30}Le saviez-vous ?\n"
+        "Utiliser une boule de feu sur une photocopieuse\n"
+        "ne règle pas les bourrages papier.\n\n"
+        "La taverne a été rachetée par un grand groupe\n"
+        "pour en faire un espace de coworking.\n\n\n"
+        "{size=50}MERCI D'AVOIR JOUER", 
+        text_align=0.5, xalign=0.5)
+
+    show expression isekai_text at credits_scroll_long
+
+    pause 60.0 
+    
+    hide expression isekai_text with fade
+    $ quick_menu = True
+    stop music fadeout 2.0
+    "{i}Le prochain ticket resto est pour vous...{/i}"
+    return
