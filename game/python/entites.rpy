@@ -138,6 +138,11 @@ init -7 python :
             self.nom = nom
             self.couleur_log = "#3498db"
             self.bourse = 1
+            #Inventaires
+            popo1 = PotionDeGuerison()
+            popo2 = PotionDeGuerison()
+            self.consommables = [popo1, popo2]
+            self.equipements = []
             #Armes
             self.arme = [None, None]
             #Armures
@@ -151,11 +156,6 @@ init -7 python :
             self.mains.utiliser(self)
             self.jambes.utiliser(self)
             self.pieds.utiliser(self)
-            #Inventaire consommables
-            popo1 = PotionDeGuerison()
-            popo2 = PotionDeGuerison()
-            self.consommables = [popo1, popo2]
-            self.equipements = [self.tete, self.torse, self.mains, self.jambes, self.pieds, self.arme[0], self.arme[1]]
             #Stats
             self.force = Dice.lancer()[0]
             self.dexterite = Dice.lancer()[0]
@@ -204,47 +204,69 @@ init -7 python :
             if isinstance(equipement, ArmeAUneMain):
                 if self.arme[0] is None:
                     self.arme[0] = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
                 elif self.arme[1] is None and isinstance(self.arme[0],ArmeADeuxMain) == False or isinstance(self.arme[0],ArmeADistance) == False:
                     self.arme[1] = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
             elif isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance):
                 if self.arme[0] is None:
                     self.arme[0] = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
             elif isinstance(equipement, Casque):
                 if self.casque is None:
                     self.casque = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
             elif isinstance(equipement, Plastron):
                 if self.plastron is None:
                     self.plastron = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
             elif isinstance(equipement, Gants):
                 if self.gants is None:
                     self.gants = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
             elif isinstance(equipement, Jambieres):
                 if self.jambieres is None:
                     self.jambieres = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
             elif isinstance(equipement, Bottes):
                 if self.bottes is None:
                     self.bottes = equipement
+                    if equipement in self.equipements:
+                        self.equipements.remove(equipement)
             return
 
         def desequiper(self, equipement):
             if isinstance(equipement, ArmeAUneMain) or isinstance(equipement, ArmeADeuxMain) or isinstance(equipement, ArmeADistance) :
                 if self.arme != [None, None]:
+                    self.equipements.append(equipement)
                     self.arme.remove(equipement)
                     self.arme.append(None)
             elif isinstance(equipement, Casque):
                 if self.casque is not None:
+                    self.equipements.append(equipement)
                     self.casque = None
             elif isinstance(equipement, Plastron):
                 if self.plastron is not None:
+                    self.equipements.append(equipement)
                     self.plastron = None
             elif isinstance(equipement, Gants):
                 if self.gants is not None:
+                    self.equipements.append(equipement)
                     self.gants = None
             elif isinstance(equipement, Jambieres):
                 if self.jambieres is not None:
+                    self.equipements.append(equipement)
                     self.jambieres = None
             elif isinstance(equipement, Bottes):
                 if self.bottes is not None:
+                    self.equipements.append(equipement)
                     self.bottes = None
             return
 
@@ -337,7 +359,7 @@ init -7 python :
             super().__init__(race, nom)
             self.type_degat = "magique"
             baton = BatonDeSorcier()
-            self.equiper(baton)
+            self.arme = [baton, None]
             self.tete = CoiffeDerudi()
             self.torse = RobeDeMagicien()
             self.desequiper(self.casque)
@@ -360,7 +382,7 @@ init -7 python :
             degats_totaux = 0
             for element in Dice.lancer(3,10)[1]:
                 if element > 2 :
-                    degats = Dice.lancer(1,8)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique
+                    degats = Dice.lancer(1,12)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique
                     degats_totaux += max(0, degats) 
                 else:
                     store.log_msg("Un missile rate sa cible !", self.couleur_log)
@@ -371,7 +393,7 @@ init -7 python :
             store.log_msg("Boule de feu !", self.couleur_log)
             degats_totaux = 0
             if Dice.lancer()[0] > 11:
-                degats_totaux = max(0, Dice.lancer(1,30)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique)
+                degats_totaux = max(0, Dice.lancer(1,35)[0] + self.bonus(self.intelligence) + self.arme[0].attaque.jeter() - other.defense_magique)
                 self.mana -= 20
             else:
                 store.log_msg("La boule de feu rate lamentablement !", self.couleur_log)
