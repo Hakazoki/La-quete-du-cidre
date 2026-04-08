@@ -1058,7 +1058,7 @@ label exterieur_taverne:
 
 menu:        
     "Vous décidez de la parcourir jusqu'à ce que vous trouviez le donjon.":
-        jump devant_donjon
+        jump entree_donjon
     "Vous criez très fort pour débuter votre aventure":
         jump crier_fort   
     "Vous vous retrouvez devant une plaine magnifique. Vous éprouvez une légère nostalgie en la regardant."
@@ -1665,7 +1665,7 @@ label choix_levier:
 
 label labyrinthe_salle06:
     scene salle_labyrinthe_porte_droite
-    "test"
+    "Il n'y a rien de spécial ici"
 menu:
     "(WIP)"
 
