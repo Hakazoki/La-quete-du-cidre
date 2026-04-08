@@ -1017,10 +1017,10 @@ label enerve_voyante:
 label avenir_voyante:
     v "Bien, quelle est ta date de naissance ?"
     p "J'sais pas."
-    v "mmh, je vois ..."
-    p "tu vois quoi ?"
+    v "Mmh, je vois ..."
+    p "Tu vois quoi ?"
     v "Ton avenir est curieux, ta destiné sera rempli d'embuche, mais si tu restes courageux, tu atteindra ton but."
-    p "ok."
+    p "Ok."
     jump choix_taverne
     
 menu choix_barbare:
