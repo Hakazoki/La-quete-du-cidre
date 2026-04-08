@@ -886,7 +886,7 @@ scene bg taverne
 
 "Tout commença un soir ordinaire, dans une taverne qui ne payait pas de mine, quand un drôle de nain bien connu du village grimpa sur une table pour attirer l'attention."
 
-show chat at right
+show chat at right with moveinbottom
 
 g "Mon trésor ? Je vous le laisse si vous le voulez. Trouvez-le ! Je l'ai laissé quelque part dans ce monde !"
 
@@ -934,9 +934,8 @@ menu choix_boire:
         $ boire_alcool = True
         jump alcool
 label alcool:
-    "Boire"
+    "*Gulp* *Gulp* *Gulp*"
     $ drunk += 1
-    "[drunk]"
     if drunk >= 5:
         jump finalcool
     else:
@@ -1119,10 +1118,20 @@ label debut_donjon:
                 $ log_msg(f"Vous collez un boure-pif ! Le crapaud subit {degats} dégâts.")
                 with hpunch
 
-            "Canaliser un sort" if isinstance(pc, Mage):
+            "Canaliser un sort" if isinstance(pc, Mage) and pc.mana >= 20:
                 $ degats = pc.attaquer(crapomagicien)
                 $ log_msg(f"Vous déchainez un sort ! Le crapaud subit {degats} dégâts.")
                 with flash_blanc
+
+            "Canaliser un faible sort" if isinstance(pc, Mage) and pc.mana <= 20 and pc.mana >= 10:
+                $degats = pc.sort1(crapomagicien)
+                $ log_msg(f"Vous lancez un faible missile magique, il ne vous reste plus de mana ! Le crapaud subit {degats} dégâts.")
+                with flash_blanc
+
+            "Vous n'avez plus de mana !!" if isinstance(pc, Mage) and pc.mana <=10:
+                $ log_msg(f"Vous tentez de canaliser le peu de mana qu'il vous reste mais vous êtes à sec ! Prenez une potion !")
+
+            
 
         $ degats_subis = crapomagicien.attaquer(pc)
         $ log_msg(f"Le crapaud riposte ! Vous subissez {degats_subis} dégâts.")
@@ -1722,10 +1731,19 @@ label boucle_combat_oiiacat:
             $ log_msg(f"Vous essayez de stopper sa rotation ! L'Oiiacat subit {degats} dégâts.")
             with vpunch
 
-        "Lancer une explosion de mana" if isinstance(pc, Mage):
+        "Lancer une explosion de mana" if isinstance(pc, Mage) and pc.mana >= 20:
             $ degats = pc.attaquer(oiiacat_combat)
             $ log_msg(f"Votre magie perturbe son rythme ! L'Oiiacat subit {degats} dégâts.")
-            
+
+        "Canaliser un faible sort" if isinstance(pc, Mage) and pc.mana <= 20 and pc.mana >= 10:
+            $degats = pc.sort1(crapomagicien)
+            $ log_msg(f"Vous lancez un faible missile magique pour ralentir sa rotation, il ne vous reste plus de mana ! L'Oiiacat subit {degats} dégâts.")
+            with flash_blanc
+
+        "Vous n'avez plus de mana !!" if isinstance(pc, Mage) and pc.mana <=10:
+            $ log_msg(f"Vous tentez de canaliser le peu de mana qu'il vous reste mais vous êtes à sec ! Prenez une potion !")
+
+
 
     $ degats_subis = oiiacat_combat.attaquer(pc)
     $ log_msg(f"L'Oiiacat miaule de façon stridente ! Vous subissez {degats_subis} dégâts.")
