@@ -58,10 +58,10 @@ image salle_labyrinthe_porte_droite_centre = im.Scale("Salle_Labyrinthe_Porte_Dr
 image salle_labyrinthe_porte_gauche_centre = im.Scale("Salle_Labyrinthe_Porte_Gauche_Centre.png", 1920, 1080)
 image salle_labyrinthe_porte_centre = im.Scale("salle_labyrinthe_porte_centre.png", 1920, 1080)
 image salle_labyrinthe_coffre = im.Scale("salle_labyrinthe_coffre.png", 1920, 1080)
-image mc_base = im.Scale("image_base_levier_minecraft.png", 1920, 1080)
-image mc_gauche = im.Scale("image_levier_gauche_minecraft.png", 1920, 1080)
-image mc_centre = im.Scale("image_levier_centre_minecraft.png", 1920, 1080)
-image mc_droite = im.Scale("image_levier_droite_minecraft.png", 1920, 1080)
+image mc_base = im.Scale("Minecraft-levier.png", 1920, 1080)
+image mc_gauche = im.Scale("Minecraft-levier-1.png", 1920, 1080)
+image mc_centre = im.Scale("Minecraft-levier-2.png", 1920, 1080)
+image mc_droite = im.Scale("Minecraft-levier-3.png", 1920, 1080)
 image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
 image handshake:
             "frame_01"
@@ -1660,7 +1660,7 @@ label choix_levier:
 
         "Actionner le levier de droite":
             scene mc_droite 
-            "Le levier s'abaisse dans le vide. Rien ne se passe. Vous devriez essayer un autre levier."
+            "Une lumière s'allume, mais la porte est toujours fermée. Vous devriez essayer un autre levier."
             jump choix_levier 
 
 label labyrinthe_salle06:
