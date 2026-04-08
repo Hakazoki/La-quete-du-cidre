@@ -23,10 +23,13 @@ L'application utilise aux maximum la programation orienté objet et Ren'py pour 
 - **Lancers de Dés :** Votre réussite dépendra de vos jeter de dés.
 
 ## Installation
-1. Téléchargez Ren'Py.
-2. Clonez ce repo.
-4. Lancer Ren'py.exe
-3. Lancez `La-quete-du-cidre`.
+```MARKDOWN
+1. Téléchargez Ren'Py SDK.
+2. Clonez ce repo dans le dossier projet de Ren'Py SDK.
+3. Lancer Ren'Py.exe.
+4. Lancez `La-quete-du-cidre`.
+5. (Optionnel) Compilez le projet 'La-quete-du-cidre' et lancez le avec son .exe dédié.
+```
 
 ## Crédits
 
