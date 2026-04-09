@@ -918,7 +918,7 @@ stop music
 
 $ pc.nom = Character(pc_name)
 $ p = Character(pc_name)
-$ $ renpy.force_autosave()
+
 
 menu:
 
@@ -976,7 +976,7 @@ label taverne:
     jump dialogue_tavernier
 
 label dialogue_tavernier:
-    $ renpy.force_autosave()
+
     t "HAHAHA, t'es un marrant toi !"
     t "Tiens, voici une carte pour aller dans le donjon."
     p "Merci chef !"
@@ -1056,7 +1056,7 @@ menu choix_barbare:
 
 
 label sortie_taverne:
-    $ renpy.force_autosave()
+
     "Après de longues heures à vous amuser à la taverne, vous décidez d'enfin sortir de la taverne et vous approchez de la porte."
     
 menu choix_sortie_taverne:
@@ -1084,7 +1084,7 @@ label crier_fort:
     jump entree_donjon
     
 label entree_donjon:
-    $ renpy.force_autosave()
+
     scene dungeon_entrance
 
 menu:
@@ -1177,7 +1177,7 @@ label victoire_crapo:
 
 label entre_labyrinthe:
     scene labyrinthe_porte
-    $ renpy.force_autosave()
+
 
     menu:
         "Une grande porte ce dresse devant vous, que faites-vous"
@@ -1269,7 +1269,7 @@ label voie_du_mage:
 
 label labyrinthe_salle01:
     scene salle_labyrinthe_trois_porte
-    $ renpy.force_autosave()
+
 
     if isinstance(pc, Barbare):
         $ description_salle = "L'odeur de poussière vous donne envie de frapper les murs pour vérifier l'écho. Quelle porte choisir ?"
@@ -1304,7 +1304,6 @@ label labyrinthe_salle01:
     
 label salle02_enigme_barbare:
     scene salle_labyrinthe_porte_droite_centre
-    $ renpy.force_autosave()
    
     menu:
         "Insérer votre hache dans l'encoche du premier guerrier.":
@@ -1325,7 +1324,7 @@ label salle02_enigme_barbare:
 
 label salle02_enigme_voleur:
     scene salle_labyrinthe_porte_droite_centre
-    $ renpy.force_autosave()
+
     "La serrure de la porte centrale vous regarde avec mépris. Elle semble attendre quelque chose."
 
 menu enigme_voleur:
@@ -1382,7 +1381,7 @@ menu enigme_voleur:
 
 label salle02_enigme_mage:
     scene salle_labyrinthe_porte_droite_centre
-    $ renpy.force_autosave()
+
 
     "Vous entrez dans la salle. Pas de monstre, pas de pièges à piques, juste une petite table en bois avec un cristal de communication qui clignote frénétiquement en rose fluo."
     
@@ -1419,7 +1418,7 @@ label .choix_enigme:
 
 label labyrinthe_salle04:
     scene salle_labyrinthe_coffre
-    $ renpy.force_autosave()
+
 
     if not fouille_salle4:
         if isinstance(pc,Barbare):
@@ -1464,7 +1463,7 @@ label labyrinthe_salle04:
 
 label labyrinthe_salle02:
     scene salle_labyrinthe_porte_droite_centre
-    $ renpy.force_autosave()
+
 menu:
     "Vous n'avez plus de raisons de rester ici. Vous sentez que vous approchez du but."
 
@@ -1489,7 +1488,7 @@ menu:
 
 label salle_05_speed_dating:
     scene salle_labyrinthe_porte_centre
-    $ renpy.force_autosave()
+
     $ seduction = 0
     show screen barre_seduction
     
@@ -1679,7 +1678,7 @@ label verdict_skaven:
 
 label labyrinthe_salle08:
     scene salle_labyrinthe_porte_gauche
-    $ renpy.force_autosave()
+
 
 menu:
     "Plus vous avancez, plus vous sentez une forte pression sur vos épaules."
@@ -1692,7 +1691,7 @@ menu:
 
 label labyrinthe_salle07:
     scene salle_labyrinthe_porte_droite_centre
-    $ renpy.force_autosave()
+
 
 menu:
     "Ici, le silence est un mensonge. La porte colossale dégage une aura électrique, imprégnée d'une odeur entêtante de malt et de... poils ? Une chose est certaine : le maître des lieux vous a déjà senti arriver."
@@ -1739,7 +1738,7 @@ menu:
 
 label salle_du_boss:
     scene end_cave
-    $ renpy.force_autosave()
+
     play music "audio/boss_theme.mp3"
     
     show Oiia at center with moveinbottom
