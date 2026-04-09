@@ -77,6 +77,7 @@ image mc_gauche = im.Scale("Minecraft-levier-1.png", 1920, 1080)
 image mc_centre = im.Scale("Minecraft-levier-2.png", 1920, 1080)
 image mc_droite = im.Scale("Minecraft-levier-3.png", 1920, 1080)
 image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
+image fond_questionnaire = im.Scale("fond_questionnaire4.jpg", 1920, 1080)
 image handshake:
             "frame_01"
             0.1
@@ -644,7 +645,7 @@ $ glorp = True
 
 # Création du personnage
 label intro:
-
+    scene fond_questionnaire
     play music "quiz_theme.mp3"
     
     voix "Qui es-tu jeune nain?"
