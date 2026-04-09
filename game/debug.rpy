@@ -21,6 +21,7 @@ screen debug_class_menu():
             textbutton "Devenir MAGE" action [SetVariable("pc", Mage()), Hide("debug_class_menu")]
             textbutton "Devenir ÉLU DE MORADIN" action [SetVariable("pc", EluDeMoradin()), Hide("debug_class_menu")]
             textbutton "Devenir TAVERNIER" action [SetVariable("pc", Tavernier()), Hide("debug_class_menu")]
+            textbutton "Fin Isekai" action [Hide("debug_class_menu"), Jump("truck_kun")]
             
             null height 20
             
