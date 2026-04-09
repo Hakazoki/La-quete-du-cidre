@@ -62,7 +62,7 @@ image frame_16 = im.Scale("bloggif_frames_gif/frame-16.jpg", 750, 750)
 image frame_17 = im.Scale("bloggif_frames_gif/frame-17.jpg", 750, 750)
 image frame_18 = im.Scale("bloggif_frames_gif/frame-18.jpg", 750, 750)
 image plaine = im.Scale("Plaine.jpg", 1920, 1080)
-image end_cave = im.Scale("end_cave.jpg", 1920, 1080)
+image end_cave = im.Scale("end_cave.jpg",1920 , 1080)
 image dungeon_entrance = im.Scale("dungeon_entrance.jpeg", 1920, 1080)
 image labyrinthe_porte = im.Scale("porte_labyrinthe.png", 1920, 1080)
 image salle_labyrinthe_porte_droite = im.Scale("Salle_Labyrinthe_Porte_Droite.png", 1920, 1080)
@@ -77,6 +77,8 @@ image mc_gauche = im.Scale("Minecraft-levier-1.png", 1920, 1080)
 image mc_centre = im.Scale("Minecraft-levier-2.png", 1920, 1080)
 image mc_droite = im.Scale("Minecraft-levier-3.png", 1920, 1080)
 image truck_kun = im.Scale("truck_kun.png", 1920, 1080)
+image rat = im.FactorScale("rat.png", 4)
+image ratpeepo = im.Scale("ratpeepo.png", 1920, 1080)
 image handshake:
             "frame_01"
             0.1
@@ -1481,6 +1483,7 @@ label salle_05_speed_dating:
     $ seduction = 0
     show screen barre_seduction
     
+    show rat at left with moveinleft
     pnj_skaven "Skritch ! Approche-approche, humaine-chose. On va voir si ton cœur est assez noir-sombre pour moi !"
 
     
@@ -1637,6 +1640,7 @@ label verdict_skaven:
         pnj_skaven "MON CŒUR DE RAT NE SUPPORTE PAS TANT DE PURETÉ !!!"
         
         play sound "audio/sfx_explosion.mp3"
+        hide rat
         with vpunch
         
         "Le Skaven explose littéralement dans une gerbe de sang, de tripes et... de paillettes magiques."
@@ -1651,18 +1655,21 @@ label verdict_skaven:
         pnj_skaven "Skritch... Je ne peux plus te laisser partir..."
         pnj_skaven "Tu es à moi. Pour toujours. Je te suivrai... partout. Dans l'ombre. Derrière toi."
         "Le Skaven rejoint votre groupe. Son regard est fixe, dilaté, et ne cligne plus des yeux."
+        hide rat
         $ passage_salle05_debloque = True
         jump labyrinthe_salle08
 
     # --- RÉUSSITE NORMALE ---
     elif seduction >= 50:
         pnj_skaven "Skritch ! Tu me plais, humaine-chose. Passe vite avant que je ne reprenne mes esprits !"
+        hide rat
         $ passage_salle05_debloque = True
         jump labyrinthe_salle08
 
     # --- ÉCHEC NORMAL ---
     else:
         pnj_skaven "Toi être ennuyeuse-chose. Moi avoir faim maintenant !"
+        hide rat
         jump fin
 
 label labyrinthe_salle08:
